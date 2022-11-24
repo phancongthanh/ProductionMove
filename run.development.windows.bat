@@ -1,0 +1,1 @@
+cd build && dotnet WebAPI.dll --environment=Development && cd ..
