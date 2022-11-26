@@ -25,8 +25,8 @@ public class TokenProvider : ITokenProvider
             new Claim(ClaimTypes.NameIdentifier, user.UserId),
             new Claim("TokenId", tokenId),
             new Claim("Kind", "AccessToken"),
-            new Claim(ClaimTypes.Role, user.BuildingType),
-            new Claim(Schema.BuildingType, user.BuildingType),
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim(Schema.RoleType, user.Role),
             new Claim(Schema.BuildingId, user.BuildingId)
         };
 
@@ -40,8 +40,8 @@ public class TokenProvider : ITokenProvider
             new Claim(ClaimTypes.NameIdentifier, user.UserId),
             new Claim("TokenId", tokenId),
             new Claim("Kind", "RefreshToken"),
-            new Claim(ClaimTypes.Role, user.BuildingType),
-            new Claim(Schema.BuildingType, user.BuildingType),
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim(Schema.RoleType, user.Role),
             new Claim(Schema.BuildingId, user.BuildingId)
         };
 

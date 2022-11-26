@@ -1,13 +1,13 @@
 ﻿namespace ProductionMove.Infrastructure.Identity;
 public class Token
 {
-    public string TokenId { get; set; }
+    public string TokenId { get; set; } = string.Empty;
 
-    public string UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
 
-    public string RefreshToken { get; set; }
+    public string RefreshToken { get; set; } = string.Empty;
 
-    public string AccessToken { get; set; }
+    public string AccessToken { get; set; } = string.Empty;
 
     public DateTime CreatedTime { get; set; }
 

@@ -7,7 +7,7 @@ public class User
 
     public string Name { get; set; } = string.Empty;
 
-    public string BuildingType { get; set; } = string.Empty;
+    public string Role { get; set; } = string.Empty;
 
     public string BuildingId { get; set; } = string.Empty;
 

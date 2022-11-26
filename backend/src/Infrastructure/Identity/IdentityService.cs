@@ -54,13 +54,13 @@ public class IdentityService : IIdentityService
             Name = user.UserName,
             PhoneNumber = user.Phone,
             Email = user.UserName,
-            BuildingType = user.BuildingType,
+            Role = user.Role,
             BuildingId = user.BuildingId,
         };
 
         var result = await _userManager.CreateAsync(applicationUser, password);
         if (result.Succeeded)
-            result = await _userManager.AddToRoleAsync(applicationUser, applicationUser.BuildingType);
+            result = await _userManager.AddToRoleAsync(applicationUser, applicationUser.Role);
 
         return (result.ToApplicationResult(), applicationUser.Id);
     }

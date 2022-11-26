@@ -84,7 +84,7 @@ public static class ConfigureServices
             options.RequireHttpsMetadata = false;
             options.SaveToken = true;
 
-            var key = Encoding.UTF8.GetBytes(configuration["JwtSettings:SecurityKey"]);
+            var key = Encoding.UTF8.GetBytes(configuration["JwtSettings:SecurityKey"] ?? "No key");
             options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(key);
         });
 
@@ -103,7 +103,7 @@ public static class ConfigureServices
             options.AddPolicy(Schema.Role.AuthenticatedUser,
                 policy => policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                 .RequireAuthenticatedUser()
-                .RequireClaim(Schema.BuildingType)
+                .RequireClaim(Schema.RoleType)
                 .RequireClaim("Kind", "AccessToken"));
 
             options.AddPolicy(Schema.Role.Administrator,
@@ -111,7 +111,7 @@ public static class ConfigureServices
                 .RequireAuthenticatedUser()
                 .RequireClaim("Kind", "AccessToken")
                 //.RequireClaim(Schema.BuildingId)
-                .RequireClaim(Schema.BuildingType, Schema.Building.Company)
+                .RequireClaim(Schema.RoleType, Schema.Role.Company)
                 .RequireRole(Schema.Role.Administrator));
 
             options.AddPolicy(Schema.Role.Factory,
@@ -119,7 +119,7 @@ public static class ConfigureServices
                 .RequireAuthenticatedUser()
                 .RequireClaim("Kind", "AccessToken")
                 .RequireClaim(Schema.BuildingId)
-                .RequireClaim(Schema.BuildingType, Schema.Building.Factory)
+                .RequireClaim(Schema.RoleType, Schema.Role.Factory)
                 .RequireRole(Schema.Role.Factory));
 
             options.AddPolicy(Schema.Role.Distributor,
@@ -127,7 +127,7 @@ public static class ConfigureServices
                 .RequireAuthenticatedUser()
                 .RequireClaim("Kind", "AccessToken")
                 .RequireClaim(Schema.BuildingId)
-                .RequireClaim(Schema.BuildingType, Schema.Building.Distributor)
+                .RequireClaim(Schema.RoleType, Schema.Role.Distributor)
                 .RequireRole(Schema.Role.Distributor));
 
             options.AddPolicy(Schema.Role.ServiceCenter,
@@ -135,7 +135,7 @@ public static class ConfigureServices
                 .RequireAuthenticatedUser()
                 .RequireClaim("Kind", "AccessToken")
                 .RequireClaim(Schema.BuildingId)
-                .RequireClaim(Schema.BuildingType, Schema.Building.ServiceCenter)
+                .RequireClaim(Schema.RoleType, Schema.Role.ServiceCenter)
                 .RequireRole(Schema.Role.ServiceCenter));
 
             var defaultPolicy = options.GetPolicy(Schema.Role.AuthenticatedUser);

@@ -76,7 +76,7 @@ public class ApplicationDbContextInitialiser
             UserName = "admin",
             Name = "Admin",
             Email = "administrator@localhost",
-            BuildingType = Schema.Building.Company
+            Role = Schema.Role.Company
         };
 
         if (_userManager.Users.All(u => u.UserName != administrator.UserName))

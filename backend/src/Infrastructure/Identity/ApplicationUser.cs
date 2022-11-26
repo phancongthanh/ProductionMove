@@ -6,7 +6,7 @@ public class ApplicationUser : IdentityUser
 {
     public string Name { get; set; } = string.Empty;
 
-    public string BuildingType { get; set; } = string.Empty;
+    public string Role { get; set; } = string.Empty;
 
     public string BuildingId { get; set; } = string.Empty;
 }
@@ -18,11 +18,11 @@ public static class ApplicationUserExtensions
         return new User()
         {
             UserId = applicationUser.Id,
-            UserName = applicationUser.UserName,
+            UserName = applicationUser.UserName ?? string.Empty,
             Name = applicationUser.Name,
-            Phone = applicationUser.PhoneNumber,
-            Email = applicationUser.Email,
-            BuildingType = applicationUser.BuildingType,
+            Phone = applicationUser.PhoneNumber ?? string.Empty,
+            Email = applicationUser.Email ?? string.Empty,
+            Role = applicationUser.Role,
             BuildingId = applicationUser.BuildingId,
         };
     }
