@@ -30,7 +30,7 @@ public class TokenProvider : ITokenProvider
             new Claim(Schema.BuildingId, user.BuildingId)
         };
 
-        return GenerateToken(_dateTime.Now.AddMinutes(30), claims);
+        return GenerateToken(_dateTime.Now.AddMinutes(5), claims);
     }
 
     public string GenerateRefreshToken(User user, string tokenId)

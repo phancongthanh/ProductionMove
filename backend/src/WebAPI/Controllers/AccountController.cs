@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProductionMove.WebAPI.Controllers;
 
-public class UserController : ApiControllerBase
+public class AccountController : ApiControllerBase
 {
     private readonly IIdentityService _identityService;
 
-    public UserController(IIdentityService identityService)
+    public AccountController(IIdentityService identityService)
     {
         _identityService = identityService;
     }
