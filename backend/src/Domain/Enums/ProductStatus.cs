@@ -7,5 +7,6 @@ public enum ProductStatus
     Warranty = 3,
     Waiting = 4,
     Recall = 5,
-    Canceled = 6
+    Canceled = 6,
+    WarrantyExpired = 7
 }
