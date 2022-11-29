@@ -4,13 +4,15 @@ using ProductionMove.Application.Common.Interfaces;
 
 namespace ProductionMove.Application.ProductLines.Commands.CreateProductLine;
 
-public class UpdateProductLineCommandValidator : AbstractValidator<CreateProductLineCommand>
+public class CreateProductLineCommandValidator : AbstractValidator<CreateProductLineCommand>
 {
     private readonly IApplicationDbContext _context;
 
-    public UpdateProductLineCommandValidator(IApplicationDbContext context)
+    public CreateProductLineCommandValidator(IApplicationDbContext context)
     {
         _context = context;
+
+        RuleFor(request => request.ProductLine.Name).NotEmpty().WithMessage("Tên dòng sản phẩm không hợp lệ!");
 
         RuleFor(request => request.ProductLine.Name).MustAsync(IsNotExisted).WithMessage("Tên dòng sản phẩm đã có!");
 

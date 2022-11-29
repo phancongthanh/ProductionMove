@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Buildings\EventHandlers\" />
       <Folder Include="ProductLines\Queries\" />
       <Folder Include="Products\EventHandlers\" />
     </ItemGroup>

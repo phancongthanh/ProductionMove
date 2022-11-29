@@ -13,8 +13,8 @@ public class ProductLinesController : ApiControllerBase
     [Authorize(Policy = Schema.Role.Administrator)]
     public async Task<ActionResult> Post([FromBody] ProductLine productLine)
     {
-        var request = new CreateProductLineCommand(productLine);
-        var result = await Mediator.Send(request);
+        var command = new CreateProductLineCommand(productLine);
+        var result = await Mediator.Send(command);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 
@@ -22,8 +22,8 @@ public class ProductLinesController : ApiControllerBase
     [Authorize(Policy = Schema.Role.Administrator)]
     public async Task<ActionResult> Patch([FromQuery]string productLineId, [FromForm] IEnumerable<ProductLineInfo> describes)
     {
-        var request = new UpdateProductLineCommand(productLineId, describes);
-        var result = await Mediator.Send(request);
+        var command = new UpdateProductLineCommand(productLineId, describes);
+        var result = await Mediator.Send(command);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 }
