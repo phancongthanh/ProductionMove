@@ -3,7 +3,7 @@
 using ProductionMove.Application.Common.Interfaces;
 using ProductionMove.Domain.ValueObjects;
 
-namespace ProductionMove.WebUI.Services;
+namespace ProductionMove.WebAPI.Services;
 public class CurrentUserService : ICurrentUserService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;

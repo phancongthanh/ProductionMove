@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using ProductionMove.Application.Common.Interfaces;
 using ProductionMove.Application.Common.Models;
-using ProductionMove.WebUI.Controllers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ProductionMove.WebAPI.Controllers;

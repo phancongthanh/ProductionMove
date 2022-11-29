@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using ProductionMove.Application.Common.Interfaces;
 
 namespace ProductionMove.Application.ProductLines.Commands.CreateProductLine;
-public class CreateProductLineCommandValidator : AbstractValidator<CreateProductLineCommand>
+
+public class UpdateProductLineCommandValidator : AbstractValidator<CreateProductLineCommand>
 {
     private readonly IApplicationDbContext _context;
 
-    public CreateProductLineCommandValidator(IApplicationDbContext context)
+    public UpdateProductLineCommandValidator(IApplicationDbContext context)
     {
         _context = context;
 

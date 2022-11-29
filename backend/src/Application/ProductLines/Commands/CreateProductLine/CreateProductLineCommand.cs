@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ProductionMove.Application.Common.Interfaces;
+using ProductionMove.Application.Common.Models;
 using ProductionMove.Application.Common.Security;
 using ProductionMove.Domain.Entities;
 using ProductionMove.Domain.Events;
@@ -8,7 +9,7 @@ using ProductionMove.Domain.ValueObjects;
 namespace ProductionMove.Application.ProductLines.Commands.CreateProductLine;
 
 [Authorize(Roles = Schema.Role.Administrator)]
-public class CreateProductLineCommand : IRequest<bool>
+public class CreateProductLineCommand : IRequest<Result>
 {
     public ProductLine ProductLine { get; }
 
@@ -18,7 +19,7 @@ public class CreateProductLineCommand : IRequest<bool>
     }
 }
 
-public class CreateProductLineCommandHandler : IRequestHandler<CreateProductLineCommand, bool>
+public class CreateProductLineCommandHandler : IRequestHandler<CreateProductLineCommand, Result>
 {
     private readonly IApplicationDbContext _context;
 
@@ -27,7 +28,7 @@ public class CreateProductLineCommandHandler : IRequestHandler<CreateProductLine
         _context = context;
     }
 
-    public async Task<bool> Handle(CreateProductLineCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(CreateProductLineCommand request, CancellationToken cancellationToken)
     {
         var productLine = request.ProductLine;
 
@@ -37,6 +38,6 @@ public class CreateProductLineCommandHandler : IRequestHandler<CreateProductLine
 
         await _context.ProductLines.AddAsync(productLine, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        return true;
+        return Result.Success();
     }
 }

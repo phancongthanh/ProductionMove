@@ -2,7 +2,7 @@
 using ProductionMove.Application.Common.Models;
 using ProductionMove.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 
-namespace ProductionMove.WebUI.Controllers;
+namespace ProductionMove.WebAPI.Controllers;
 public class WeatherForecastController : ApiControllerBase
 {
     [HttpGet]

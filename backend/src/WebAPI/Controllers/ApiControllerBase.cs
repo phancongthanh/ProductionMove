@@ -1,8 +1,8 @@
 ﻿using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
 
-namespace ProductionMove.WebUI.Controllers;
+namespace ProductionMove.WebAPI.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public abstract class ApiControllerBase : ControllerBase
