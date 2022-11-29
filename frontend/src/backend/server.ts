@@ -1,5 +1,5 @@
 const server = {
-    baseUrl: "/api"
+    baseUrl: process.env.baseUrl || "/api"
 }
 
 export default server;

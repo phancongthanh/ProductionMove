@@ -1,7 +1,9 @@
 import accounts from "./account";
+import productLines from "./productLines";
 
 const backend = {
-    accounts
+    accounts,
+    productLines
 }
 
 export default backend;

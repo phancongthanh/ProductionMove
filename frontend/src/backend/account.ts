@@ -95,7 +95,6 @@ const accounts = {
     signUp,
     login,
     logOut,
-    refreshTokenRequest,
     getAccessToken
 }
 
