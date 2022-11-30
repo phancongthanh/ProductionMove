@@ -64,7 +64,11 @@ public class AddDistributionCommandHandler : IRequestHandler<AddDistributionComm
         distributor.Distributions.Add(distribution);
         factory.Distributions.Add(distribution);
         await _context.Distributions.AddAsync(distribution, cancellationToken);
-        foreach (var product in products) product.DistributionId = distribution.Id;
+        foreach (var product in products)
+        {
+            product.Status = Domain.Enums.ProductStatus.JustImported;
+            product.DistributionId = distribution.Id;
+        }
 
         await _context.SaveChangesAsync(cancellationToken);
         return Result.Success();
