@@ -1,7 +1,9 @@
 import distribution from "./distribution"
+import product from "./product"
 
 const distributor = {
-    distribution
+    distribution,
+    product
 }
 
 export default distributor
