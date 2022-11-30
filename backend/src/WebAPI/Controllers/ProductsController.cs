@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductionMove.Application.Common.Interfaces;
 using ProductionMove.Application.Products.Commands.AddProduct;
+using ProductionMove.Application.Products.Commands.SellProduct;
+using ProductionMove.Domain.Entities;
 using ProductionMove.Domain.ValueObjects;
 
 namespace ProductionMove.WebAPI.Controllers;
@@ -25,6 +27,15 @@ public class ProductsController : ApiControllerBase
         {
             CurrentUserId = _currentUser.UserId ?? string.Empty
         };
+        var result = await Mediator.Send(command);
+        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+    }
+
+    [HttpPut("[action]")]
+    [Authorize(Policy = Schema.Role.Distributor)]
+    public async Task<ActionResult> Sell([FromQuery] int productId, [FromBody] Customer customer)
+    {
+        var command = new SellProductCommand(productId, customer);
         var result = await Mediator.Send(command);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
