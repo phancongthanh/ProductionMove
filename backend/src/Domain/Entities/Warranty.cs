@@ -1,7 +1,7 @@
 ﻿namespace ProductionMove.Domain.Entities;
 public class Warranty : BaseEntity
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     public int ProductId { get; set; }
 
@@ -11,7 +11,9 @@ public class Warranty : BaseEntity
 
     public DateTime StartTime { get; set; }
 
-    public DateTime CompletedTime { get; set; }
+    public DateTime? CompletedTime { get; set; }
+
+    public bool? IsSuccessed { get; set; } = null;
 
     public virtual Product Product { get; set; }
 
