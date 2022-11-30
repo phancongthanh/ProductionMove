@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductionMove.Application.ProductLines.Commands.CreateProductLine;
 using ProductionMove.Application.ProductLines.Commands.UpdateProductLine;
+using ProductionMove.Application.ProductLines.Queries.GetProductLines;
 using ProductionMove.Domain.Entities;
 using ProductionMove.Domain.ValueObjects;
 
@@ -9,6 +10,21 @@ namespace ProductionMove.WebAPI.Controllers;
 
 public class ProductLinesController : ApiControllerBase
 {
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProductLine>>> Get()
+    {
+        var query = new GetProductLinesQuery();
+        try
+        {
+            var data = await Mediator.Send(query);
+            return Ok(data);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+    }
+
     [HttpPost]
     [Authorize(Policy = Schema.Role.Administrator)]
     public async Task<ActionResult> Post([FromBody] ProductLine productLine)

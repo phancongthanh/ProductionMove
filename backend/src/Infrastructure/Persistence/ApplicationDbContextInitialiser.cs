@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using ProductionMove.Domain.Entities;
 using ProductionMove.Domain.ValueObjects;
 using ProductionMove.Infrastructure.Identity;
 
@@ -85,6 +86,8 @@ public class ApplicationDbContextInitialiser
             await _userManager.AddToRoleAsync(administrator, RoleSchema.Administrator);
         }
 
+        await TrySeedProductLineAsync();
+
         // Default data
         // Seed, if necessary
         /*
@@ -105,5 +108,58 @@ public class ApplicationDbContextInitialiser
             await _context.SaveChangesAsync();
         }
         */
+    }
+
+    public async Task TrySeedProductLineAsync()
+    {
+        if (!_context.ProductLines.Any())
+        {
+            _context.ProductLines.AddRange(new[]
+            {
+                new ProductLine()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "iPhone 11 64GB",
+                    WarrantyPeriod = 2*12,
+                    Describes = new []
+                    {
+                        new ProductLineInfo() { Property = "Màu", Value = "Trắng"},
+                        new ProductLineInfo() { Property = "CPU", Value = "Apple A13 Bionic 6 nhân"},
+                        new ProductLineInfo() { Property = "Ram", Value = "4 GB"},
+                        new ProductLineInfo() { Property = "Dung lượng lưu trữ", Value = "64 GB"},
+                        new ProductLineInfo() { Property = "Dung lượng pin", Value = "3110 mAh"}
+                    }
+                },
+                new ProductLine()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "iPhone 13 mini 512GB",
+                    WarrantyPeriod = 2*12,
+                    Describes = new []
+                    {
+                        new ProductLineInfo() { Property = "Màu", Value = "Đỏ"},
+                        new ProductLineInfo() { Property = "CPU", Value = "Apple A15 Bionic 6 nhân"},
+                        new ProductLineInfo() { Property = "Ram", Value = "4 GB"},
+                        new ProductLineInfo() { Property = "Dung lượng lưu trữ", Value = "512 GB"},
+                        new ProductLineInfo() { Property = "Dung lượng pin", Value = "2438 mAh"}
+                    }
+                },
+                new ProductLine()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "iPhone 14 Pro Max 128GB",
+                    WarrantyPeriod = 2*12,
+                    Describes = new []
+                    {
+                        new ProductLineInfo() { Property = "CPU", Value = "Apple A16 Bionic 6 nhân"},
+                        new ProductLineInfo() { Property = "Ram", Value = "6 GB"},
+                        new ProductLineInfo() { Property = "Dung lượng lưu trữ", Value = "128 GB"},
+                        new ProductLineInfo() { Property = "Dung lượng pin", Value = "4323 mAh"}
+                    }
+                }
+            });
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

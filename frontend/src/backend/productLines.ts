@@ -2,6 +2,22 @@ import ProductLine, { ProductLineInfo } from "../data/entities/ProductLine";
 import accounts from "./account";
 import server from "./server";
 
+export async function getProductLines() : Promise<Array<ProductLine>> {
+    const url = server.baseUrl + "/ProductLines";
+
+    const accessToken = await accounts.getAccessToken();
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + accessToken
+        }
+    });
+
+    if (response.ok) return response.json();
+    throw new Error();
+}
+
 export async function createProductLine(productLine: ProductLine) : Promise<void> {
     const url = server.baseUrl + "/ProductLines";
 
@@ -37,6 +53,7 @@ export async function updateProductLine(productLineId: string, describes: Array<
 }
 
 const productLines = {
+    getProductLines,
     createProductLine,
     updateProductLine
 }

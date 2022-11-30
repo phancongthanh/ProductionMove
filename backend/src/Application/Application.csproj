@@ -22,7 +22,6 @@
     <ItemGroup>
       <Folder Include="Administrator\Queries\" />
       <Folder Include="Buildings\EventHandlers\" />
-      <Folder Include="ProductLines\Queries\" />
       <Folder Include="Products\EventHandlers\" />
     </ItemGroup>
 
