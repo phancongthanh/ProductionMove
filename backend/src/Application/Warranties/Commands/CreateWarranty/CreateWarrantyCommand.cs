@@ -9,16 +9,20 @@ using ProductionMove.Domain.ValueObjects;
 namespace ProductionMove.Application.Warranties.Commands.CreateWarranty;
 
 [Authorize(Roles = Schema.Role.Distributor)]
-[Authorize(Roles = Schema.Role.ServiceCenter)]
-public class CreateWarrantyCommand : IRequest<Result>
+public class CreateWarrantyCommand : IRequest<Result>, ICurrentBuilding
 {
     public int ProductId { get; }
 
     public string ServiceCenterId { get; }
 
-    public CreateWarrantyCommand(int productId, string serviceCenterId)
+    public string DistributorId { get; }
+
+    public string BuildingId => DistributorId;
+
+    public CreateWarrantyCommand(int productId, string distributorId, string serviceCenterId)
     {
         ProductId = productId;
+        DistributorId = distributorId;
         ServiceCenterId = serviceCenterId;
     }
 }
@@ -38,22 +42,20 @@ public class CreateWarrantyCommandHandler : IRequestHandler<CreateWarrantyComman
     {
         var product = await _context.Products.FindAsync(new object?[] { request.ProductId }, cancellationToken: cancellationToken);
         if (product == null) throw new NotFoundException(nameof(Product), request.ProductId);
-
-        var distributorId = (await _context.Distributions.FindAsync(new object?[] { product.DistributionId }, cancellationToken: cancellationToken))?.DistributorId;
-        if (distributorId == null) throw new InvalidOperationException();
+        product.Status = Domain.Enums.ProductStatus.WaitingForWarranty;
 
         var warranty = new Warranty()
         {
             Id = Guid.NewGuid().ToString(),
             ProductId = product.Id,
-            DistributorId = distributorId,
+            DistributorId = request.DistributorId,
             ServiceCenterId = request.ServiceCenterId,
-            StartTime = _dateTime.Now,
+            StartTime = null,
             CompletedTime = null,
             IsSuccessed = null
         };
-
         await _context.Warranties.AddAsync(warranty, cancellationToken);
+        
         await _context.SaveChangesAsync(cancellationToken);
         return Result.Success();
     }

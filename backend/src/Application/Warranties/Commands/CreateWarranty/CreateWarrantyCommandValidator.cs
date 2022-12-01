@@ -7,12 +7,10 @@ namespace ProductionMove.Application.Warranties.Commands.CreateWarranty;
 public class CreateWarrantyCommandValidator : AbstractValidator<CreateWarrantyCommand>
 {
     private readonly IApplicationDbContext _context;
-    private readonly ICurrentUserService _currentUser;
 
-    public CreateWarrantyCommandValidator(IApplicationDbContext context, ICurrentUserService currentUser)
+    public CreateWarrantyCommandValidator(IApplicationDbContext context)
     {
         _context = context;
-        _currentUser = currentUser;
 
         RuleFor(request => GetProduct(request.ProductId))
             .NotEmpty()
@@ -36,14 +34,12 @@ public class CreateWarrantyCommandValidator : AbstractValidator<CreateWarrantyCo
 
     protected async Task<bool> IsAllow(CreateWarrantyCommand request, CancellationToken cancellationToken = default)
     {
-        if (request.ServiceCenterId == _currentUser.BuildingId) return true;
-        
         var product = await _context.Products.FindAsync(new object?[] { request.ProductId }, cancellationToken: cancellationToken);
         if (product == null) return false;
 
         return await _context.Distributions
             .Where(d => d.Id == product.DistributionId)
-            .Where(d => d.DistributorId == _currentUser.BuildingId)
+            .Where(d => d.DistributorId == request.DistributorId)
             .AnyAsync(cancellationToken);
     }
 }
