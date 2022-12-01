@@ -34,8 +34,14 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
             if (request is ICurrentUser)
             {
                 var currentUser = (ICurrentUser)request;
-                if (currentUser.CurrentUserId != _currentUserService.UserId) throw new UnauthorizedAccessException();
-                if (currentUser.BuildingId != _currentUserService.BuildingId) throw new UnauthorizedAccessException();
+                if (currentUser.CurrentUserId != _currentUserService.UserId) throw new ForbiddenAccessException();
+            }
+
+            // Be require BuildingId
+            if (request is ICurrentUser)
+            {
+                var currentBuilding = (ICurrentBuilding)request;
+                if (currentBuilding.BuildingId != _currentUserService.BuildingId) throw new ForbiddenAccessException();
             }
 
             // Role-based authorization
