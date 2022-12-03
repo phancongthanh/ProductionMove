@@ -1,16 +1,9 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.InteropServices;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using ProductionMove.Application.Common.Exceptions;
 using ProductionMove.Application.Common.Interfaces;
 using ProductionMove.Application.Common.Models;
-using ProductionMove.Domain.ValueObjects;
 using ProductionMove.Infrastructure.Persistence;
 
 namespace ProductionMove.Infrastructure.Identity;
@@ -153,5 +146,28 @@ public class IdentityService : IIdentityService
                 token.IsLocked = true;
                 await _context.SaveChangesAsync(new CancellationTokenSource().Token);
             }
+    }
+
+    public async Task<IEnumerable<User>> GetUsersAsync()
+        => await _userManager.Users.Select(a => a.ToUser()).ToListAsync();
+
+    public async Task<Result> UpdateUserAsync(User user)
+    {
+        var account = await _userManager.FindByIdAsync(user.UserId);
+        if (account == null) return Result.Failure(new[] { "Tài khoản không tồn tại!" });
+        account.Name = user.Name;
+        account.PhoneNumber = user.Phone;
+        account.Email = user.Email;
+        var result = await _userManager.UpdateAsync(account);
+        return result.ToApplicationResult();
+    }
+
+    public async Task<Result> UpdateUserAsync(string userId, string password)
+    {
+        var account = await _userManager.FindByIdAsync(userId);
+        if (account == null) return Result.Failure(new[] { "Tài khoản không tồn tại!" });
+        var token = await _userManager.GeneratePasswordResetTokenAsync(account);
+        var result = await _userManager.ResetPasswordAsync(account, token, password);
+        return result.ToApplicationResult();
     }
 }
