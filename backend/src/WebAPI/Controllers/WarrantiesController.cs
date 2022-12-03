@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProductionMove.Application.Common.Interfaces;
 using ProductionMove.Application.Warranties.Commands.CompleteWarrantyProcess;
 using ProductionMove.Application.Warranties.Commands.CreateWarranty;
+using ProductionMove.Application.Warranties.Commands.CreateWarrantyForRecall;
 using ProductionMove.Application.Warranties.Commands.StartWarrantyProcess;
 using ProductionMove.Domain.ValueObjects;
 
@@ -17,9 +18,9 @@ public class WarrantiesController : ApiControllerBase
         _currentUser = currentUser;
     }
 
-    [HttpPost]
+    [HttpPost("Customer")]
     [Authorize(Policy = Schema.Role.Distributor)]
-    public async Task<ActionResult> Create([FromQuery] string serviceCenterId, [FromQuery] int productId)
+    public async Task<ActionResult> CreateWarrantyForCustomer([FromQuery] string serviceCenterId, [FromQuery] int productId)
     {
         var distributorId = _currentUser.BuildingId;
         if (distributorId == null) return Unauthorized();
@@ -29,7 +30,19 @@ public class WarrantiesController : ApiControllerBase
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 
-    [HttpPatch]
+    [HttpPost("Recall")]
+    [Authorize(Policy = Schema.Role.Distributor)]
+    public async Task<ActionResult> CreateWarrantyForRecall([FromQuery] string serviceCenterId, [FromQuery] int fromProductId = 0, [FromQuery] int toProductId = int.MaxValue)
+    {
+        var distributorId = _currentUser.BuildingId;
+        if (distributorId == null) return Unauthorized();
+
+        var command = new CreateWarrantyForRecallCommand(distributorId, serviceCenterId, fromProductId, toProductId);
+        var result = await Mediator.Send(command);
+        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+    }
+
+    [HttpPatch("Start")]
     [Authorize(Policy = Schema.Role.ServiceCenter)]
     public async Task<ActionResult> Start([FromQuery] int productId)
     {
@@ -41,7 +54,7 @@ public class WarrantiesController : ApiControllerBase
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 
-    [HttpPut]
+    [HttpPatch("Complete")]
     [Authorize(Policy = Schema.Role.ServiceCenter)]
     public async Task<ActionResult> Complete([FromQuery] int productId, [FromQuery] bool isSuccessed)
     {

@@ -1,16 +1,17 @@
 ﻿namespace ProductionMove.Domain.Enums;
 public enum ProductStatus
 {
-    JustProduced = 0,
-    JustImported = 1,
-    Sold = 2,
-    WaitingForWarranty = 3,
-    Warranty = 4,
-    WaitingForCustomer = 5,
-    WaitingForFactory = 6,
-    Canceled = 7,
-    Recall = 8,
-    WarrantyExpired = 9
+    JustProduced = 0,           // in Factory                   to Distributor    
+    JustImported = 1,           // in Distributor               to Customer(buy), Distributor(recall), Factory()
+    Sold = 2,                   // in Customer                  to Distributor(warranty, recall)
+    WaitingForWarranty = 3,     // in Distributor               to ServiceCenter(warranty)
+    Warranty = 4,               // in ServiceCenter             to Distributor(Successed), Factory(Error)
+    WaitingForCustomer = 5,     // in Distributor               to Customer
+    WaitingForFactory = 6,      // in ServiceCenter             to Factory
+    Canceled = 7,               // in Factory
+    Recall = 8,                 // in [Distributor,Customer]    to Distributor()
+    WarrantyExpired = 9,        // in everywhere
+    Inventory = 10
 }
 /*
 0 - Mới sản xuất: Sản xuất tại cơ sở nào thì nằm tại kho của cơ sở đó.

@@ -30,12 +30,10 @@ public class CreateWarrantyCommand : IRequest<Result>, ICurrentBuilding
 public class CreateWarrantyCommandHandler : IRequestHandler<CreateWarrantyCommand, Result>
 {
     private readonly IApplicationDbContext _context;
-    private readonly IDateTime _dateTime;
 
-    public CreateWarrantyCommandHandler(IApplicationDbContext context, IDateTime dateTime)
+    public CreateWarrantyCommandHandler(IApplicationDbContext context)
     {
         _context = context;
-        _dateTime = dateTime;
     }
 
     public async Task<Result> Handle(CreateWarrantyCommand request, CancellationToken cancellationToken)

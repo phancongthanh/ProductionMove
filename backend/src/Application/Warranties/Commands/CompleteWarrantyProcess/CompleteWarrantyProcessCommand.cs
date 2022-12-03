@@ -5,6 +5,7 @@ using ProductionMove.Application.Common.Interfaces;
 using ProductionMove.Application.Common.Models;
 using ProductionMove.Application.Common.Security;
 using ProductionMove.Domain.Entities;
+using ProductionMove.Domain.Enums;
 using ProductionMove.Domain.ValueObjects;
 
 namespace ProductionMove.Application.Warranties.Commands.CompleteWarrantyProcess;
@@ -47,14 +48,14 @@ public class CompleteWarrantyProcessCommandHandler : IRequestHandler<CompleteWar
 
         if (request.IsSuccessed)
         {
-            product.Status = Domain.Enums.ProductStatus.WaitingForCustomer;
+            product.Status = product.Customer != null ? ProductStatus.WaitingForCustomer : ProductStatus.JustImported;
             warranty.IsSuccessed = true;
             warranty.CompletedTime = _dateTime.Now;
             await _context.SaveChangesAsync(cancellationToken);
         }
         else
         {
-            product.Status = Domain.Enums.ProductStatus.WaitingForFactory;
+            product.Status = ProductStatus.WaitingForFactory;
             warranty.IsSuccessed = false;
             warranty.CompletedTime = _dateTime.Now;
             await _context.SaveChangesAsync(cancellationToken);
