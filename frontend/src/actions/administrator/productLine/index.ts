@@ -1,9 +1,11 @@
 import create from "./create";
 import update from "./update";
+import recall from "./recall";
 
 const productLine = {
     create,
-    update    
+    update,
+    recall 
 }
 
 export default productLine
