@@ -4,6 +4,7 @@ import buildings from "./buildings";
 import products from "./products";
 import distributions from "./distributions";
 import warranties from "./warranties";
+import users from "./users";
 
 const backend = {
     accounts,
@@ -11,7 +12,8 @@ const backend = {
     buildings,
     products,
     distributions,
-    warranties
+    warranties,
+    users
 }
 
 export default backend;

@@ -10,11 +10,13 @@ public class UsersController : ApiControllerBase
 {
     private readonly IIdentityService _identityService;
     private readonly ICurrentUserService _currentUser;
+    private readonly IApplicationDbContext _context;
 
-    public UsersController(IIdentityService identityService, ICurrentUserService currentUser)
+    public UsersController(IIdentityService identityService, ICurrentUserService currentUser, IApplicationDbContext context)
     {
         _identityService = identityService;
         _currentUser = currentUser;
+        _context = context;
     }
 
     [HttpGet]
@@ -32,13 +34,32 @@ public class UsersController : ApiControllerBase
     [Authorize(Policy = Schema.Role.Administrator)]
     public async Task<ActionResult<int>> Post([FromBody] (User User, string Password) account)
     {
+        switch (account.User.Role)
+        {
+            case Schema.Role.Administrator:
+                account.User.BuildingId = string.Empty;
+                break;
+            case Schema.Role.Factory:
+                if (!_context.Factories.Any(f => f.Id != account.User.BuildingId))
+                    return BadRequest(new[] { "Id cơ sở không hợp lệ" });
+                break;
+            case Schema.Role.Distributor:
+                if (!_context.Distributors.Any(d => d.Id != account.User.BuildingId))
+                    return BadRequest(new[] { "Id cơ sở không hợp lệ" });
+                break;
+            case Schema.Role.ServiceCenter:
+                if (!_context.ServiceCenters.Any(s => s.Id != account.User.BuildingId))
+                    return BadRequest(new[] { "Id cơ sở không hợp lệ" });
+                break;
+            default: return BadRequest(new[] { "Phân quyền không hợp lệ" });
+        }
         var result = await _identityService.CreateUserAsync(account.User, account.Password);
         return result.Result.Succeeded ? Ok(result.UserId) : BadRequest(result.Result.Errors);
     }
 
     [HttpPatch]
     [Authorize(Policy = Schema.Role.AuthenticatedUser)]
-    public async Task<ActionResult> Patch([FromQuery] string password)
+    public async Task<ActionResult> Patch([FromBody] string password)
     {
         var userId = _currentUser.UserId;
         if (userId == null) return Unauthorized();
