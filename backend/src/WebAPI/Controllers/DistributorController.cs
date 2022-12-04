@@ -8,11 +8,11 @@ using ProductionMove.Domain.ValueObjects;
 namespace ProductionMove.WebAPI.Controllers;
 
 [Authorize(Policy = Schema.Role.Distributor)]
-public class DistributorsController : ApiControllerBase
+public class DistributorController : ApiControllerBase
 {
     private readonly ICurrentUserService _currentUser;
 
-    public DistributorsController(ICurrentUserService currentUser)
+    public DistributorController(ICurrentUserService currentUser)
     {
         _currentUser = currentUser;
     }

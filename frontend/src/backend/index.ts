@@ -1,19 +1,25 @@
 import accounts from "./account";
-import productLines from "./productLines";
+import administrator from "./administrator";
 import buildings from "./buildings";
-import products from "./products";
 import distributions from "./distributions";
-import warranties from "./warranties";
+import distributor from "./distributor";
+import factory from "./factory";
+import productLines from "./productLines";
+import products from "./products";
 import users from "./users";
+import warranties from "./warranties";
 
 const backend = {
     accounts,
-    productLines,
+    administrator,
     buildings,
-    products,
     distributions,
-    warranties,
-    users
+    distributor,
+    factory,
+    productLines,
+    products,
+    users,
+    warranties
 }
 
 export default backend;
