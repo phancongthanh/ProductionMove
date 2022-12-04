@@ -1,7 +1,11 @@
 import sell from "./sell"
+import returnToCustomer from "./returnToCustomer"
+import returnToFactory from "./returnToFactory"
 
 const product = {
-    sell
+    sell,
+    returnToCustomer,
+    returnToFactory
 }
 
 export default product

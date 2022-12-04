@@ -1,7 +1,7 @@
 import accounts from "./account";
 import server from "./server";
 
-export async function returnToCustomer(productId: string) : Promise<void> {
+export async function returnToCustomer(productId: number) : Promise<void> {
     const url = server.baseUrl + "/Distributor/ReturnToCustomer?productId=" + productId;
 
     const accessToken = await accounts.getAccessToken();
@@ -17,7 +17,7 @@ export async function returnToCustomer(productId: string) : Promise<void> {
     throw new Error(await response.json());   
 }
 
-export async function returnToFactory(productId: string) : Promise<void> {
+export async function returnToFactory(productId: number) : Promise<void> {
     const url = server.baseUrl + "/Distributor/ReturnToFactory?productId=" + productId;
 
     const accessToken = await accounts.getAccessToken();

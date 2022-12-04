@@ -1,7 +1,9 @@
 import add from "./add"
+import cancel from "./cancel";
 
 const product = {
-    add
+    add,
+    cancel
 }
 
 export default product;

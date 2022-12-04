@@ -1,7 +1,7 @@
 import accounts from "./account";
 import server from "./server";
 
-export async function cancelProduct(productId: string) : Promise<void> {
+export async function cancelProduct(productId: number) : Promise<void> {
     const url = server.baseUrl + "/Factory/CancelProduct?productId=" + productId;
 
     const accessToken = await accounts.getAccessToken();
