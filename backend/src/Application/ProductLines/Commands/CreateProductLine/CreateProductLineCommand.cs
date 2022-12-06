@@ -32,8 +32,6 @@ public class CreateProductLineCommandHandler : IRequestHandler<CreateProductLine
     {
         var productLine = request.ProductLine;
 
-        productLine.Id = Guid.NewGuid().ToString();
-
         productLine.AddDomainEvent(new CreatedProductLineEvent(productLine));
 
         await _context.ProductLines.AddAsync(productLine, cancellationToken);

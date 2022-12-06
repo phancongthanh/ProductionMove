@@ -11,12 +11,23 @@ public class CreateBuildingCommandValidator : AbstractValidator<CreateBuildingCo
     {
         _context = context;
 
+        RuleFor(r => r.Building.Id).NotEmpty().WithMessage("Id không hợp lệ!");
+
+        RuleFor(r => r.Building.Id).MustAsync(IdIsNotExist).WithMessage("Id đã tồn tại!");
+
         RuleFor(r => r.Building.Name).NotEmpty().WithMessage("Tên không hợp lệ!");
 
-        RuleFor(r => r.Building.Name).MustAsync(IsNotExist).WithMessage("Tên đã tồn tại!");
+        RuleFor(r => r.Building.Name).MustAsync(NameIsNotExist).WithMessage("Tên đã tồn tại!");
     }
 
-    protected async Task<bool> IsNotExist(string name, CancellationToken cancellationToken = default)
+    protected async Task<bool> IdIsNotExist(string id, CancellationToken cancellationToken = default)
+    {
+        return !await _context.Factories.AnyAsync(f => f.Id == id, cancellationToken: cancellationToken)
+            && !await _context.Distributors.AnyAsync(d => d.Id == id, cancellationToken: cancellationToken)
+            && !await _context.ServiceCenters.AnyAsync(s => s.Id == id, cancellationToken: cancellationToken);
+    }
+
+    protected async Task<bool> NameIsNotExist(string name, CancellationToken cancellationToken = default)
     {
         return !await _context.Factories.AnyAsync(f => f.Name == name, cancellationToken: cancellationToken)
             && !await _context.Distributors.AnyAsync(d => d.Name == name, cancellationToken: cancellationToken)

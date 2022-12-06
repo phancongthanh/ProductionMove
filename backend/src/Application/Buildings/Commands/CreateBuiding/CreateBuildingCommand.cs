@@ -39,7 +39,7 @@ public class CreateBuildingCommandHandler : IRequestHandler<CreateBuildingComman
             case Schema.Role.Factory:
                 var factory = new Factory()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = request.Building.Id,
                     Name = request.Building.Name,
                     Address = request.Building.Address
                 };
@@ -49,7 +49,7 @@ public class CreateBuildingCommandHandler : IRequestHandler<CreateBuildingComman
             case Schema.Role.Distributor:
                 var distributor = new Distributor()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = request.Building.Id,
                     Name = request.Building.Name,
                     Address = request.Building.Address
                 };
@@ -59,7 +59,7 @@ public class CreateBuildingCommandHandler : IRequestHandler<CreateBuildingComman
             case Schema.Role.ServiceCenter:
                 var serviceCenter = new ServiceCenter()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = request.Building.Id,
                     Name = request.Building.Name,
                     Address = request.Building.Address
                 };
