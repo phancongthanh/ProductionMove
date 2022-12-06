@@ -91,9 +91,11 @@ public class ApplicationDbContextInitialiser
         await TrySeedProductLineAsync();
         await TrySeedBuildingAsync();
         await TrySeedUserAsync();
+        await TrySeedProductAsync();
+        await TrySeedDistributionAsync();
     }
 
-    public async Task TrySeedProductLineAsync()
+    protected async Task TrySeedProductLineAsync()
     {
         if (!_context.ProductLines.Any())
         {
@@ -145,7 +147,7 @@ public class ApplicationDbContextInitialiser
             await _context.SaveChangesAsync();
         }
     }
-    public async Task TrySeedBuildingAsync()
+    protected async Task TrySeedBuildingAsync()
     {
         if (!_context.Factories.Any())
         {
@@ -221,7 +223,7 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-    public async Task TrySeedUserAsync()
+    protected async Task TrySeedUserAsync()
     {
         if (!_userManager.Users.Any(u => u.Role != RoleSchema.Administrator))
         {
@@ -270,6 +272,48 @@ public class ApplicationDbContextInitialiser
                     },
                     "ServiceCenterUser" + i + "@BigCorp.com"
                 );
+        }
+    }
+
+    protected async Task TrySeedProductAsync()
+    {
+        if (!_context.Products.Any() && _context.ProductLines.Any() && _context.Factories.Any())
+        {
+            var productLines = await _context.ProductLines.ToListAsync();
+            var factories = await _context.Factories.ToListAsync();
+            int endId = 0;
+            foreach (var productLine in productLines)
+                foreach (var factory in factories)
+                {
+                    int fromId = endId + 1;
+                    var rand = new Random(fromId);
+                    endId = fromId + rand.Next(50, 200);
+                    var time = DateTime.Now.AddMonths(rand.Next(fromId/200, fromId/200 + 12));
+                    for (int i = fromId; i <= endId; i++)
+                    {
+                        var product = new Product()
+                        {
+                            Id = i,
+                            Status = Domain.Enums.ProductStatus.JustProduced,
+                            DateOfManufacture = time,
+                            SaleDate = null,
+                            ProductLineId = productLine.Id,
+                            FactoryId = factory.Id,
+                            DistributionId = null,
+                            Customer = null
+                        };
+                        await _context.Products.AddAsync(product);
+                    }
+                }
+            if (endId > 0) await _context.SaveChangesAsync();
+        }
+    }
+
+    protected async Task TrySeedDistributionAsync()
+    {
+        if (_context.Products.Any() && !_context.Distributions.Any())
+        {
+
         }
     }
 }
