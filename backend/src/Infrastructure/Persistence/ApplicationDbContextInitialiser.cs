@@ -65,7 +65,8 @@ public class ApplicationDbContextInitialiser
             new IdentityRole(RoleSchema.ServiceCenter)
         };
 
-        foreach (var role in roles) {
+        foreach (var role in roles)
+        {
             if (_roleManager.Roles.All(r => r.Name != role.Name))
             {
                 await _roleManager.CreateAsync(role);
@@ -73,7 +74,8 @@ public class ApplicationDbContextInitialiser
         }
 
         // Default users
-        var administrator = new ApplicationUser {
+        var administrator = new ApplicationUser
+        {
             UserName = "admin",
             Name = "Admin",
             Email = "administrator@localhost",
@@ -87,27 +89,8 @@ public class ApplicationDbContextInitialiser
         }
 
         await TrySeedProductLineAsync();
-
-        // Default data
-        // Seed, if necessary
-        /*
-        if (!_context.TodoLists.Any())
-        {
-            _context.TodoLists.Add(new TodoList
-            {
-                Title = "Todo List",
-                Items =
-                {
-                    new TodoItem { Title = "Make a todo list 📃" },
-                    new TodoItem { Title = "Check off the first item ✅" },
-                    new TodoItem { Title = "Realise you've already done two things on the list! 🤯"},
-                    new TodoItem { Title = "Reward yourself with a nice, long nap 🏆" },
-                }
-            });
-
-            await _context.SaveChangesAsync();
-        }
-        */
+        await TrySeedBuildingAsync();
+        await TrySeedUserAsync();
     }
 
     public async Task TrySeedProductLineAsync()
@@ -118,7 +101,7 @@ public class ApplicationDbContextInitialiser
             {
                 new ProductLine()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "iPhone-11-64GB",
                     Name = "iPhone 11 64GB",
                     WarrantyPeriod = 2*12,
                     Describes = new []
@@ -132,7 +115,7 @@ public class ApplicationDbContextInitialiser
                 },
                 new ProductLine()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "iPhone-13-mini-512GB",
                     Name = "iPhone 13 mini 512GB",
                     WarrantyPeriod = 2*12,
                     Describes = new []
@@ -146,7 +129,7 @@ public class ApplicationDbContextInitialiser
                 },
                 new ProductLine()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "iPhone-14-Pro Max-128GB",
                     Name = "iPhone 14 Pro Max 128GB",
                     WarrantyPeriod = 2*12,
                     Describes = new []
@@ -160,6 +143,133 @@ public class ApplicationDbContextInitialiser
             });
 
             await _context.SaveChangesAsync();
+        }
+    }
+    public async Task TrySeedBuildingAsync()
+    {
+        if (!_context.Factories.Any())
+        {
+            _context.Factories.AddRange(new[]
+            {
+                new Factory()
+                {
+                    Id = "Factory-1",
+                    Name = "Cơ sở sản xuất X",
+                    Address = "Số A, Đường B, Phường C, Quận E, Thành phố F"
+                },
+                new Factory()
+                {
+                    Id = "Factory-2",
+                    Name = "Cơ sở sản xuất Y",
+                    Address = "Số G, Đường H, Phường I, Quận J, Thành phố K"
+                },
+                new Factory()
+                {
+                    Id = "Factory-3",
+                    Name = "Cơ sở sản xuất Z",
+                    Address = "Số L, Đường M, Phường N, Quận O, Thành phố P"
+                },
+            });
+
+            await _context.SaveChangesAsync();
+        }
+        if (!_context.Distributors.Any())
+        {
+            _context.Distributors.AddRange(new[]
+            {
+                new Distributor()
+                {
+                    Id = "Distributor-4",
+                    Name = "Đại lý phân phối X",
+                    Address = "Thôn A, Xã B, Huyện B, Thành phố C"
+                },
+                new Distributor()
+                {
+                    Id = "Distributor-5",
+                    Name = "Đại lý phân phối Y",
+                    Address = "Thôn D, Xã E, Huyện F, Thành phố G"
+                },
+                new Distributor()
+                {
+                    Id = "Distributor-6",
+                    Name = "Đại lý phân phối Z",
+                    Address = "Thôn H, Xã I, Huyện J, Thành phố K"
+                },
+            });
+
+            await _context.SaveChangesAsync();
+        }
+        if (!_context.ServiceCenters.Any())
+        {
+            _context.ServiceCenters.AddRange(new[]
+            {
+                new ServiceCenter()
+                {
+                    Id = "ServiceCenter-7",
+                    Name = "Trung tâm bảo hành X",
+                    Address = "Thôn A, Xã B, Huyện B, Thành phố C"
+                },
+                new ServiceCenter()
+                {
+                    Id = "ServiceCenter-8",
+                    Name = "Trung tâm bảo hành Y",
+                    Address = "Thôn D, Xã E, Huyện F, Thành phố G"
+                }
+            });
+
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task TrySeedUserAsync()
+    {
+        if (!_userManager.Users.Any(u => u.Role != RoleSchema.Administrator))
+        {
+            var factories = await _context.Factories.ToListAsync();
+            for (int i = 0; i < factories.Count; i++)
+                await _userManager.CreateAsync(
+                    new ApplicationUser
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = "Nhân viên của " + factories[i].Name,
+                        UserName = "Factory" + i,
+                        Role = RoleSchema.Factory,
+                        BuildingId = factories[i].Id,
+                        PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                        Email = "FactoryUser" + i + "@BigCorp.com"
+                    },
+                    "FactoryUser" + i + "@BigCorp.com"
+                );
+            var distributers = await _context.Distributors.ToListAsync();
+            for (int i = 0; i < distributers.Count; i++)
+                await _userManager.CreateAsync(
+                    new ApplicationUser
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = "Nhân viên của " + distributers[i].Name,
+                        UserName = "Distributer" + i,
+                        Role = RoleSchema.Distributor,
+                        BuildingId = distributers[i].Id,
+                        PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                        Email = "DistributerUser" + i + "@BigCorp.com"
+                    },
+                    "DistributerUser" + i + "@BigCorp.com"
+                );
+            var serviceCenters = await _context.ServiceCenters.ToListAsync();
+            for (int i = 0; i < serviceCenters.Count; i++)
+                await _userManager.CreateAsync(
+                    new ApplicationUser
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = "Nhân viên của " + serviceCenters[i].Name,
+                        UserName = "ServiceCenter" + i,
+                        Role = RoleSchema.ServiceCenter,
+                        BuildingId = serviceCenters[i].Id,
+                        PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                        Email = "ServiceCenterUser" + i + "@BigCorp.com"
+                    },
+                    "ServiceCenterUser" + i + "@BigCorp.com"
+                );
         }
     }
 }
