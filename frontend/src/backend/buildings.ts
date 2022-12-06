@@ -1,6 +1,21 @@
 import Building from "../data/entities/Building";
+import BuildingsModel from "../data/models/BuildingsModel";
 import accounts from "./account";
 import server from "./server";
+
+export async function getBuildings() : Promise<BuildingsModel> {
+    const url = server.baseUrl + "/Buildings";
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) return await response.json();
+    throw new Error();
+}
 
 export async function createBuilding(type: string, building: Building) : Promise<void> {
     const url = server.baseUrl + "/Buildings?type=" + type;
