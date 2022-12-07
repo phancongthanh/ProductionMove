@@ -14,21 +14,20 @@ public class AddDistributionCommandValidator : AbstractValidator<AddDistribution
 
         RuleFor(request => request.DistributorId).NotEmpty().MustAsync(IsExist).WithMessage("Đại lý phân phối không tồn tại!");
 
-        RuleFor(request => GetProducts(request.FromId, request.ToId))
-            .Must(products => products.Select(p => p.ProductLineId).Count() == 1)
-            .WithMessage("Các sản phẩm không cùng thuộc một dòng sản phẩm");
+        RuleFor(request => request.FactoryId).NotEmpty().MustAsync(IsExist).WithMessage("Cơ sở sản xuất không tồn tại!");
 
-        RuleFor(request => GetProducts(request.FromId, request.ToId))
-            .Must(products => products.Select(p => p.FactoryId).Count() == 1)
-            .WithMessage("Các sản phẩm không cùng thuộc một cơ sở sản xuất");
-
-        RuleFor(request => GetProducts(request.FromId, request.ToId))
-            .Must(products => products.All(p => p.Status == Domain.Enums.ProductStatus.JustProduced))
-            .WithMessage("Có sản phẩm không nằm trong kho của cơ sở sản xuất!");
+        RuleFor(request => request).MustAsync(HasProducts).WithMessage("Đơn nhập hàng không có sản phẩm nào thỏa mãn!");
     }
 
-    protected IQueryable<Product> GetProducts(int fromId, int toId) =>  _context.Products.Where(p => p.Id >= fromId && p.Id <= toId);
+    protected async Task<bool> HasProducts(AddDistributionCommand request, CancellationToken cancellationToken = default)
+        => await _context.Products
+        .Where(p => p.ProductLineId == request.ProductLineId)
+        .Where(p => p.FactoryId == request.FactoryId)
+        .Where(p => p.Id >= request.FromId && p.Id <= request.ToId)
+        .Where(p => p.Status == Domain.Enums.ProductStatus.JustProduced && p.DistributorId == null && p.DistributionId == null)
+        .AnyAsync(cancellationToken);
 
     protected async Task<bool> IsExist(string distributorId, CancellationToken cancellationToken = default)
-        => await _context.Distributors.AnyAsync(d => d.Id == distributorId, cancellationToken: cancellationToken);
+        => await _context.Distributors.AnyAsync(d => d.Id == distributorId, cancellationToken: cancellationToken)
+            || await _context.Factories.AnyAsync(f => f.Id == distributorId, cancellationToken: cancellationToken);
 }
