@@ -1,9 +1,11 @@
 import accounts from "./account";
 import server from "./server"
 
-export async function addDistribution(distributorId: string, fromId: number, toId: number) : Promise<void> {
+export async function addDistribution(factoryId: string, distributorId: string, productLineId: string, fromId: number, toId: number) : Promise<void> {
     const url = server.baseUrl + "/Distributions"
-        + "?distributorId=" + distributorId
+        + "?factoryId=" + factoryId
+        + "&distributorId=" + distributorId
+        + "&productLineId=" + productLineId
         + "&fromId=" + fromId
         + "&toId=" + toId;
     
