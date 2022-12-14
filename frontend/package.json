@@ -3,16 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/jest": "^29.2.3",
-    "@types/node": "^18.11.9",
-    "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.9",
-    "jwt-decode": "^3.1.2",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.16",
+    "@mui/material": "^5.10.15",
+    "@mui/x-data-grid": "^5.17.13",
+    "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
+    "react-pro-sidebar": "^1.0.0-alpha.7",
+    "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
-    "typescript": "^4.9.3",
-    "web-vitals": "^2.1.4"
+    "jwt-decode": "^3.1.2",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@vitejs/plugin-react": "^2.2.0",
+    "sass": "^1.56.1",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.3"
   },
   "scripts": {
     "start": "react-scripts start",

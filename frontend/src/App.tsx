@@ -1,25 +1,52 @@
-import logo from './assets/logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import RequiredAuth from './components/RequiredAuth';
+import { AuthProvider } from './context/AuthProvider';
+import { RoleSchema } from './data/enums/RoleSchema';
+import { Admin, Login, Missing, Unauthorized } from './pages';
+import Distributor from './pages/Distributor';
+import Factory from './pages/Factory';
+import ServiceCenter from './pages/ServiceCenter';
+
+// const Dashboard = lazy(() => import ('./pages/Dashboard'))
+// const Login = lazy(() => import ('./pages/Login'))
+// const ProductLine = lazy(() => import ('./pages/ProductLine'))
+// const CreateAccount = lazy(() => import ('./pages/CreateAccount'))
+// const Accounts = lazy(() => import ('./pages/Accounts'))
+
+
+
 
 function App() {
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />}/>
+          <Route element={<RequiredAuth allowedRole={RoleSchema.Administrator}/>}>
+            <Route path="/admin/*" element={<Admin />}/>
+            <Route path="*" element={<Missing />}/>
+           <Route path="/unauthorized" element={<Unauthorized />}/>
+          </Route>
+          <Route element={<RequiredAuth allowedRole={RoleSchema.Factory}/>}>
+            <Route path="/factory/*" element={<Factory />}/>
+            <Route path="*" element={<Missing />}/>
+            <Route path="/unauthorized" element={<Unauthorized />}/>
+          </Route>
+          <Route element={<RequiredAuth allowedRole={RoleSchema.Distributor}/>}>
+            <Route path="/distributor/*" element={<Distributor />}/>
+            <Route path="*" element={<Missing />}/>
+            <Route path="/unauthorized" element={<Unauthorized />}/>
+          </Route>  
+          <Route element={<RequiredAuth allowedRole={RoleSchema.ServiceCenter}/>}>
+            <Route path="/serviceCenter/*" element={<ServiceCenter />}/>
+            <Route path="*" element={<Missing />}/>
+            <Route path="/unauthorized" element={<Unauthorized />}/>
+          </Route>
+        </Routes> 
+      </BrowserRouter>
+      </AuthProvider>
+  )
 }
 
-export default App;
+export default App

@@ -1,0 +1,41 @@
+$breakpoint-md: 768px;
+
+
+
+.navbar {
+  height: 50px;
+  border-bottom: 1px solid;
+  display: flex;
+  align-items: center;
+  background-color: lightgrey;
+
+  .wrapper {
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    justify-content: flex-end;
+
+    .btn-toggle {
+      display: none;
+    }
+
+    .items {
+      
+    }
+
+
+
+    
+  }
+  @media (max-width: $breakpoint-md) {
+    .wrapper {
+    justify-content: space-between;
+      .btn-toggle {
+        cursor: pointer;
+        display: flex;
+      }
+    }
+  }
+}
