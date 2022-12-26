@@ -42,7 +42,7 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    BuildingType = table.Column<string>(type: "longtext", nullable: false)
+                    Role = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BuildingId = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -362,11 +362,14 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Status = table.Column<int>(type: "int", nullable: false),
                     DateOfManufacture = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    SaleDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     ProductLineId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FactoryId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DistributionId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    DistributorId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DistributionId = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -376,6 +379,12 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
                         name: "FK_Product_Distribution_DistributionId",
                         column: x => x.DistributionId,
                         principalTable: "Distribution",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Product_Distributor_DistributorId",
+                        column: x => x.DistributorId,
+                        principalTable: "Distributor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -394,18 +403,41 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.ProductId);
+                    table.ForeignKey(
+                        name: "FK_Customer_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Warranty",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     DistributorId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ServiceCenterId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CompletedTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CompletedTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    IsSuccessed = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -481,13 +513,17 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Distribution_ProductLineId",
                 table: "Distribution",
-                column: "ProductLineId",
-                unique: true);
+                column: "ProductLineId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_DistributionId",
                 table: "Product",
                 column: "DistributionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_DistributorId",
+                table: "Product",
+                column: "DistributorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_FactoryId",
@@ -533,6 +569,9 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Customer");
 
             migrationBuilder.DropTable(
                 name: "ProductLineInfo");

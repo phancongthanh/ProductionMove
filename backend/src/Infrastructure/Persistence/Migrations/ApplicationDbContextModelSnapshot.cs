@@ -180,8 +180,7 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("FactoryId");
 
-                    b.HasIndex("ProductLineId")
-                        .IsUnique();
+                    b.HasIndex("ProductLineId");
 
                     b.ToTable("Distribution", (string)null);
                 });
@@ -507,8 +506,8 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("ProductionMove.Domain.Entities.ProductLine", null)
-                        .WithOne()
-                        .HasForeignKey("ProductionMove.Domain.Entities.Distribution", "ProductLineId")
+                        .WithMany()
+                        .HasForeignKey("ProductLineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

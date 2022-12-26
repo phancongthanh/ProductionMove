@@ -11,8 +11,8 @@ using ProductionMove.Infrastructure.Persistence;
 namespace ProductionMove.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221207050437_AddDistributorIdToProduct")]
-    partial class AddDistributorIdToProduct
+    [Migration("20221225142151_InitDatabase")]
+    partial class InitDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,8 +183,7 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("FactoryId");
 
-                    b.HasIndex("ProductLineId")
-                        .IsUnique();
+                    b.HasIndex("ProductLineId");
 
                     b.ToTable("Distribution", (string)null);
                 });
@@ -510,8 +509,8 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("ProductionMove.Domain.Entities.ProductLine", null)
-                        .WithOne()
-                        .HasForeignKey("ProductionMove.Domain.Entities.Distribution", "ProductLineId")
+                        .WithMany()
+                        .HasForeignKey("ProductLineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

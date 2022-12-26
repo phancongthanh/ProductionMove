@@ -9,7 +9,7 @@ public class DistributionConfiguration : IEntityTypeConfiguration<Distribution>
     {
         builder.ToTable(nameof(Distribution)).HasKey(d => d.Id);
 
-        builder.HasOne<ProductLine>().WithOne().HasForeignKey<Distribution>(d => d.ProductLineId).OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne<ProductLine>().WithMany().HasForeignKey(d => d.ProductLineId).OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(d => d.Factory).WithMany(f => f.Distributions).HasForeignKey(d => d.FactoryId).OnDelete(DeleteBehavior.Cascade);
         builder.HasOne(d => d.Distributor).WithMany(d => d.Distributions).HasForeignKey(d => d.DistributorId).OnDelete(DeleteBehavior.Cascade);
