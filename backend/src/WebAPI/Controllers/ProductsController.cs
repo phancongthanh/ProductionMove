@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductionMove.Application.Common.Interfaces;
+using ProductionMove.Application.Common.Mappings;
+using ProductionMove.Application.Common.Models;
 using ProductionMove.Application.Products.Commands.AddProduct;
 using ProductionMove.Application.Products.Commands.SellProduct;
+using ProductionMove.Application.Products.Queries.GetProducts;
 using ProductionMove.Domain.Entities;
 using ProductionMove.Domain.ValueObjects;
 
@@ -15,6 +19,24 @@ public class ProductsController : ApiControllerBase
     public ProductsController(ICurrentUserService currentUser)
     {
         _currentUser = currentUser;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<PaginatedList<Product>>> Get([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+    {
+        var buildingId = _currentUser.BuildingId;
+        var buildingType = User?.FindFirstValue(Schema.RoleType);
+        buildingType ??= Schema.Role.Administrator;
+        var query = new GetProductsQuery(buildingType, buildingId, pageNumber, pageSize);
+        try
+        {
+            var products = await Mediator.Send(query);
+            return Ok(products);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
@@ -31,7 +53,7 @@ public class ProductsController : ApiControllerBase
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 
-    [HttpPut("[action]")]
+    [HttpPatch("[action]")]
     [Authorize(Policy = Schema.Role.Distributor)]
     public async Task<ActionResult> Sell([FromQuery] int productId, [FromBody] Customer customer)
     {

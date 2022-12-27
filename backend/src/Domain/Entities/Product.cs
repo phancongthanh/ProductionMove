@@ -26,4 +26,6 @@ public class Product : BaseEntity
     public string? DistributionId { get; set; } = null;
 
     public virtual Customer? Customer { get; set; } = null;
+
+    public virtual ICollection<Warranty> Warranties { get; set; } = new List<Warranty>();
 }

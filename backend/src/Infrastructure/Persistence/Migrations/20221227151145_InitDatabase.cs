@@ -543,8 +543,7 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Warranty_ProductId",
                 table: "Warranty",
-                column: "ProductId",
-                unique: true);
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Warranty_ServiceCenterId",

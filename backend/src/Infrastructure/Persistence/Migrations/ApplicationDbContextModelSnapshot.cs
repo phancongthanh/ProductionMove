@@ -328,8 +328,7 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("DistributorId");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("ServiceCenterId");
 
@@ -603,8 +602,8 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("ProductionMove.Domain.Entities.Product", "Product")
-                        .WithOne()
-                        .HasForeignKey("ProductionMove.Domain.Entities.Warranty", "ProductId")
+                        .WithMany("Warranties")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -635,6 +634,11 @@ namespace ProductionMove.Infrastructure.Persistence.Migrations
                     b.Navigation("Distributions");
 
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("ProductionMove.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("Warranties");
                 });
 
             modelBuilder.Entity("ProductionMove.Domain.Entities.ServiceCenter", b =>

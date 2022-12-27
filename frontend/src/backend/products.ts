@@ -1,6 +1,26 @@
-import { Customer } from "../data/entities/Product";
+import Product, { Customer } from "../data/entities/Product";
+import PaginatedList from "../data/models/PaginatedList";
 import accounts from "./account";
 import server from "./server"
+
+export async function getProducts(pageNumber: number, pageSize: number) : Promise<PaginatedList<Product>> {
+    const url = server.baseUrl + "/Products"
+        + "?pageNumber=" + pageNumber
+        + "&pageSize=" + pageSize;
+
+    const accessToken = await accounts.getAccessToken();
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: accessToken ? {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + accessToken
+        } : {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) return await response.json();
+    throw new Error(await response.json())
+}
 
 export async function addProduct(productLineId: string, fromId: number, toId: number) : Promise<void> {
     const url = server.baseUrl + "/Products"
@@ -25,7 +45,7 @@ export async function sellProduct(productId: number, customer: Customer) : Promi
 
     const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + accessToken
@@ -37,6 +57,7 @@ export async function sellProduct(productId: number, customer: Customer) : Promi
 }
 
 const products = {
+    getProducts,
     addProduct,
     sellProduct
 }
