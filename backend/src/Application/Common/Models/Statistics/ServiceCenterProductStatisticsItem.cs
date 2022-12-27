@@ -4,13 +4,13 @@ public class ServiceCenterProductStatisticsItem : ProductStatisticsItem<ServiceC
 {
     public int Start { get; set; }
 
-    public int Completed => Successed + Failded;
+    public int Completed => Successed + Failed;
 
     public int Successed { get; set; }
 
-    public int Failded { get; set; }
+    public int Failed { get; set; }
 
 
     public ServiceCenterProductStatisticsItem Add(ServiceCenterProductStatisticsItem value)
-        => new() { Start = Start + value.Start, Successed = Successed + value.Successed, Failded = Failded + value.Failded };
+        => new() { Start = Start + value.Start, Successed = Successed + value.Successed, Failed = Failed + value.Failed };
 }

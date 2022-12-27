@@ -56,7 +56,7 @@ public class ServiceCenterProductStatisticsQueryHandler : IRequestHandler<Servic
                         .Where(w => w.CompletedTime?.Year == year)
                         .Where(w => w.CompletedTime?.Month == i)
                         .Count(),
-                    Failded = warranties
+                    Failed = warranties
                         .Where(w => w.IsSuccessed == false)
                         .Where(w => w.CompletedTime?.Year == year)
                         .Where(w => w.CompletedTime?.Month == i)

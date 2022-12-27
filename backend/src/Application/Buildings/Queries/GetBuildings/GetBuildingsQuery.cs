@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProductionMove.Application.Common.Interfaces;
-using ProductionMove.Application.Common.Mappings;
 using ProductionMove.Application.Common.Models;
 
 namespace ProductionMove.Application.Buildings.Queries.GetBuildings;

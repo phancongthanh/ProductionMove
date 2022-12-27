@@ -9,11 +9,11 @@ using ProductionMove.Domain.ValueObjects;
 namespace ProductionMove.WebAPI.Controllers;
 
 [Authorize(Policy = Schema.Role.ServiceCenter)]
-public class ServiceCentersController : ApiControllerBase
+public class ServiceCenterController : ApiControllerBase
 {
     private readonly ICurrentUserService _currentUser;
 
-    public ServiceCentersController(ICurrentUserService currentUser)
+    public ServiceCenterController(ICurrentUserService currentUser)
     {
         _currentUser = currentUser;
     }
