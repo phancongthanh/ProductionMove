@@ -93,7 +93,6 @@ const CTable = () => {
               <StyledTableCell>Id</StyledTableCell>
               <StyledTableCell align="right">Tên</StyledTableCell>
               <StyledTableCell align="right">Thời hạn bảo hành (ngày)</StyledTableCell>
-              <StyledTableCell align="right">Delete</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

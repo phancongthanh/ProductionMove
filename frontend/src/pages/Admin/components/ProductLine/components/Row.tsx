@@ -63,11 +63,6 @@ const Row: FC<propTypes> = (props) => {
           </TableCell>
           <TableCell align="right">{row.name}</TableCell>
           <TableCell align="right">{row.warrantyPeriod}</TableCell>
-          <TableCell align="right">
-            <IconButton  onClick={handleDelete}>
-              <DeleteIcon color='error' />
-            </IconButton>
-          </TableCell>
         </StyledTableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
