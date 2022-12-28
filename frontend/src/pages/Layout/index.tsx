@@ -16,7 +16,7 @@ type propTypes = {
 
 const Layout : FC<propTypes> = (props) => {
   const {Sidebar, children} = props;
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
     
   return (
     <div className="container">
