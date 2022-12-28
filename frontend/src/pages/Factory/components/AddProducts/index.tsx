@@ -7,23 +7,18 @@ import DefTextField from "../../../../components/DefTextField";
 import DefNumTextField from '../../../../components/DefNumTextField';
 import {useState, useEffect} from 'react';
 
-const Distribution = () => {
+const AddProducts = () => {
 
     const [quantity, setQuantity] = useState(0)
 
   
     const formik = useFormik({
       initialValues: {
-        distributorId: '',
         productLineId: '',
         fromId: NaN,
         toId: NaN,
       },
       validationSchema: Yup.object({
-      distributorId: Yup
-        .string()
-        .max(255)
-        .required('Cần điền id nơi phân phối'),
       productLineId: Yup
           .string()
           .max(255)
@@ -62,7 +57,7 @@ const Distribution = () => {
   return (
     <div className="mainContent">
       <div className="header">
-        <div className="title">Xuất sản phẩm</div>
+        <div className="title">Thêm sản phẩm</div>
       </div>
       <Container sx={{minWidth: '70%'}}>
       <form onSubmit={formik.handleSubmit}>
@@ -70,7 +65,6 @@ const Distribution = () => {
         <Typography variant="h4" sx={{flex: 1, margin: '20px'}}>Thông tin</Typography>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Stack sx={{flex: 2, padding: '20px'}} spacing={2} >
-         <DefTextField formik={formik} label={'Id nơi phân phối'} name={'distributorId'} required />
           <DefTextField formik={formik} label={'Id dòng sản phẩm'} name={'productLineId'} required />
           <Divider variant="middle" flexItem />
             <TextField
@@ -91,7 +85,7 @@ const Distribution = () => {
         </Stack>
       </Box>
       <Stack direction='row' spacing="20px" sx={{justifyContent: 'space-between', marginTop: '40px', }}>
-        <Button variant="outlined" onClick={(e) => {formik.handleReset(e); setQuantity(0)}}>Làm mới</Button>
+        <Button variant="outlined" onClick={(e) => formik.handleReset(e)}>Làm mới</Button>
         <Button variant="contained" type="submit">Tạo</Button>
       </Stack>
       </form>
@@ -100,6 +94,6 @@ const Distribution = () => {
   );
 };
 
-Distribution.propTypes = {};
+AddProducts.propTypes = {};
 
-export default Distribution;
+export default AddProducts;

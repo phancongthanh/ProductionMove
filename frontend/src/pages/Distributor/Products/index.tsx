@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
-import CTable from "./components/CTable";
+//import CTable from "./components/CTable";
 
 const Products = () => {
   return (
@@ -13,7 +13,9 @@ const Products = () => {
         <div className='search'>Search</div>
         <div className='filter'>Filter</div>
         <div className='table'>
-          <CTable />
+          {
+            //<CTable />
+          }
         </div>
       </Box>
     </div>

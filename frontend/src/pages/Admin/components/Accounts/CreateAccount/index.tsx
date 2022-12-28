@@ -67,9 +67,9 @@ const CreateAccount = () => {
       <div className='title'>Cấp tài khoản</div>
       </div>
       <form onSubmit={formik.handleSubmit}>
-        <Container sx={{width: '70%'}}>
+        <Container sx={{minWidth: '70%'}}>
       <Box sx={{ display: {md: 'flex', sm: 'block'}, border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px', alignSelf: 'center'}}>
-        <Typography variant="h5" sx={{flex: 1, margin: '20px'}}>Thông tin cơ bản</Typography>
+        <Typography variant="h4" sx={{flex: 1, margin: '20px'}}>Thông tin cơ bản</Typography>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Stack sx={{flex: 2, padding: '20px'}} spacing={2} >
           <DefTextField formik={formik} label={'UserId'} name={'userId'} required />
@@ -81,7 +81,7 @@ const CreateAccount = () => {
         </Stack>
       </Box>
       <Box sx={{ display: {md: 'flex', sm: 'block'}, border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px', alignSelf: 'center', marginTop: '40px'}}>
-        <Typography variant="h5" sx={{flex: 1, margin: '20px'}}>Thông tin công việc</Typography>
+        <Typography variant="h4" sx={{flex: 1, margin: '20px'}}>Thông tin công việc</Typography>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Stack sx={{flex: 2, padding: '20px'}} spacing="20px">
         <FormControl>

@@ -14,6 +14,9 @@ import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import BusinessIcon from '@mui/icons-material/Business';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import useAuth from "../hooks/useAuth";
+import { Box } from "@mui/material";
+import Typography from '@mui/material/Typography';
 
 
 
@@ -23,7 +26,8 @@ const NavSidebar = ({children} : {children:ReactNode}) => {
   const { collapseSidebar, toggleSidebar, collapsed, toggled, broken, rtl } =
     useProSidebar();
 
-    let pathname = useLocation().pathname;
+    const auth = useAuth();
+
 
   return (
     <Sidebar breakPoint="md">
@@ -52,6 +56,19 @@ const NavSidebar = ({children} : {children:ReactNode}) => {
           </MenuItem>
         )}
       </Menu>
+      <Box sx={{display: 'flex', flexDirection: 'column', margin: 1, padding: 2, backgroundColor:'blueviolet', color:'lightgrey', borderRadius: 5}}>
+        {!collapsed ? <>
+          <Typography fontSize="small">Xin chào,</Typography>
+          <Typography fontSize={30} sx={{alignSelf: 'center'}}>Thắng</Typography>
+          <Typography>Vai Trò: {auth.auth?.user.role}</Typography>
+          </>
+        : <>
+          <Typography fontSize={20} sx={{alignSelf: 'center'}}>Thắng</Typography>
+          <Typography fontSize={10} sx={{alignSelf: 'center'}}>{auth.auth?.user.role}</Typography>
+        </>
+        }
+
+      </Box>
       <Menu>
           {children}
       </Menu>

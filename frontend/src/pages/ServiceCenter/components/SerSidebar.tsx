@@ -25,12 +25,10 @@ const SerSidebar = () => {
           {" "}
           Thống kê
         </MenuItem>
-        <SubMenu label="Sản phẩm">
           <MenuItem active={pathname === "/factory/products"} routerLink={<Link to="products" />}>
             {" "}
             Danh sách sản phẩm
           </MenuItem>
-        </SubMenu>
       </NavSidebar>
   );
 };

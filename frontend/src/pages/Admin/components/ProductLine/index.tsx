@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './styles.scss';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import CTable from './components/CTable';
 
 
@@ -16,7 +16,7 @@ const ProductLine = () => {
         <div className='filter'>Filter</div>
         <div className='table'>
           <CTable />
-        </div>      
+        </div>
       </Box>
     </div>
   )

@@ -15,6 +15,8 @@ import BusinessIcon from '@mui/icons-material/Business';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import NavSidebar from "../../../components/NavSidebar";
+import { Box, Typography } from "@mui/material";
+import useAuth from "../../../hooks/useAuth";
 
 const FacSidebar = () => {
     let pathname = useLocation().pathname;
@@ -25,12 +27,19 @@ const FacSidebar = () => {
           {" "}
           Thống kê
         </MenuItem>
-        <SubMenu label="Sản phẩm">
+        <MenuItem active={pathname === "/factory/products"} routerLink={<Link to="products" />}>
+            {" "}
+            Xem sản phẩm
+          </MenuItem>
+          <MenuItem active={pathname === "/factory/add-product"} routerLink={<Link to="add-products" />}>
+            {" "}
+            Thêm sản phẩm
+          </MenuItem>
           <MenuItem active={pathname === "/factory/distribution"} routerLink={<Link to="distribution" />}>
             {" "}
             Xuất sản phẩm
           </MenuItem>
-        </SubMenu>
+
       </NavSidebar>
   );
 };

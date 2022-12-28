@@ -18,7 +18,6 @@ const DisSidebar = () => {
           {" "}
           Thống kê
         </MenuItem>
-        <SubMenu label="Sản phẩm">
           <MenuItem active={pathname === "/distributor/distribution"} routerLink={<Link to="distribution" />}>
             {" "}
             Nhập sản phẩm
@@ -27,7 +26,10 @@ const DisSidebar = () => {
             {" "}
             Danh sách sản phẩm
           </MenuItem>
-        </SubMenu>
+          <MenuItem active={pathname === "/distributor/warranty"} routerLink={<Link to="warranty" />}>
+            {" "}
+            Gửi bảo trì
+          </MenuItem>
       </NavSidebar>
   );
 };

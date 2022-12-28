@@ -3,7 +3,8 @@ import { Route, Routes } from "react-router-dom";
 // import { Accounts, ProductLine, CreateAccount, Analytic, Building } from "./components";
 
 import FacSidebar from "./components/FacSidebar";
-import { Distribution, Statistics } from "./components";
+import { AddProducts, Distribution, Products, Statistics } from "./components";
+import Product from '../../data/entities/Product';
 
 const Factory = () => {
   return (
@@ -11,6 +12,8 @@ const Factory = () => {
       <Routes>
         <Route path="/*" element={<Statistics />} />
         <Route path="/distribution" element={<Distribution />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/add-products" element={<AddProducts />} />
       </Routes>
     </Layout>
   );

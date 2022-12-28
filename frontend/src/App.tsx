@@ -7,12 +7,6 @@ import Distributor from './pages/Distributor';
 import Factory from './pages/Factory';
 import ServiceCenter from './pages/ServiceCenter';
 
-// const Dashboard = lazy(() => import ('./pages/Dashboard'))
-// const Login = lazy(() => import ('./pages/Login'))
-// const ProductLine = lazy(() => import ('./pages/ProductLine'))
-// const CreateAccount = lazy(() => import ('./pages/CreateAccount'))
-// const Accounts = lazy(() => import ('./pages/Accounts'))
-
 
 
 
@@ -23,26 +17,26 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />}/>
-          <Route element={<RequiredAuth allowedRole={RoleSchema.Administrator}/>}>
+          {/* <Route element={<RequiredAuth allowedRole={RoleSchema.Administrator}/>}> */}
             <Route path="/admin/*" element={<Admin />}/>
             <Route path="*" element={<Missing />}/>
            <Route path="/unauthorized" element={<Unauthorized />}/>
-          </Route>
-          <Route element={<RequiredAuth allowedRole={RoleSchema.Factory}/>}>
+          {/* </Route> */}
+          {/* <Route element={<RequiredAuth allowedRole={RoleSchema.Factory}/>}> */}
             <Route path="/factory/*" element={<Factory />}/>
             <Route path="*" element={<Missing />}/>
             <Route path="/unauthorized" element={<Unauthorized />}/>
-          </Route>
-          <Route element={<RequiredAuth allowedRole={RoleSchema.Distributor}/>}>
+          {/* </Route>
+          <Route element={<RequiredAuth allowedRole={RoleSchema.Distributor}/>}> */}
             <Route path="/distributor/*" element={<Distributor />}/>
             <Route path="*" element={<Missing />}/>
             <Route path="/unauthorized" element={<Unauthorized />}/>
-          </Route>  
-          <Route element={<RequiredAuth allowedRole={RoleSchema.ServiceCenter}/>}>
+          {/* </Route>  
+          <Route element={<RequiredAuth allowedRole={RoleSchema.ServiceCenter}/>}> */}
             <Route path="/serviceCenter/*" element={<ServiceCenter />}/>
             <Route path="*" element={<Missing />}/>
             <Route path="/unauthorized" element={<Unauthorized />}/>
-          </Route>
+          {/* </Route> */}
         </Routes> 
       </BrowserRouter>
       </AuthProvider>

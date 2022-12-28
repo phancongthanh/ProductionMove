@@ -14,7 +14,7 @@ type propTypes = {
 export const AuthProvider: FC<propTypes> = (props) => {
   const { children } = props;
   const [auth, setAuth] = useState<LoginResponse | null>(null);
-
+  
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
       {children}

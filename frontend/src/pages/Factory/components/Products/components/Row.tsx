@@ -15,13 +15,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Edit from './Edit';
 import { styled, TableFooter, TablePagination } from '@mui/material';
-import ProductLine from '../../../../../data/entities/ProductLine';
 import { FC } from 'react';
-import { User } from './types';
+import Product1 from '../../../../../types/Product1';
 
 type propTypes = {
-  row: User,
-  rows: User[],
+  row: Product1,
+  rows: Product1[],
   setRows: Function,
 }
 
@@ -60,13 +59,11 @@ const Row: FC<propTypes> = (props) => {
             </IconButton>
           </TableCell>
           <TableCell component="th" scope="row">
-            {row.userId}
+            {row.id}
           </TableCell>
-          <TableCell align="right">{row.name}</TableCell>
-          <TableCell align="right">{row.email}</TableCell>
-          <TableCell align="right">{row.phone}</TableCell>
-          <TableCell align="right">{row.role}</TableCell>
-          <TableCell align="right">{row.building}</TableCell>
+          <TableCell align="right">{row.productLineId}</TableCell>
+          <TableCell align="right">{row.status}</TableCell>
+          <TableCell align="right">{row.dateOfManufacture.toLocaleString()}</TableCell>
           <TableCell align="right">
             <IconButton  onClick={handleDelete}>
               <DeleteIcon color='error' />
@@ -74,9 +71,9 @@ const Row: FC<propTypes> = (props) => {
           </TableCell>
         </StyledTableRow>
         <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
-              <Edit row={row} rows={rows} setRows={setRows} setOpen={setOpen}/>
+              {/* <Edit row={row} rows={rows} setRows={setRows} setOpen={setOpen}/> */}
             </Collapse>
           </TableCell>
         </TableRow>
