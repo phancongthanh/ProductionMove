@@ -58,23 +58,18 @@ public class UsersController : ApiControllerBase
     }
 
     [HttpPatch]
-    [Authorize(Policy = Schema.Role.AuthenticatedUser)]
-    public async Task<ActionResult> Patch([FromBody] string password)
+    [Authorize(Policy = Schema.Role.Administrator)]
+    public async Task<ActionResult> Patch([FromQuery] string userId, [FromBody] string password)
     {
-        var userId = _currentUser.UserId;
-        if (userId == null) return Unauthorized();
+        if (userId == null) return BadRequest();
         var result = await _identityService.UpdateUserAsync(userId, password);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 
     [HttpPut]
-    [Authorize(Policy = Schema.Role.AuthenticatedUser)]
+    [Authorize(Policy = Schema.Role.Administrator)]
     public async Task<ActionResult> Put([FromBody] User user)
     {
-        var userId = _currentUser.UserId;
-        if (userId == null) return Unauthorized();
-        user.UserId = userId;
-
         var result = await _identityService.UpdateUserAsync(user);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }

@@ -9,7 +9,7 @@ public class MonthProductStatistics<T> where T : ProductStatisticsItem<T>
 {
     public int Year { get; }
 
-    public int Quarter => Month / 4;
+    public int Quarter => Month / 3;
 
     public int Month { get; }
 

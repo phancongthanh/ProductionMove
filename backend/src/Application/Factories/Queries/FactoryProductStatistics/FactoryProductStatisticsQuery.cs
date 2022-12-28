@@ -27,16 +27,15 @@ public class FactoryProductStatisticsQueryHandler : IRequestHandler<FactoryProdu
 
     public async Task<ProductStatistics<FactoryProductStatisticsItem>> Handle(FactoryProductStatisticsQuery request, CancellationToken cancellationToken)
     {
-        var distributions = await _context.Distributions.AsNoTracking()
-            .Where(d => d.FactoryId == request.BuildingId)
-            .ToListAsync(cancellationToken);
-        var products = await _context.Products.AsNoTracking()
-            .Where(p => p.FactoryId == request.BuildingId)
-            .ToListAsync(cancellationToken);
+        var distributions = _context.Distributions.AsNoTracking()
+            .Where(d => d.FactoryId == request.BuildingId);
+        var products = _context.Products.AsNoTracking()
+            .Where(p => p.FactoryId == request.BuildingId);
 
-        var years = distributions.Select(d => d.Time.Year)
+        var years = await distributions.Select(d => d.Time.Year)
             .Union(products.Select(p => p.DateOfManufacture.Year))
-            .Distinct();
+            .Distinct()
+            .ToListAsync(cancellationToken);
 
         var monthStatistics = new List<MonthProductStatistics<FactoryProductStatisticsItem>>();
 
@@ -46,15 +45,15 @@ public class FactoryProductStatisticsQueryHandler : IRequestHandler<FactoryProdu
             {
                 var factoryStatistics = new FactoryProductStatisticsItem()
                 {
-                    Produced = products
+                    Produced = await products
                         .Where(p => p.DateOfManufacture.Year == year)
                         .Where(p => p.DateOfManufacture.Month == i)
-                        .Count(),
-                    Export = distributions
+                        .CountAsync(cancellationToken),
+                    Export = await distributions
                         .Where(d => d.Time.Year == year)
                         .Where(d => d.Time.Month == i)
                         .Select(d => d.Amount)
-                        .Sum()
+                        .SumAsync(cancellationToken)
                 };
                 monthStatistics.Add(new MonthProductStatistics<FactoryProductStatisticsItem>(year, i, factoryStatistics));
             }

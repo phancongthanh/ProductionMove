@@ -4,6 +4,7 @@ import CTable from './components/CTable';
 import backend from '../../../../backend';
 import { Building } from './components/types';
 import { RoleSchema } from '../../../../data/enums/RoleSchema';
+import useLoading from '../../../../hooks/useLoading';
 
 /*
 let rows1 : Building[] = [
@@ -20,16 +21,19 @@ let rows1 : Building[] = [
 
 const BuildingView = () => {
   const [buildings, setBuildings] = useState<Building[]>([]);
+  const { loading, setLoading } = useLoading();
 
   useEffect(() => {
     var bs: Building[] = [];
+    setLoading(true);
     backend.buildings.getBuildings()
     .then(result => {
       result.factories.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
       result.distributors.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
       result.serviceCenters.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
       setBuildings(bs);
-    }).catch()
+      setLoading(false);
+    }).catch(() => setLoading(false))
   }, [])
 
   return (

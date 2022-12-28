@@ -15,7 +15,7 @@ export async function getProductLines() : Promise<Array<ProductLine>> {
     });
 
     if (response.ok) return response.json();
-    throw new Error();
+    throw response.status;
 }
 
 export async function createProductLine(productLine: ProductLine) : Promise<void> {
@@ -32,7 +32,7 @@ export async function createProductLine(productLine: ProductLine) : Promise<void
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 export async function updateProductLine(productLineId: string, describes: Array<ProductLineInfo>) : Promise<void> {
@@ -49,7 +49,7 @@ export async function updateProductLine(productLineId: string, describes: Array<
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 const productLines = {

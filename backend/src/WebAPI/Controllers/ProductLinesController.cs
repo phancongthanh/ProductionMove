@@ -30,16 +30,30 @@ public class ProductLinesController : ApiControllerBase
     public async Task<ActionResult> Post([FromBody] ProductLine productLine)
     {
         var command = new CreateProductLineCommand(productLine);
-        var result = await Mediator.Send(command);
-        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        try
+        {
+            var result = await Mediator.Send(command);
+            return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPatch]
     [Authorize(Policy = Schema.Role.Administrator)]
-    public async Task<ActionResult> Patch([FromQuery]string productLineId, [FromForm] IEnumerable<ProductLineInfo> describes)
+    public async Task<ActionResult> Patch([FromQuery] string productLineId, [FromBody] IEnumerable<ProductLineInfo> describes)
     {
         var command = new UpdateProductLineCommand(productLineId, describes);
-        var result = await Mediator.Send(command);
-        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        try
+        {
+            var result = await Mediator.Send(command);
+            return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 }

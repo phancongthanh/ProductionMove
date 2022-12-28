@@ -113,7 +113,7 @@ public class ApplicationDbContextInitialiser
                 {
                     Id = "iPhone-11-64GB",
                     Name = "iPhone 11 64GB",
-                    WarrantyPeriod = 6*30,
+                    WarrantyPeriod = 365,
                     Describes = new []
                     {
                         new ProductLineInfo() { Property = "Màu", Value = "Trắng"},
@@ -127,7 +127,7 @@ public class ApplicationDbContextInitialiser
                 {
                     Id = "iPhone-13-mini-512GB",
                     Name = "iPhone 13 mini 512GB",
-                    WarrantyPeriod = 6*30,
+                    WarrantyPeriod = 365,
                     Describes = new []
                     {
                         new ProductLineInfo() { Property = "Màu", Value = "Đỏ"},
@@ -141,7 +141,7 @@ public class ApplicationDbContextInitialiser
                 {
                     Id = "iPhone-14-Pro Max-128GB",
                     Name = "iPhone 14 Pro Max 128GB",
-                    WarrantyPeriod = 6*30,
+                    WarrantyPeriod = 365,
                     Describes = new []
                     {
                         new ProductLineInfo() { Property = "CPU", Value = "Apple A16 Bionic 6 nhân"},
@@ -275,7 +275,7 @@ public class ApplicationDbContextInitialiser
                     UserName = "Factory" + i,
                     Role = RoleSchema.Factory,
                     BuildingId = factories[i].Id,
-                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e7),
                     Email = "FactoryUser" + i + "@BigCorp.com"
                 };
                 await _userManager.CreateAsync(user, "FactoryUser" + i + "@BigCorp.com");
@@ -291,7 +291,7 @@ public class ApplicationDbContextInitialiser
                     UserName = "Distributor" + i,
                     Role = RoleSchema.Distributor,
                     BuildingId = distributers[i].Id,
-                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e7),
                     Email = "DistributorUser" + i + "@BigCorp.com"
                 };
                 await _userManager.CreateAsync(user, "DistributorUser" + i + "@BigCorp.com");
@@ -307,7 +307,7 @@ public class ApplicationDbContextInitialiser
                     UserName = "ServiceCenter" + i,
                     Role = RoleSchema.ServiceCenter,
                     BuildingId = serviceCenters[i].Id,
-                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e7),
                     Email = "ServiceCenterUser" + i + "@BigCorp.com"
                 }; 
                 await _userManager.CreateAsync(user ,"ServiceCenterUser" + i + "@BigCorp.com");
@@ -319,7 +319,7 @@ public class ApplicationDbContextInitialiser
     protected async Task TrySeedProductAsync()
     {
         const int PD = 20; // Trung bình số sản phẩm sản xuất trên một ngày của một cơ sở sản xuất
-        const int startTime = 365; // Thời gian bắt đầu sản xuất sản phẩm
+        const int startTime = 365 * 3 / 2; // Thời gian bắt đầu sản xuất sản phẩm
 
         if (!_context.Products.Any() && _context.ProductLines.Any() && _context.Factories.Any())
         {

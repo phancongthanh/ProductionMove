@@ -16,7 +16,7 @@ export async function statusProductStatistics() : Promise<ProductStatistics<Dist
     });
 
     if (response.ok) return await response.json();
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 export async function productSoldAnalysis() : Promise<ProductAnalysis> {
@@ -32,7 +32,7 @@ export async function productSoldAnalysis() : Promise<ProductAnalysis> {
     });
 
     if (response.ok) return await response.json();
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 export async function returnToCustomer(productId: number) : Promise<void> {
@@ -48,7 +48,7 @@ export async function returnToCustomer(productId: number) : Promise<void> {
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 export async function returnToFactory(productId: number) : Promise<void> {
@@ -64,7 +64,7 @@ export async function returnToFactory(productId: number) : Promise<void> {
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 const distributor = {
