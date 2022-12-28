@@ -38,7 +38,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
             }
 
             // Be require BuildingId
-            if (request is ICurrentUser)
+            if (request is ICurrentBuilding)
             {
                 var currentBuilding = (ICurrentBuilding)request;
                 if (currentBuilding.BuildingId != _currentUserService.BuildingId) throw new ForbiddenAccessException();

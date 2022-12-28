@@ -14,7 +14,7 @@ export async function getBuildings() : Promise<BuildingsModel> {
     });
 
     if (response.ok) return await response.json();
-    throw new Error();
+    throw response.status;
 }
 
 export async function createBuilding(type: string, building: Building) : Promise<void> {
@@ -31,7 +31,7 @@ export async function createBuilding(type: string, building: Building) : Promise
     });
 
     if (response.ok) return;
-    throw await response.json();
+    throw response.status;
 }
 
 export async function updateBuilding(type: string, building: Building) : Promise<void> {
@@ -48,7 +48,7 @@ export async function updateBuilding(type: string, building: Building) : Promise
     });
 
     if (response.ok) return;
-    throw await response.json();
+    throw response.status;
 }
 
 const buildings = {

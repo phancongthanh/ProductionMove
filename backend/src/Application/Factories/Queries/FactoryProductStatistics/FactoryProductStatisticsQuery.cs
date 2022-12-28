@@ -27,15 +27,15 @@ public class FactoryProductStatisticsQueryHandler : IRequestHandler<FactoryProdu
 
     public async Task<ProductStatistics<FactoryProductStatisticsItem>> Handle(FactoryProductStatisticsQuery request, CancellationToken cancellationToken)
     {
-        var factory = await _context.Factories.AsNoTracking()
-            .Include(f => f.Distributions)
-            .Include(f => f.Products)
-            .Where(f => f.Id == request.BuildingId)
-            .FirstAsync(cancellationToken: cancellationToken);
+        var distributions = await _context.Distributions.AsNoTracking()
+            .Where(d => d.FactoryId == request.BuildingId)
+            .ToListAsync(cancellationToken);
+        var products = await _context.Products.AsNoTracking()
+            .Where(p => p.FactoryId == request.BuildingId)
+            .ToListAsync(cancellationToken);
 
-        var years = factory.Distributions
-            .Select(d => d.Time.Year)
-            .Union(factory.Products.Select(p => p.DateOfManufacture.Year))
+        var years = distributions.Select(d => d.Time.Year)
+            .Union(products.Select(p => p.DateOfManufacture.Year))
             .Distinct();
 
         var monthStatistics = new List<MonthProductStatistics<FactoryProductStatisticsItem>>();
@@ -46,11 +46,11 @@ public class FactoryProductStatisticsQueryHandler : IRequestHandler<FactoryProdu
             {
                 var factoryStatistics = new FactoryProductStatisticsItem()
                 {
-                    Produced = factory.Products
+                    Produced = products
                         .Where(p => p.DateOfManufacture.Year == year)
                         .Where(p => p.DateOfManufacture.Month == i)
                         .Count(),
-                    Export = factory.Distributions
+                    Export = distributions
                         .Where(d => d.Time.Year == year)
                         .Where(d => d.Time.Month == i)
                         .Select(d => d.Amount)

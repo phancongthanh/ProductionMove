@@ -55,13 +55,15 @@ const Create: FC<propTypes> = (props) => {
             .string()
         }),
         onSubmit: (values, { resetForm }) => {
-            console.log(values);
             backend.buildings.createBuilding(values.type, values)
             .then(() => {
                 setRows([values, ...rows]);
                 handleClose();
                 resetForm();
-            }).catch(e => console.log(e))
+            }).catch(e => {
+                if (e == 400)
+                alert("Id hoặc tên cơ sở bị trùng!")
+            })
         }
     })
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductionMove.Application.Buildings.Commands.CreateBuiding;
+using ProductionMove.Application.Buildings.Commands.UpdateBuiding;
 using ProductionMove.Application.Buildings.Queries.GetBuildings;
 using ProductionMove.Application.Common.Models;
 using ProductionMove.Domain.Common;
@@ -37,7 +38,7 @@ public class BuildingsController : ApiControllerBase
             var result = await Mediator.Send(command);
             return result.Succeeded ? Ok() : BadRequest(result.Errors);
         }
-        catch (UnsupportedRoleSchemaException)
+        catch (Exception)
         {
             return BadRequest();
         }
@@ -49,11 +50,11 @@ public class BuildingsController : ApiControllerBase
     {
         try
         {
-            var command = new CreateBuildingCommand((RoleSchema)type, building);
+            var command = new UpdateBuildingCommand((RoleSchema)type, building);
             var result = await Mediator.Send(command);
             return result.Succeeded ? Ok() : BadRequest(result.Errors);
         }
-        catch (UnsupportedRoleSchemaException)
+        catch (Exception)
         {
             return BadRequest();
         }
