@@ -59,13 +59,10 @@ const NavSidebar = ({children} : {children:ReactNode}) => {
       <Box sx={{display: 'flex', flexDirection: 'column', margin: 1, padding: 2, backgroundColor:'blueviolet', color:'lightgrey', borderRadius: 5}}>
         {!collapsed ? <>
           <Typography fontSize="small">Xin chào,</Typography>
-          <Typography fontSize={30} sx={{alignSelf: 'center'}}>Thắng</Typography>
+          <Typography fontSize={30} sx={{alignSelf: 'center'}}>{auth.auth?.user.name}</Typography>
           <Typography>Vai Trò: {auth.auth?.user.role}</Typography>
           </>
-        : <>
-          <Typography fontSize={20} sx={{alignSelf: 'center'}}>Thắng</Typography>
-          <Typography fontSize={10} sx={{alignSelf: 'center'}}>{auth.auth?.user.role}</Typography>
-        </>
+        : null
         }
 
       </Box>

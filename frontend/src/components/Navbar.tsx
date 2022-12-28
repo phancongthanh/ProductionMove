@@ -9,6 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import useAuth from '../hooks/useAuth';
+import logOut from "../actions/user/logOut";
 
 
 
@@ -30,6 +31,7 @@ const Navbar = () => {
   const logout = () => {
     setAuth(null)
     navigate('/login', {replace : true})
+    logOut()
   }
 
   return (

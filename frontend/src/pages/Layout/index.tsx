@@ -1,9 +1,13 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import Navbar from '../../components/Navbar';
 import { SnackbarProvider } from 'notistack';
 
 import "./styles.scss";
+import LoadingContext from '../../context/LoadingContext';
+import useLoading from '../../hooks/useLoading';
+import { LinearProgress } from '@mui/material';
+import {useEffect} from 'react';
 
 type propTypes = {
   Sidebar: ReactNode
@@ -12,19 +16,23 @@ type propTypes = {
 
 const Layout : FC<propTypes> = (props) => {
   const {Sidebar, children} = props;
+  const [loading, setLoading] = useState<boolean>(true);
     
   return (
     <div className="container">
       <ProSidebarProvider>
         <SnackbarProvider maxSnack={3}>
+        <LoadingContext.Provider value={{ loading, setLoading }}>
         {Sidebar}
         <main>
           <Navbar />
-          {/* <LinearProgress /> */}
+          {loading && <LinearProgress />}
           <div className="homeContainer">
+            
             {children}
           </div>
         </main>
+        </LoadingContext.Provider>
         </SnackbarProvider>
       </ProSidebarProvider>
     </div>
