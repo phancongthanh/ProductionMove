@@ -15,6 +15,7 @@ import DefTextField from '../../../../../components/DefTextField';
 import DefNumTextField from '../../../../../components/DefNumTextField';
 import { Building } from './types';
 import backend from '../../../../../backend';
+import useLoading from '../../../../../hooks/useLoading';
 
 
 type propTypes = {
@@ -27,7 +28,8 @@ type propTypes = {
 
 
 const Create: FC<propTypes> = (props) => {
-    const {open, handleClose, rows, setRows} = props
+    const {open, handleClose, rows, setRows} = props;
+    const { loading, setLoading } = useLoading();
 
     // const onClose = ({ resetForm }) => {
     //   handleClose()
@@ -55,14 +57,17 @@ const Create: FC<propTypes> = (props) => {
             .string()
         }),
         onSubmit: (values, { resetForm }) => {
+            setLoading(true);
             backend.buildings.createBuilding(values.type, values)
             .then(() => {
+                setLoading(false);
                 setRows([values, ...rows]);
                 handleClose();
                 resetForm();
             }).catch(e => {
+                setLoading(false);
                 if (e == 400)
-                alert("Id hoặc tên cơ sở bị trùng!")
+                    alert("Id hoặc tên cơ sở bị trùng!")
             })
         }
     })

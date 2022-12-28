@@ -13,6 +13,8 @@ import * as Yup from 'yup';
 import ProductLine from '../../../../../data/entities/ProductLine';
 import DefTextField from '../../../../../components/DefTextField';
 import DefNumTextField from '../../../../../components/DefNumTextField';
+import useLoading from '../../../../../hooks/useLoading';
+import backend from '../../../../../backend';
 
 type propTypes = {
     open: boolean,
@@ -25,6 +27,8 @@ type propTypes = {
 
 const Create: FC<propTypes> = (props) => {
     const {open, handleClose, rows, setRows} = props
+
+    const { loading, setLoading } = useLoading();
 
     // const onClose = ({ resetForm }) => {
     //   handleClose()
@@ -53,13 +57,19 @@ const Create: FC<propTypes> = (props) => {
             .typeError('Thời hạn bảo hành phải là số')
         }),
         onSubmit: (values, { resetForm }) => {
-            alert(JSON.stringify(values))
-            handleClose()
-            const newProductLine: ProductLine = {...values, describes:[]}
-            const newRows = [...rows]
-            newRows.push(newProductLine)
-            setRows(newRows)
-            resetForm();
+            const productLine: ProductLine = {...values, describes:[]}
+            setLoading(true);
+            backend.productLines.createProductLine(productLine)
+            .then(() => {
+              setLoading(false);
+              handleClose();
+              setRows([...rows, productLine]);
+              resetForm();
+            })
+            .catch(() => {
+              setLoading(false)
+              alert("Id hoặc tên dòng sản phẩm đã tồn tại!");
+            });
         }
     })
 

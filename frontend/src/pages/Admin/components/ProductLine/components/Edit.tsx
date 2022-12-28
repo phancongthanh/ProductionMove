@@ -8,6 +8,8 @@ import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/mate
 import AddIcon from '@mui/icons-material/Add';
 import { Container } from '@mui/system';
 import ProductLine, { ProductLineInfo } from '../../../../../data/entities/ProductLine';
+import useLoading from '../../../../../hooks/useLoading';
+import backend from '../../../../../backend';
 
 type propTypes = {
     row: ProductLine,
@@ -19,6 +21,7 @@ type propTypes = {
 const Edit: FC<propTypes> = (props) => {
 
     const {row, rows, setRows , setOpen} = props;
+    const { loading, setLoading } = useLoading();
 
     const [newDescribes, setNewDescribes] = useState(row.describes)
 
@@ -40,10 +43,16 @@ const Edit: FC<propTypes> = (props) => {
 
     const onSubmit = (event: any) => {
         event.preventDefault();
-        const index = rows.indexOf(row);
-        const newRows = [...rows]
-        newRows[index].describes = newDescribes
-        setRows(newRows)
+        setLoading(true);
+        backend.productLines.updateProductLine(row.id, newDescribes)
+        .then(() => {
+            setLoading(false);
+            const index = rows.indexOf(row);
+            const newRows = [...rows]
+            newRows[index].describes = newDescribes
+            setRows(newRows)
+        })
+        .catch(() => setLoading(false));
     }
 
     const addDesc = () => {

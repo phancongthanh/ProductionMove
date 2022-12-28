@@ -1,12 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Box, Button, Divider, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography, Container } from '@mui/material';
 import DefTextField from '../../../../../components/DefTextField';
 import { phoneRegExp } from '../../../../../untils/Reg';
+import useLoading from '../../../../../hooks/useLoading';
+import backend from '../../../../../backend';
+import { RoleSchema } from '../../../../../data/enums/RoleSchema';
 
 const CreateAccount = () => {
+
+  const { loading, setLoading } = useLoading();
   
   const formik = useFormik({
     initialValues: {
@@ -16,8 +19,8 @@ const CreateAccount = () => {
       name: '',       
       phone: '',
       email: '',
-      role: '',   
-      building: ''  
+      role: RoleSchema.Administrator,   
+      buildingId: ''  
     },
     validationSchema: Yup.object({
     userId: Yup
@@ -51,13 +54,16 @@ const CreateAccount = () => {
         .string()
         .max(255)
         .required('Cần điền vai trò'),
-    building: Yup
+    buildingId: Yup
         .string()
         .max(255)
-        .required('Cần điền id chỗ làm việc'),
+        .notRequired()
     }),
     onSubmit: (values, { resetForm }) => {
-        alert(JSON.stringify(values))
+        setLoading(true);
+        backend.users.createUser(values, values.password)
+        .then(() => setLoading(false))
+        .catch(() => setLoading(false));
     }
 })
 
@@ -94,10 +100,10 @@ const CreateAccount = () => {
             onChange={formik.handleChange}
             required
           >
-            <MenuItem value={"Administrator"}>Administrator</MenuItem>
-            <MenuItem value={"Factory"}>Factory</MenuItem>
-            <MenuItem value={"Distributor"}>Distributor</MenuItem>
-            <MenuItem value={"ServiceCenter"}>ServiceCenter</MenuItem>
+            <MenuItem value={RoleSchema.Administrator}>Administrator</MenuItem>
+            <MenuItem value={RoleSchema.Factory}>Factory</MenuItem>
+            <MenuItem value={RoleSchema.Distributor}>Distributor</MenuItem>
+            <MenuItem value={RoleSchema.ServiceCenter}>ServiceCenter</MenuItem>
           </Select>
           </FormControl>
           <FormControl>
@@ -105,7 +111,7 @@ const CreateAccount = () => {
           <Select
             labelId="building"
             name='building'
-            value={formik.values.building}
+            value={formik.values.buildingId}
             label="Nơi làm việc"
             onChange={formik.handleChange}
             disabled={formik.values.role ? false : true}

@@ -11,6 +11,7 @@ import ProductLine, { ProductLineInfo } from '../../../../../data/entities/Produ
 import { Building, BuildingInfo } from './types';
 import DefTextField from '../../../../../components/DefTextField';
 import backend from '../../../../../backend';
+import useLoading from '../../../../../hooks/useLoading';
 
 type propTypes = {
     row: Building,
@@ -22,6 +23,7 @@ type propTypes = {
 const Edit: FC<propTypes> = (props) => {
 
     const {row, rows, setRows , setOpen} = props;
+    const { loading, setLoading} = useLoading();
 
     // const [newBuildingInfo, setBuildingInfo] = useState<BuildingInfo>({
     //     name: row.name,
@@ -55,9 +57,14 @@ const Edit: FC<propTypes> = (props) => {
             newRows[index].address = values.address
             newRows[index].type = values.type
 
+            setLoading(true);
             backend.buildings.updateBuilding(values.type, newRows[index])
-            .then(() => setRows(newRows))
+            .then(() => {
+                setRows(newRows)
+                setLoading(false);
+            })
             .catch(e => {
+                setLoading(false);
                 if (e == 400)
                     alert("Tên cơ sở bị trùng!")
             });

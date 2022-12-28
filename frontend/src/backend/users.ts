@@ -47,8 +47,8 @@ export async function createUser(user: User, password: string) : Promise<void> {
     throw await response.json();
 }
 
-export async function changePassword(password: string) : Promise<void> {
-    const url = server.baseUrl + "/Users";
+export async function changePassword(userId: string, password: string) : Promise<void> {
+    const url = server.baseUrl + "/Users?userId=" + userId;
 
     const accessToken = accounts.getAccessToken();
     const response = await fetch(url, {

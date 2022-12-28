@@ -1,23 +1,18 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
+import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Edit from './Edit';
-import { styled, TableFooter, TablePagination } from '@mui/material';
-import ProductLine from '../../../../../data/entities/ProductLine';
+import { styled } from '@mui/material';
 import { FC } from 'react';
-import { User } from './types';
+import User from '../../../../../data/models/User';
+import useLoading from '../../../../../hooks/useLoading';
+import backend from '../../../../../backend';
+import { RoleSchema } from '../../../../../data/enums/RoleSchema';
 
 type propTypes = {
   row: User,
@@ -25,11 +20,10 @@ type propTypes = {
   setRows: Function,
 }
 
-
 const Row: FC<propTypes> = (props) => {
 
-    const {row, rows, setRows } = props;
-  
+  const {row, rows, setRows } = props;
+  const { loading, setLoading } = useLoading();
   
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
       '&:hover': {
@@ -44,7 +38,18 @@ const Row: FC<propTypes> = (props) => {
     const [open, setOpen] = React.useState(false);
   
     const handleDelete = () => {
-      setRows(rows.filter(item => item !== row))
+      if (!rows.some(u => u.role == RoleSchema.Administrator)) {
+        alert("Không thể xóa hết admin");
+        return;
+      }
+      else {
+        setLoading(true);
+        backend.users.deleteUser(row.userId)
+        .then(() => {
+          setLoading(false);
+          setRows(rows.filter(item => item !== row));
+        }).catch(() => setLoading(false))
+      }
     }
   
     return (
@@ -66,7 +71,7 @@ const Row: FC<propTypes> = (props) => {
           <TableCell align="right">{row.email}</TableCell>
           <TableCell align="right">{row.phone}</TableCell>
           <TableCell align="right">{row.role}</TableCell>
-          <TableCell align="right">{row.building}</TableCell>
+          <TableCell align="right">{row.buildingId}</TableCell>
           <TableCell align="right">
             <IconButton  onClick={handleDelete}>
               <DeleteIcon color='error' />

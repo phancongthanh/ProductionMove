@@ -1,27 +1,15 @@
 import React, { FC, useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { useFormik } from "formik";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ClearIcon from "@mui/icons-material/Clear";
 import * as Yup from "yup";
 import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-  Typography,
+  Box, Button, Divider, FormControl, InputLabel,
+  MenuItem, Select, Stack, Typography,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { Container } from "@mui/system";
 import DefTextField from "../../../../../components/DefTextField";
 import { phoneRegExp } from "../../../../../untils/Reg";
-import { User } from "./types";
+import User from "../../../../../data/models/User";
+import useLoading from "../../../../../hooks/useLoading";
+import backend from "../../../../../backend";
 
 type propTypes = {
   row: User;
@@ -33,15 +21,17 @@ type propTypes = {
 const Edit: FC<propTypes> = (props) => {
   const { row, rows, setRows, setOpen } = props;
 
+  const { loading, setLoading } = useLoading();
+
   const formik = useFormik({
     initialValues: {
       userName: row.userName,
-      password: row.password,
+      password: "",
       name: row.name,
       email: row.email,
       phone: row.phone,
       role: row.role,
-      building: row.building,
+      buildingId: row.buildingId,
     },
     validationSchema: Yup.object({
       userName: Yup.string().max(255).required("Cần điền userName"),
@@ -61,17 +51,25 @@ const Edit: FC<propTypes> = (props) => {
     }),
     onSubmit: (values, { resetForm }) => {
       // alert(JSON.stringify(values))
-
-      const index = rows.indexOf(row);
-      const newRows = [...rows];
-      newRows[index].userName = values.userName;
-      newRows[index].password = values.password;
-      newRows[index].name = values.name;
-      newRows[index].phone = values.phone;
-      newRows[index].email = values.email;
-      newRows[index].role = values.role;
-      newRows[index].building = values.building;
-      setRows(newRows);
+      var user = {
+        userId: row.userId,
+        userName: values.userName,
+        name: values.name,
+        phone: values.phone,
+        email: values.email,
+        role: values.role,
+        buildingId: values.buildingId
+      }
+      setLoading(true);
+      backend.users.changeUser(user)
+      .then(() => {
+        setLoading(false);
+        setRows([...rows.filter(r => r.userId != user.userId), user]);
+      }).catch(() => setLoading(false));
+      if (values.password) {
+        backend.users.changePassword(user.userId, values.password)
+        .then(() => alert("Đổi mật khẩu thành công!"))
+      }
     },
   });
 
@@ -144,7 +142,7 @@ const Edit: FC<propTypes> = (props) => {
               <Select
                 labelId="building"
                 name="building"
-                value={formik.values.building}
+                value={formik.values.buildingId}
                 label="Nơi làm việc"
                 onChange={formik.handleChange}
                 // disabled={formik.values.role ? false : true}
