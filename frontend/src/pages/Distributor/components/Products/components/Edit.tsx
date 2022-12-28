@@ -59,7 +59,7 @@ const Edit: FC<propTypes> = (props) => {
         name: values.name ? values.name : '',
         phone: values.phone ? values.phone : '',
       }
-      // setRows(newRows);
+      setRows(newRows);
     },
   });
 

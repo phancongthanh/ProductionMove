@@ -29,11 +29,11 @@ const customer: Customer = {
 }
 
 let rows1: Product1[] = [
-  {id: 1, status: ProductStatus1.JustProduced, dateOfManufacture: new Date(), saleDate: null, productLineId: 'line 1', factoryId: '1', distributionId: '1', customer: null},
-  {id: 2, status: ProductStatus1.JustProduced, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 2', factoryId: '2', distributionId: '2', customer},
-  {id: 3, status: ProductStatus1.JustProduced, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 3', factoryId: '3', distributionId: '3', customer},
-  {id: 4, status: ProductStatus1.JustProduced, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 4', factoryId: '4', distributionId: '4', customer},
-  {id: 5, status: ProductStatus1.JustProduced, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 5', factoryId: '5', distributionId: '5', customer},
+  {id: 1, status: ProductStatus1.JustImported, dateOfManufacture: new Date(), saleDate: null, productLineId: 'line 1', factoryId: '1', distributionId: '1', customer: null},
+  {id: 2, status: ProductStatus1.Sold, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 2', factoryId: '2', distributionId: '2', customer},
+  {id: 3, status: ProductStatus1.Waiting, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 3', factoryId: '3', distributionId: '3', customer},
+  {id: 4, status: ProductStatus1.JustImported, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 4', factoryId: '4', distributionId: '4', customer},
+  {id: 5, status: ProductStatus1.JustImported, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 5', factoryId: '5', distributionId: '5', customer},
 ]
 
 const CTable = () => {
@@ -93,8 +93,8 @@ const CTable = () => {
         {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows)
-          .map((row) => (
-            <Row key={row.id} row={row} setRows={setRows} rows={rows} />
+          .map((row, index) => (
+            <Row key={row.id} index={index} row={row} setRows={setRows} rows={rows} />
           ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 74 * emptyRows }}>
