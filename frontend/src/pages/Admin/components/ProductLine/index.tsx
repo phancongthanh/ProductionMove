@@ -1,9 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import './styles.scss';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import CTable from './components/CTable';
 
+import './styles.scss';
 
 const ProductLine = () => {
   return (

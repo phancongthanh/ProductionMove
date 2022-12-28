@@ -1,13 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./styles.scss";
 import { FaBars } from "react-icons/fa";
 import { useProSidebar } from "react-pro-sidebar";
-import { alpha, Avatar, InputBase, styled } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 
-
+import "./styles.scss";
 
 const Navbar = () => {
   const { toggleSidebar } = useProSidebar();

@@ -13,7 +13,7 @@ export async function getUser(userId: string) : Promise<User> {
     });
 
     if (response.ok) return await response.json();
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 export async function getUsers() : Promise<User[]> {
@@ -27,7 +27,7 @@ export async function getUsers() : Promise<User[]> {
     });
 
     if (response.ok) return await response.json();
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 export async function createUser(user: User, password: string) : Promise<void> {
@@ -44,7 +44,7 @@ export async function createUser(user: User, password: string) : Promise<void> {
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 export async function changePassword(password: string) : Promise<void> {
@@ -61,7 +61,7 @@ export async function changePassword(password: string) : Promise<void> {
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 export async function changeUser(user: User) : Promise<void> {
@@ -78,7 +78,7 @@ export async function changeUser(user: User) : Promise<void> {
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 export async function deleteUser(userId: string) : Promise<void> {
@@ -94,7 +94,7 @@ export async function deleteUser(userId: string) : Promise<void> {
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 const users = {

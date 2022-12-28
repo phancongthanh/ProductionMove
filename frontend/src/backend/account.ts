@@ -34,7 +34,7 @@ export async function login(request: LoginRequest) : Promise<LoginResponse> {
         body: JSON.stringify(request)
     })
     if (response.ok) return response.json();
-    throw new Error(response.statusText);
+    throw response.status;
 }
 
 interface Token {

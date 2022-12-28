@@ -1,30 +1,11 @@
-
-import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Container, Divider, FormHelperText, Grid, Stack, Tab, Tabs, TextField, Typography } from '@mui/material';
-import Router from 'react-dom';
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import useAuth from '../../hooks/useAuth';
 import DefTextField from '../../components/DefTextField';
-import LoginResponse from '../../data/models/LoginResponse';
 import {RoleSchema} from '../../data/enums/RoleSchema';
 import { useNavigate } from 'react-router-dom';
-
-
-const login : LoginResponse = {
-  user: {
-    userId: '',
-    userName: '',
-    name: '',
-    phone: '',
-    email: '',
-    role: RoleSchema.Administrator,
-    buildingId: ''
-  },
-  refreshToken: '',
-  accessToken: ''
-}
-
+import user from '../../actions/user';
 
 const Login = () => {
 
@@ -41,8 +22,8 @@ const Login = () => {
 
     const formik = useFormik({
     initialValues: {
-      userName: 'admin',
-      password: 'admin'
+      userName: '',
+      password: ''
     },
     validationSchema: Yup.object({
       userName: Yup
@@ -57,9 +38,16 @@ const Login = () => {
         .required('Cần điền mật khẩu')
     }),
     onSubmit: (values) => {
-        // alert(JSON.stringify(values))
-        setAuth(login)
-        navigateOnRole(login.user.role)
+        console.log(values);
+        user.login(values.userName, values.password)
+        .then(login => {
+          console.log(login);
+          setAuth(login)
+          navigateOnRole(login.user.role)
+        })
+        .catch(e => {
+          if (e == 400) alert("Tài khoản hoặc mật khẩu không đúng");
+        })
     }
 
   });
@@ -80,6 +68,7 @@ const Login = () => {
         <Box sx={{flex: 2, padding: '50px', width: '80%'}}>
         <form onSubmit={formik.handleSubmit}>
             <DefTextField formik={formik} label={'Username'} name={'userName'} required/>
+            <div style={{height: '20px'}}/>
             <DefTextField formik={formik} label={'Password'} name={'password'} required/>
           <Button variant="contained" type="submit" fullWidth sx={{marginTop: '40px'}}>Đăng nhập</Button>
         </form>

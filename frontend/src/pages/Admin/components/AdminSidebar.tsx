@@ -1,23 +1,13 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import {
-  Sidebar,
-  Menu,
-  MenuItem,
-  SubMenu,
-  useProSidebar,
-} from "react-pro-sidebar";
-
-import { Link, useLocation  } from "react-router-dom";
-import { FaAngleDoubleLeft, FaAngleDoubleRight, FaShoppingBag , FaUser} from "react-icons/fa";
+import { MenuItem, SubMenu } from "react-pro-sidebar";
+import { Link, useLocation } from "react-router-dom";
+import { FaShoppingBag , FaUser } from "react-icons/fa";
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import BusinessIcon from '@mui/icons-material/Business';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import NavSidebar from "../../../components/NavSidebar";
 
 const AdminSidebar = () => {
-    let pathname = useLocation().pathname;
+  let pathname = useLocation().pathname;
 
   return (
     <NavSidebar>
