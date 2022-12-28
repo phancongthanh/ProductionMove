@@ -2,7 +2,7 @@ import login from "./login";
 import logOut from "./logOut";
 
 import create from "./create";
-import haveLogged from "./haveLogged";
+import haveLogged, { isLogged } from "./haveLogged";
 
 import get from "./get";
 import gets from "./gets";
@@ -12,6 +12,7 @@ const user = {
     create,
     login,
     logOut,
+    isLogged,
     logged: haveLogged,
     get,
     gets,
