@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Grid, Stack, Typography } from '@mui/material';
 import useAuth from '../../hooks/useAuth';
 import DefTextField from '../../components/DefTextField';
 import {RoleSchema} from '../../data/enums/RoleSchema';
@@ -52,30 +52,22 @@ const Login = () => {
 
   });
   return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      style={{ minHeight: '100vh' }}
-    >
-      <Grid item xs={3}>
-      <Box sx={{ border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px', alignSelf: 'center', alignItems: 'center', display:'flex', flexDirection:'column'}}>
+    <Container sx={{height: '100vh', alignItems: 'center', justifyContent: 'center', display:'flex'}}>
+      <Box sx={{ border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px', width:'50%', minWidth:'50vh', alignSelf: 'center', alignItems: 'center', display:'flex', flexDirection:'column'}}>
         <Typography variant="h5" sx={{flex: 1, margin: '20px'}}>Đăng nhập</Typography>
         <Divider variant="middle" flexItem />
         
-        <Box sx={{flex: 2, padding: '50px', width: '80%'}}>
+        <Box sx={{flex: 2, padding: '50px', width: '80%'}} justifyContent={'center'} alignItems="center">
         <form onSubmit={formik.handleSubmit}>
+          <Stack spacing={2} sx={{minWidth: '100%'}} justifyContent={'center'}>
             <DefTextField formik={formik} label={'Username'} name={'userName'} required/>
-            <div style={{height: '20px'}}/>
             <DefTextField formik={formik} label={'Password'} name={'password'} required/>
-          <Button variant="contained" type="submit" fullWidth sx={{marginTop: '40px'}}>Đăng nhập</Button>
+          </Stack>
+          <Button variant="contained" type="submit" fullWidth  sx={{marginTop: '60px'}}>Đăng nhập</Button>
         </form>
         </Box>
       </Box>
-      </Grid>
-    </Grid>
+    </Container>
   )
 }
 
