@@ -8,8 +8,6 @@ import Product from '../../data/entities/Product';
 import backend from "../../backend";
 
 const Factory = () => {
-  backend.factory.statusProductStatistics()
-  .then(r => console.log(r))
   return (
     <Layout Sidebar={<FacSidebar/>}>
       <Routes>
