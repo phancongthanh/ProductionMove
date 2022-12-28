@@ -12,8 +12,6 @@ export function isLogged() {
 
     if (accessToken == null || refreshToken == null) return false;
     
-    if (jwtDecode<Token>(accessToken || '{}').exp < Date.now() / 1000) return false;
-    
     if (jwtDecode<Token>(refreshToken || '{}').exp < Date.now() / 1000) return false;
 
     return true;
@@ -24,8 +22,6 @@ export default async function haveLogged() : Promise<boolean> {
     const refreshToken = storage.getRefreshToken();
 
     if (accessToken == null || refreshToken == null) return false;
-    
-    if (jwtDecode<Token>(accessToken || '{}').exp < Date.now() / 1000) return false;
     
     if (jwtDecode<Token>(refreshToken || '{}').exp < Date.now() / 1000) return false;
 

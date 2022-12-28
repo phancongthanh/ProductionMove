@@ -31,7 +31,7 @@ export async function createBuilding(type: string, building: Building) : Promise
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 export async function updateBuilding(type: string, building: Building) : Promise<void> {
@@ -48,10 +48,11 @@ export async function updateBuilding(type: string, building: Building) : Promise
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 const buildings = {
+    getBuildings,
     createBuilding,
     updateBuilding
 }

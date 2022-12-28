@@ -14,6 +14,7 @@ import ProductLine from '../../../../../data/entities/ProductLine';
 import DefTextField from '../../../../../components/DefTextField';
 import DefNumTextField from '../../../../../components/DefNumTextField';
 import { Building } from './types';
+import backend from '../../../../../backend';
 
 
 type propTypes = {
@@ -54,9 +55,13 @@ const Create: FC<propTypes> = (props) => {
             .string()
         }),
         onSubmit: (values, { resetForm }) => {
-            alert(JSON.stringify(values))
-
-            resetForm();
+            console.log(values);
+            backend.buildings.createBuilding(values.type, values)
+            .then(() => {
+                setRows([values, ...rows]);
+                handleClose();
+                resetForm();
+            }).catch(e => console.log(e))
         }
     })
 
