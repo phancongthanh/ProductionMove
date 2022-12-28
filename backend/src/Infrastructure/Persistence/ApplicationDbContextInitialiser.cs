@@ -267,49 +267,52 @@ public class ApplicationDbContextInitialiser
         {
             var factories = await _context.Factories.ToListAsync();
             for (int i = 0; i < factories.Count; i++)
-                await _userManager.CreateAsync(
-                    new ApplicationUser
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Name = "Nhân viên của " + factories[i].Name,
-                        UserName = "Factory" + i,
-                        Role = RoleSchema.Factory,
-                        BuildingId = factories[i].Id,
-                        PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
-                        Email = "FactoryUser" + i + "@BigCorp.com"
-                    },
-                    "FactoryUser" + i + "@BigCorp.com"
-                );
+            {
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Nhân viên của " + factories[i].Name,
+                    UserName = "Factory" + i,
+                    Role = RoleSchema.Factory,
+                    BuildingId = factories[i].Id,
+                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                    Email = "FactoryUser" + i + "@BigCorp.com"
+                };
+                await _userManager.CreateAsync(user, "FactoryUser" + i + "@BigCorp.com");
+                await _userManager.AddToRoleAsync(user, RoleSchema.Factory);
+            }
             var distributers = await _context.Distributors.ToListAsync();
             for (int i = 0; i < distributers.Count; i++)
-                await _userManager.CreateAsync(
-                    new ApplicationUser
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Name = "Nhân viên của " + distributers[i].Name,
-                        UserName = "Distributer" + i,
-                        Role = RoleSchema.Distributor,
-                        BuildingId = distributers[i].Id,
-                        PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
-                        Email = "DistributerUser" + i + "@BigCorp.com"
-                    },
-                    "DistributerUser" + i + "@BigCorp.com"
-                );
+            {
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Nhân viên của " + distributers[i].Name,
+                    UserName = "Distributor" + i,
+                    Role = RoleSchema.Distributor,
+                    BuildingId = distributers[i].Id,
+                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                    Email = "DistributorUser" + i + "@BigCorp.com"
+                };
+                await _userManager.CreateAsync(user, "DistributorUser" + i + "@BigCorp.com");
+                await _userManager.AddToRoleAsync(user, RoleSchema.Distributor);
+            }
             var serviceCenters = await _context.ServiceCenters.ToListAsync();
             for (int i = 0; i < serviceCenters.Count; i++)
-                await _userManager.CreateAsync(
-                    new ApplicationUser
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Name = "Nhân viên của " + serviceCenters[i].Name,
-                        UserName = "ServiceCenter" + i,
-                        Role = RoleSchema.ServiceCenter,
-                        BuildingId = serviceCenters[i].Id,
-                        PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
-                        Email = "ServiceCenterUser" + i + "@BigCorp.com"
-                    },
-                    "ServiceCenterUser" + i + "@BigCorp.com"
-                );
+            {
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Nhân viên của " + serviceCenters[i].Name,
+                    UserName = "ServiceCenter" + i,
+                    Role = RoleSchema.ServiceCenter,
+                    BuildingId = serviceCenters[i].Id,
+                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e8),
+                    Email = "ServiceCenterUser" + i + "@BigCorp.com"
+                }; 
+                await _userManager.CreateAsync(user ,"ServiceCenterUser" + i + "@BigCorp.com");
+                await _userManager.AddToRoleAsync(user, RoleSchema.ServiceCenter);
+            }
         }
     }
 

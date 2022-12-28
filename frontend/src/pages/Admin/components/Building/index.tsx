@@ -1,10 +1,37 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
 import { Box } from '@mui/material';
 import CTable from './components/CTable';
+import backend from '../../../../backend';
+import { Building } from './components/types';
+import { RoleSchema } from '../../../../data/enums/RoleSchema';
 
+/*
+let rows1 : Building[] = [
+  {id: '1', name: 'building 1', address:'address 1', type: RoleSchema.Distributor},
+  {id: '2', name: 'building 2', address:'address 2', type: RoleSchema.Distributor},
+  {id: '3', name: 'building 3', address:'address 3', type: RoleSchema.Factory},
+  {id: '4', name: 'building 4', address:'address 4', type: RoleSchema.Factory},
+  {id: '5', name: 'building 5', address:'address 5', type: RoleSchema.ServiceCenter},
+  {id: '6', name: 'building 6', address:'address 6', type: RoleSchema.ServiceCenter},
+  {id: '7', name: 'building 7', address:'address 7', type: RoleSchema.Distributor},
+  {id: '8', name: 'building 8', address:'address 8', type: RoleSchema.Distributor},
+];
+*/
 
-const Building = () => {
+const BuildingView = () => {
+  const [buildings, setBuildings] = useState<Building[]>([]);
+
+  useEffect(() => {
+    var bs: Building[] = [];
+    backend.buildings.getBuildings()
+    .then(result => {
+      result.factories.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
+      result.distributors.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
+      result.serviceCenters.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
+      setBuildings(bs);
+    }).catch()
+  }, [])
+
   return (
     <div className='mainContent'>
       <div className='header'>
@@ -14,11 +41,11 @@ const Building = () => {
         <div className='search'>Search</div>
         <div className='filter'>Filter</div>
         <div className='table'>
-          <CTable />
+          <CTable rows={buildings} setRows={setBuildings}/>
         </div>      
       </Box>
     </div>
   );
 };
 
-export default Building;
+export default BuildingView;

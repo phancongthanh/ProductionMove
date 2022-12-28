@@ -27,17 +27,19 @@ public class DistributorProductStatisticsQueryHandler : IRequestHandler<Distribu
 
     public async Task<ProductStatistics<DistributorProductStatisticsItem>> Handle(DistributorProductStatisticsQuery request, CancellationToken cancellationToken)
     {
-        var distributor = await _context.Distributors.AsNoTracking()
-            .Include(d => d.Distributions)
-            .Include(d => d.Products)
-            .Include(d => d.Warranties)
-            .Where(d => d.Id == request.BuildingId)
-            .FirstAsync(cancellationToken: cancellationToken);
+        var distributions = await _context.Distributions.AsNoTracking()
+            .Where(d => d.DistributorId == request.BuildingId)
+            .ToListAsync(cancellationToken);
+        var products = await _context.Products.AsNoTracking()
+            .Where(p => p.DistributorId == request.BuildingId)
+            .ToListAsync(cancellationToken);
+        var warranties = await _context.Warranties.AsNoTracking()
+            .Where(w => w.DistributorId == request.BuildingId)
+            .ToListAsync(cancellationToken);
 
-        var years = distributor.Distributions
-            .Select(d => d.Time.Year)
-            .Union(distributor.Products.Select(p => p.SaleDate?.Year).Where(y => y != null).OfType<int>())
-            .Union(distributor.Warranties.Select(p => p.StartTime?.Year).Where(y => y != null).OfType<int>())
+        var years = distributions.Select(d => d.Time.Year)
+            .Union(products.Select(p => p.SaleDate?.Year).Where(y => y != null).OfType<int>())
+            .Union(warranties.Select(p => p.StartTime?.Year).Where(y => y != null).OfType<int>())
             .Distinct();
 
         var monthStatistics = new List<MonthProductStatistics<DistributorProductStatisticsItem>>();
@@ -48,16 +50,16 @@ public class DistributorProductStatisticsQueryHandler : IRequestHandler<Distribu
             {
                 var distributorStatistics = new DistributorProductStatisticsItem()
                 {
-                    Imported = distributor.Distributions
+                    Imported = distributions
                         .Where(d => d.Time.Year == year)
                         .Where(d => d.Time.Month == i)
                         .Select(d => d.Amount)
                         .Sum(),
-                    Sold = distributor.Products
+                    Sold = products
                         .Where(p => p.SaleDate?.Year == year)
                         .Where(p => p.SaleDate?.Month == i)
                         .Count(),
-                    Warranty = distributor.Warranties
+                    Warranty = warranties
                         .Where(p => p.StartTime?.Year == year)
                         .Where(p => p.StartTime?.Month == i)
                         .Count(),

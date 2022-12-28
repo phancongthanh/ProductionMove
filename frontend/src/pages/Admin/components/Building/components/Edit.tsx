@@ -10,6 +10,7 @@ import { Container } from '@mui/system';
 import ProductLine, { ProductLineInfo } from '../../../../../data/entities/ProductLine';
 import { Building, BuildingInfo } from './types';
 import DefTextField from '../../../../../components/DefTextField';
+import backend from '../../../../../backend';
 
 type propTypes = {
     row: Building,
@@ -48,14 +49,18 @@ const Edit: FC<propTypes> = (props) => {
             .string()
         }),
         onSubmit: (values, { resetForm }) => {
-            // alert(JSON.stringify(values))
-            
             const index = rows.indexOf(row);
             const newRows = [...rows]
             newRows[index].name = values.name
             newRows[index].address = values.address
             newRows[index].type = values.type
-            setRows(newRows)
+
+            backend.buildings.updateBuilding(values.type, newRows[index])
+            .then(() => setRows(newRows))
+            .catch(e => {
+                if (e == 400)
+                    alert("Tên cơ sở bị trùng!")
+            });
         }
     })
 

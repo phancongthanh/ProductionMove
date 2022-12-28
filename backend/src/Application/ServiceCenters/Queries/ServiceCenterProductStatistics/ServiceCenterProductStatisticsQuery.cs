@@ -27,14 +27,11 @@ public class ServiceCenterProductStatisticsQueryHandler : IRequestHandler<Servic
 
     public async Task<ProductStatistics<ServiceCenterProductStatisticsItem>> Handle(ServiceCenterProductStatisticsQuery request, CancellationToken cancellationToken)
     {
-        var warranties = await _context.ServiceCenters.AsNoTracking()
-            .Include(s => s.Warranties)
-            .Where(s => s.Id == request.BuildingId)
-            .SelectMany(s => s.Warranties)
+        var warranties = await _context.Warranties.AsNoTracking()
+            .Where(w => w.ServiceCenterId == request.BuildingId)
             .ToListAsync(cancellationToken);
 
-        var years = warranties
-            .Select(w => w.StartTime?.Year)
+        var years = warranties.Select(w => w.StartTime?.Year)
             .Union(warranties.Select(p => p.CompletedTime?.Year))
             .Where(y => y != null).OfType<int>()
             .Distinct();
