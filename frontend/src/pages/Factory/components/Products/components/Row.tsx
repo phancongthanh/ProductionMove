@@ -42,7 +42,10 @@ const Row: FC<propTypes> = (props) => {
     .then(() => {
       setLoading(false);
       reload();
-    }).catch(() => setLoading(false));
+    }).catch(() => {
+      setLoading(false);
+      reload();
+    });
   }
 
   return (

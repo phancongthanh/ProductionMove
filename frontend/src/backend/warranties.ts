@@ -6,7 +6,7 @@ export async function createWarrantyForCustomer(serviceCenterId: string, product
         + "?serviceCenterId=" + serviceCenterId
         + "&productId=" + productId;
     
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -15,7 +15,7 @@ export async function createWarrantyForCustomer(serviceCenterId: string, product
         }
     });
     if (response.ok) return;
-    throw new Error(await response.json());  
+    throw await response.json();
 }
 
 export async function createWarrantyForRecall(serviceCenterId: string, fromProductId: number|undefined, toProductId: number|undefined) {
@@ -23,7 +23,7 @@ export async function createWarrantyForRecall(serviceCenterId: string, fromProdu
     if (fromProductId) url += "&fromProductId=" + fromProductId;
     if (toProductId) url += "&toProductId=" + toProductId;
     
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -32,13 +32,13 @@ export async function createWarrantyForRecall(serviceCenterId: string, fromProdu
         }
     });
     if (response.ok) return;
-    throw new Error(await response.json());  
+    throw await response.json();
 }
 
 export async function startWarranty(productId: number) {
     const url = server.baseUrl + "/Warranties/Start?productId=" + productId;
     
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
         method: 'PATCH',
         headers: {
@@ -47,14 +47,14 @@ export async function startWarranty(productId: number) {
         }
     });
     if (response.ok) return;
-    throw new Error(await response.json());  
+    throw await response.json();
 }
 
 export async function completeWarranty(productId: number, isSuccessed: boolean) {
     const url = server.baseUrl + "/Warranties/Complete?productId=" + productId
         + "&isSuccessed=" + isSuccessed;
     
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
         method: 'PATCH',
         headers: {
@@ -63,7 +63,7 @@ export async function completeWarranty(productId: number, isSuccessed: boolean) 
         }
     });
     if (response.ok) return;
-    throw new Error(await response.json());  
+    throw await response.json();
 }
 
 const warranties = {

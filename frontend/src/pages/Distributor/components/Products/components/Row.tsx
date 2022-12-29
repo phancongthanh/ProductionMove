@@ -54,14 +54,14 @@ const Row: FC<propTypes> = (props) => {
 
   const RTFOnSubmit = () => {
     setLoading(true);
-      backend.distributor.returnToFactory(row.id)
-      .then(() => {
-        setLoading(false);
-        reload();
-      }).catch(e => {
-        setLoading(false);
-        console.log(e)
-      })
+    backend.distributor.returnToFactory(row.id)
+    .then(() => {
+      setLoading(false);
+      reload();
+    }).catch(e => {
+      setLoading(false);
+      console.log(e)
+    })
   }
 
   let icon;
@@ -112,8 +112,7 @@ const Row: FC<propTypes> = (props) => {
         <TableCell align="right">{row.customer?.name}</TableCell>
         <TableCell align="right">{row.customer?.phone}</TableCell>
         <TableCell align="right">{row.saleDate?.toLocaleString()}</TableCell>
-        <TableCell align="right">{icon}
-        </TableCell>
+        <TableCell align="right">{icon}</TableCell>
       </StyledTableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>

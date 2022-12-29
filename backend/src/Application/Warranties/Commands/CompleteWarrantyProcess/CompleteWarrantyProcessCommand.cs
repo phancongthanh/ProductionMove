@@ -43,7 +43,7 @@ public class CompleteWarrantyProcessCommandHandler : IRequestHandler<CompleteWar
         var product = await _context.Products.FindAsync(new object?[] { request.ProductId }, cancellationToken: cancellationToken);
         if (product == null) throw new NotFoundException(nameof(Product), request.ProductId);
         var warranty = await _context.Warranties
-            .Where(w => w.ProductId == product.Id && w.IsSuccessed == null && w.CompletedTime == null)
+            .Where(w => w.ProductId == product.Id && (w.IsSuccessed == null || w.CompletedTime == null))
             .FirstAsync(cancellationToken);
 
         if (request.IsSuccessed)

@@ -30,6 +30,6 @@ public class CompleteWarrantyProcessCommandValidator : AbstractValidator<Complet
         => await _context.Warranties
         .Where(w => w.ProductId == request.ProductId)
         .Where(w => w.ServiceCenterId == request.BuildingId)
-        .Where(w => w.IsSuccessed == null && w.CompletedTime == null)
+        .Where(w => w.IsSuccessed == null || w.CompletedTime == null)
         .AnyAsync(cancellationToken);
 }

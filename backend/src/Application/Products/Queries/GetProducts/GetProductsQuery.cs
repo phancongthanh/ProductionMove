@@ -43,24 +43,19 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Paginat
                 products = _context.Products.AsNoTracking().Include(p => p.Warranties);
                 break;
             case Schema.Role.Factory:
-                products = _context.Factories.AsNoTracking()
-                    .Include(f => f.Products)
-                    .ThenInclude(p => p.Warranties)
-                    .Where(f => f.Id == request.BuildingId)
-                    .SelectMany(f => f.Products);
+                products = _context.Products.AsNoTracking()
+                    .Include(p => p.Warranties)
+                    .Where(p => p.FactoryId == request.BuildingId);
                 break;
             case Schema.Role.Distributor:
-                products = _context.Distributors.AsNoTracking()
-                    .Include(d => d.Products)
-                    .ThenInclude(p => p.Warranties)
-                    .Where(d => d.Id == request.BuildingId)
-                    .SelectMany(d => d.Products);
+                products = _context.Products.AsNoTracking()
+                    .Include(p => p.Warranties)
+                    .Where(p => p.FactoryId == request.BuildingId);
                 break;
             case Schema.Role.ServiceCenter:
-                var productIds = await _context.ServiceCenters.AsNoTracking()
-                        .Include(s => s.Warranties)
-                        .Where(s => s.Id == request.BuildingId)
-                        .SelectMany(s => s.Warranties)
+                var productIds = await _context.Warranties.AsNoTracking()
+                        .Where(w => w.ServiceCenterId == request.BuildingId)
+                        .Where(w => w.CompletedTime == null)
                         .Select(w => w.ProductId)
                         .Distinct()
                         .ToListAsync(cancellationToken);

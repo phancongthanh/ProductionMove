@@ -26,8 +26,15 @@ public class WarrantiesController : ApiControllerBase
         if (distributorId == null) return Unauthorized();
 
         var command = new CreateWarrantyCommand(productId, distributorId, serviceCenterId);
-        var result = await Mediator.Send(command);
-        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        try
+        {
+            var result = await Mediator.Send(command);
+            return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost("Recall")]
@@ -38,8 +45,15 @@ public class WarrantiesController : ApiControllerBase
         if (distributorId == null) return Unauthorized();
 
         var command = new CreateWarrantyForRecallCommand(distributorId, serviceCenterId, fromProductId, toProductId);
-        var result = await Mediator.Send(command);
-        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        try
+        {
+            var result = await Mediator.Send(command);
+            return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPatch("Start")]
@@ -50,8 +64,15 @@ public class WarrantiesController : ApiControllerBase
         if (serviceCenterId == null) return Unauthorized();
 
         var command = new StartWarrantyProcessCommand(productId, serviceCenterId);
-        var result = await Mediator.Send(command);
-        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        try
+        {
+            var result = await Mediator.Send(command);
+            return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPatch("Complete")]
@@ -62,7 +83,11 @@ public class WarrantiesController : ApiControllerBase
         if (serviceCenterId == null) return Unauthorized();
 
         var command = new CompleteWarrantyProcessCommand(productId, isSuccessed, serviceCenterId);
-        var result = await Mediator.Send(command);
-        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        try
+        {
+            var result = await Mediator.Send(command);
+            return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        }
+        catch (Exception) { return BadRequest(); }
     }
 }
