@@ -6,10 +6,14 @@ import { Admin, Login, Missing, Unauthorized } from './pages';
 import Distributor from './pages/Distributor';
 import Factory from './pages/Factory';
 import ServiceCenter from './pages/ServiceCenter';
+import {BuildingsProvider} from './context/BuildingsProvider';
+import { ProductLinesProvider } from './context/ProductLinesProvider';
 
 function App() {
 	return (
 		<AuthProvider>
+			<BuildingsProvider>
+            <ProductLinesProvider>
 			<BrowserRouter>
 				<Routes>
 					<Route path="/login" element={<Login />}/>
@@ -35,6 +39,8 @@ function App() {
 						</Route>
 				</Routes> 
 			</BrowserRouter>
+		</ProductLinesProvider>
+        </BuildingsProvider>
 		</AuthProvider>
 	)
 }

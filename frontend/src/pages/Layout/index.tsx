@@ -23,8 +23,7 @@ const Layout : FC<propTypes> = (props) => {
       <ProSidebarProvider>
         <SnackbarProvider maxSnack={3}>
         <LoadingContext.Provider value={{ loading, setLoading }}>
-          <BuildingsProvider>
-            <ProductLinesProvider>
+
             {Sidebar}
             <main>
               <Navbar />
@@ -34,8 +33,6 @@ const Layout : FC<propTypes> = (props) => {
                 {children}
               </div>
             </main>
-            </ProductLinesProvider>
-            </BuildingsProvider>
         </LoadingContext.Provider>
         </SnackbarProvider>
       </ProSidebarProvider>
