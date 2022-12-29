@@ -12,7 +12,7 @@ type propTypes = {
     type: 'year' | 'month' | 'quarter'
 }
 
-const SoldAnalysis: FC<propTypes> = ({analysis, text, type}) => {
+const ExportAnalysis: FC<propTypes> = ({analysis, text, type}) => {
     const labels = type === 'year' ? analysis.map((analyst) => String(analyst.year)):
                     type === 'month' ? analysis.map((analyst) => String('T' +(analyst.month+1) + '/' + analyst.year)):
                     type === 'quarter' ? analysis.map((analyst) => String('Q'+(analyst.quarter+1)+ '/' + analyst.year)): null
@@ -40,4 +40,4 @@ const SoldAnalysis: FC<propTypes> = ({analysis, text, type}) => {
   )
 }
 
-export default SoldAnalysis
+export default ExportAnalysis

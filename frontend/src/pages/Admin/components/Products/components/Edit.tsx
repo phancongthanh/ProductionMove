@@ -5,6 +5,7 @@ import { Box, Button, Divider, Stack, TextField, Typography, } from "@mui/materi
 import DefTextField from "../../../../../components/DefTextField";
 import { phoneRegExp } from "../../../../../untils/Reg";
 import Product from "../../../../../data/entities/Product";
+import Extentions from "../../../../../utils/Extentions";
 
 type propTypes = {
   row: Product,
@@ -14,7 +15,12 @@ type propTypes = {
 
 const Edit: FC<propTypes> = (props) => {
   const { row, reload, setOpen } = props;
-  
+
+  row.warranties.sort((a, b) => {
+    if (a.startTime == null) return -1;
+    if (b.startTime == null) return 1;
+    return a.startTime.getTime() - b.startTime.getTime()
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +50,7 @@ const Edit: FC<propTypes> = (props) => {
       }
       setRows(newRows);
       */
-     reload();
+      reload();
     },
   });
 
@@ -98,7 +104,7 @@ const Edit: FC<propTypes> = (props) => {
                 label={'Trạng thái'}
                 name={'status'}
                 type={'status'}
-                value={row.status}
+                value={Extentions.ProductStatus.toVN(row.status)}
                 variant="outlined"
                 disabled
             />
@@ -112,8 +118,26 @@ const Edit: FC<propTypes> = (props) => {
                 disabled
             />
           </Stack>
+          {
+            row.warranties.length > 0?
+              <Stack sx={{ padding: 4 }} alignItems="center" spacing={2} flex={1}>
+              <Typography sx={{ fontSize: 18 }}>Bảo hành</Typography>
+              <TextField fullWidth label={'Số lần bảo hành'} name={'warrantyCount'}
+                type={'warrantyCount'} value={row.warranties.length} variant="outlined" disabled
+              />
+              <TextField fullWidth label={'Bảo hành lần cuối tại'} name={'serviceCenterId'}
+                  type={'serviceCenterId'} value={row.warranties[0].serviceCenterId} variant="outlined" disabled
+              />
+              <TextField fullWidth label={'Bảo hành lần cuối lúc'} name={'warrantyTime'}
+                type={'warrantyTime'} value={row.warranties[0].startTime || " "} variant="outlined" disabled
+              />
+            </Stack>
+            : ""
+          }
+          {row.customer ?
           <Stack sx={{ padding: 4 }} alignItems="center" spacing={2} flex={1}>
             <Typography sx={{ fontSize: 18 }}>Khách hàng</Typography>
+            {/*
             <DefTextField
               formik={formik}
               label={"Tên khách hàng"}
@@ -126,6 +150,25 @@ const Edit: FC<propTypes> = (props) => {
               name={"phone"}
               required
             />
+            */}
+            <TextField
+                fullWidth
+                label={'Tên khách hàng'}
+                name={'customerName'}
+                type={'customerName'}
+                value={row.customer?.name || ""}
+                variant="outlined"
+                disabled
+            />
+            <TextField
+                fullWidth
+                label={'Số điện thoại'}
+                name={'customerPhone'}
+                type={'customerPhone'}
+                value={row.customer?.phone || ""}
+                variant="outlined"
+                disabled
+            />
             <TextField
                 fullWidth
                 label={'Thời gian bán'}
@@ -135,21 +178,16 @@ const Edit: FC<propTypes> = (props) => {
                 variant="outlined"
                 disabled
             />
+          </Stack> : ""}
+        </Stack>
+        {
+          /*
+          <Stack spacing={2} sx={{ borderTop: 1, padding: 2 }} direction="row">
+            <Button variant="contained" type="submit">Cập nhập</Button>
+            <Button variant="outlined" onClick={() => {setOpen(false);}}>Hủy</Button>
           </Stack>
-        </Stack>
-        <Stack spacing={2} sx={{ borderTop: 1, padding: 2 }} direction="row">
-          <Button variant="contained" type="submit">
-            Cập nhập
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              setOpen(false);
-            }}
-          >
-            Hủy
-          </Button>
-        </Stack>
+          */
+        }
       </form>
     </>
   );
