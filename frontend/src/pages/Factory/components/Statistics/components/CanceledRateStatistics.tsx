@@ -15,29 +15,29 @@ type propTypes = {
 
 const StatusStatistic: FC<propTypes> = ({statistics, text}) => {
     const labels = statistics.map((statistic) => statistic.distributorId)
-    statistics.map((statistic) => statistic.productLines.map())
+    // statistics.map((statistic) => statistic.productLines.map())
 
-    let datasets = [
-    {
-        label: 'Export',
-        data: statistics.map((statistic) => String(statistic.value.export)),
-        borderColor: ProductStatusColor.JustImported,
-        backgroundColor: getDarkerColor(ProductStatusColor.JustImported),
-    },
-    {
-        label: 'Produced',
-        data: statistics.map((statistic) => String(statistic.value.produced)),
-        borderColor: ProductStatusColor.JustProduced,
-        backgroundColor: getDarkerColor(ProductStatusColor.JustProduced),
-    },
-    ]
-    const data = {
-      labels,
-      datasets
-    }
+    // let datasets = [
+    // // {
+    // //     label: 'Export',
+    // //     data: statistics.map((statistic) => String(statistic.value.export)),
+    // //     borderColor: ProductStatusColor.JustImported,
+    // //     backgroundColor: getDarkerColor(ProductStatusColor.JustImported),
+    // // },
+    // // {
+    // //     label: 'Produced',
+    // //     data: statistics.map((statistic) => String(statistic.value.produced)),
+    // //     borderColor: ProductStatusColor.JustProduced,
+    // //     backgroundColor: getDarkerColor(ProductStatusColor.JustProduced),
+    // // },
+    // ]
+    // const data = {
+    //   labels,
+    //   datasets
+    // }
   return (
     <Box sx={{flex: 1}}>
-       <VerticalBarChart data={data} text={text}/>
+       {/* <VerticalBarChart data={data} text={text}/> */}
     </Box>
   )
 }
