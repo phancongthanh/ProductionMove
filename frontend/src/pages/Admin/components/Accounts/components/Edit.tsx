@@ -35,7 +35,7 @@ const Edit: FC<propTypes> = (props) => {
     },
     validationSchema: Yup.object({
       userName: Yup.string().max(255).required("Cần điền userName"),
-      password: Yup.string().max(255).required("Cần điền password"),
+      password: Yup.string().max(255),
       name: Yup.string().max(255).required("Cần điền tên"),
       phone: Yup.string()
         .matches(phoneRegExp, "Không phải định dạng SĐT")
