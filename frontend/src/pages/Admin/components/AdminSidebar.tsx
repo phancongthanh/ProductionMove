@@ -11,10 +11,6 @@ const AdminSidebar = () => {
 
   return (
     <NavSidebar>
-        <MenuItem active={pathname === "/admin/statistics"} routerLink={<Link to="statistics" />} icon={<SignalCellularAltIcon />}>
-          {" "}
-          Thống kê
-        </MenuItem>
         <SubMenu label="Sản phẩm" icon={<FaShoppingBag />}>
           <MenuItem active={pathname === "/admin/productLine"} routerLink={<Link to="productLine" />}>
             {" "}

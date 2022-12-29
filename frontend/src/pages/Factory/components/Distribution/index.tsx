@@ -35,9 +35,11 @@ const Distribution = () => {
         .required('Cần điền id dòng sản phẩm'),
     fromId: Yup
         .number()
+        .typeError('Từ ID phải là số')
         .required('Cần điền từ ID'),
     toId: Yup
         .number()
+        .typeError('Đến ID phải là số')
         .required('Cần điền đến ID'),
     }),
     onSubmit: (values, { resetForm }) => {

@@ -98,7 +98,7 @@ const Edit: FC<propTypes> = (props) => {
               formik={formik}
               label={"Password"}
               name={"password"}
-              required
+              required={false}
             />
           </Stack>
           <Stack sx={{ padding: 4 }} alignItems="center" spacing={2} flex={2}>

@@ -30,6 +30,7 @@ const NavSidebar = ({children} : {children:ReactNode}) => {
 
 
   return (
+    <div style={{ display: 'flex', height: '100vh'}}>
     <Sidebar breakPoint="md">
       <Menu>
         {collapsed ? (
@@ -70,6 +71,7 @@ const NavSidebar = ({children} : {children:ReactNode}) => {
           {children}
       </Menu>
     </Sidebar>
+    </div>
   );
 };
 
