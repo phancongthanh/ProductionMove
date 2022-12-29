@@ -26,13 +26,11 @@ public class ProductExportAnalysisQueryHandler : IRequestHandler<ProductExportAn
 
     public async Task<ProductAnalysis> Handle(ProductExportAnalysisQuery request, CancellationToken cancellationToken)
     {
-        var distributions = await _context.Factories.AsNoTracking()
-            .Include(f => f.Distributions)
-            .Where(f => f.Id == request.BuildingId)
-            .SelectMany(f => f.Distributions)
+        var distributions = await _context.Distributions.AsNoTracking()
+            .Where(d => d.FactoryId == request.BuildingId)
             .ToListAsync(cancellationToken);
 
-        var years = distributions.Select(d => d.Time.Year).Distinct();
+        var years = distributions.Select(d => d.Time.Year).Distinct().Order();
 
         var analysis = new ProductAnalysis();
 

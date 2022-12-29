@@ -266,48 +266,93 @@ public class ApplicationDbContextInitialiser
         if (!_userManager.Users.Any(u => u.Role != RoleSchema.Administrator))
         {
             var factories = await _context.Factories.ToListAsync();
+            if (factories.Any())
+            {
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Nguyễn Văn F",
+                    UserName = "factory",
+                    Role = RoleSchema.Factory,
+                    BuildingId = factories.First().Id,
+                    PhoneNumber = "09" + _random.Next((int)10e6, (int)10e7),
+                    Email = "Factory" + 0 + "@BigCorp.com"
+                };
+                await _userManager.CreateAsync(user, "factory");
+                await _userManager.AddToRoleAsync(user, RoleSchema.Factory);
+            }
             for (int i = 0; i < factories.Count; i++)
             {
                 var user = new ApplicationUser
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Nhân viên của " + factories[i].Name,
+                    Name = "Nhân viên F" + i,
                     UserName = "Factory" + i,
                     Role = RoleSchema.Factory,
                     BuildingId = factories[i].Id,
-                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e7),
+                    PhoneNumber = "09" + _random.Next((int)10e6, (int)10e7),
                     Email = "FactoryUser" + i + "@BigCorp.com"
                 };
                 await _userManager.CreateAsync(user, "FactoryUser" + i + "@BigCorp.com");
                 await _userManager.AddToRoleAsync(user, RoleSchema.Factory);
             }
-            var distributers = await _context.Distributors.ToListAsync();
-            for (int i = 0; i < distributers.Count; i++)
+            var distributors = await _context.Distributors.ToListAsync();
+            if (distributors.Any())
             {
                 var user = new ApplicationUser
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Nhân viên của " + distributers[i].Name,
+                    Name = "Nguyễn Văn D",
+                    UserName = "distributor",
+                    Role = RoleSchema.Distributor,
+                    BuildingId = distributors.First().Id,
+                    PhoneNumber = "09" + _random.Next((int)10e6, (int)10e7),
+                    Email = "Distributor" + 0 + "@BigCorp.com"
+                };
+                await _userManager.CreateAsync(user, "distributor");
+                await _userManager.AddToRoleAsync(user, RoleSchema.Distributor);
+            }
+            for (int i = 0; i < distributors.Count; i++)
+            {
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Nhân viên D" + i,
                     UserName = "Distributor" + i,
                     Role = RoleSchema.Distributor,
-                    BuildingId = distributers[i].Id,
-                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e7),
+                    BuildingId = distributors[i].Id,
+                    PhoneNumber = "09" + _random.Next((int)10e6, (int)10e7),
                     Email = "DistributorUser" + i + "@BigCorp.com"
                 };
                 await _userManager.CreateAsync(user, "DistributorUser" + i + "@BigCorp.com");
                 await _userManager.AddToRoleAsync(user, RoleSchema.Distributor);
             }
             var serviceCenters = await _context.ServiceCenters.ToListAsync();
+            if (serviceCenters.Any())
+            {
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Nguyễn Văn S",
+                    UserName = "service",
+                    Role = RoleSchema.ServiceCenter,
+                    BuildingId = serviceCenters.First().Id,
+                    PhoneNumber = "09" + _random.Next((int)10e6, (int)10e7),
+                    Email = "ServiceCenter" + 0 + "@BigCorp.com"
+                };
+                await _userManager.CreateAsync(user, "service");
+                await _userManager.AddToRoleAsync(user, RoleSchema.ServiceCenter);
+            }
             for (int i = 0; i < serviceCenters.Count; i++)
             {
                 var user = new ApplicationUser
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Nhân viên của " + serviceCenters[i].Name,
+                    Name = "Nhân viên S" + i,
                     UserName = "ServiceCenter" + i,
                     Role = RoleSchema.ServiceCenter,
                     BuildingId = serviceCenters[i].Id,
-                    PhoneNumber = "09" + (Guid.NewGuid().GetHashCode() % 10e7),
+                    PhoneNumber = "09" + _random.Next((int)10e6, (int)10e7),
                     Email = "ServiceCenterUser" + i + "@BigCorp.com"
                 }; 
                 await _userManager.CreateAsync(user ,"ServiceCenterUser" + i + "@BigCorp.com");
@@ -365,7 +410,7 @@ public class ApplicationDbContextInitialiser
     {
         if (_context.Products.Any() && !_context.Distributions.Any())
         {
-            const int IT = 30; // thời gian giữa 2 lần nhập hàng của một đại lý phân phối
+            const int IT = 15; // thời gian giữa 2 lần nhập hàng của một đại lý phân phối
             var factories = await _context.Factories.ToListAsync();
             var distributors = await _context.Distributors.ToListAsync();
             var products = await _context.Products

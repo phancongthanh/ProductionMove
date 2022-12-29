@@ -26,13 +26,12 @@ public class ProductSoldAnalysisQueryHandler : IRequestHandler<ProductSoldAnalys
 
     public async Task<ProductAnalysis> Handle(ProductSoldAnalysisQuery request, CancellationToken cancellationToken)
     {
-        var products = await _context.Distributors.AsNoTracking()
-            .Include(d => d.Products)
-            .Where(d => d.Id == request.BuildingId)
-            .SelectMany(d => d.Products)
+        var products = await _context.Products.AsNoTracking()
+            .Where(p => p.DistributorId == request.BuildingId)
+            .Where(p => p.SaleDate != null)
             .ToListAsync(cancellationToken);
 
-        var years = products.Select(d => d.SaleDate?.Year).Where(y => y != null).OfType<int>().Distinct();
+        var years = products.Select(d => d.SaleDate?.Year).Where(y => y != null).OfType<int>().Distinct().Order();
 
         var analysis = new ProductAnalysis();
 

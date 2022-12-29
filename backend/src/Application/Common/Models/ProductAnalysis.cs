@@ -33,7 +33,7 @@ public class QuarterAnalysis
 
     public int Value { get; }
 
-    public float Percentage => Value / PreviousValue;
+    public float Percentage => PreviousValue <= 0 ? 0 : 100f * Value / PreviousValue;
 
     public QuarterAnalysis(int year, int quarter, int previousValue, int value)
     {
@@ -52,7 +52,7 @@ public class YearAnalysis
 
     public int Value { get; }
 
-    public float Percentage => Value / PreviousValue;
+    public float Percentage => PreviousValue <= 0 ? 0 : 100f * Value / PreviousValue;
 
     public YearAnalysis(int year, int previousValue, int value)
     {

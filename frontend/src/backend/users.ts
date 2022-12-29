@@ -33,7 +33,7 @@ export async function getUsers() : Promise<User[]> {
 export async function createUser(user: User, password: string) : Promise<void> {
     const url = server.baseUrl + "/Users";
 
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -50,7 +50,7 @@ export async function createUser(user: User, password: string) : Promise<void> {
 export async function changePassword(userId: string, password: string) : Promise<void> {
     const url = server.baseUrl + "/Users?userId=" + userId;
 
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
         method: 'PATCH',
         headers: {
@@ -67,7 +67,7 @@ export async function changePassword(userId: string, password: string) : Promise
 export async function changeUser(user: User) : Promise<void> {
     const url = server.baseUrl + "/Users";
 
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -84,7 +84,8 @@ export async function changeUser(user: User) : Promise<void> {
 export async function deleteUser(userId: string) : Promise<void> {
     const url = server.baseUrl + "/Users?userId=" + userId;
 
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
+    console.log(accessToken)
     const response = await fetch(url, {
         method: 'DELETE',
         headers: {

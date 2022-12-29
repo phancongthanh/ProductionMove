@@ -38,12 +38,13 @@ const Row: FC<propTypes> = (props) => {
     const [open, setOpen] = React.useState(false);
   
     const handleDelete = () => {
-      if (!rows.some(u => u.role == RoleSchema.Administrator)) {
+      if (!rows.some(u => u.role == RoleSchema.Administrator && u.userId != row.userId)) {
         alert("Không thể xóa hết admin");
         return;
       }
       else {
         setLoading(true);
+        console.log(row.userId)
         backend.users.deleteUser(row.userId)
         .then(() => {
           setLoading(false);
