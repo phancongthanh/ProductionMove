@@ -17,7 +17,7 @@ export async function statusProductStatistics() : Promise<ProductStatistics<Fact
     });
 
     if (response.ok) return await response.json();
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 export async function productCanceledRateStatistics() : Promise<ProductCanceledStatisticsData> {
@@ -33,7 +33,7 @@ export async function productCanceledRateStatistics() : Promise<ProductCanceledS
     });
 
     if (response.ok) return await response.json();
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 export async function productExportAnalysis() : Promise<ProductStatistics<ProductAnalysis>> {
@@ -49,7 +49,7 @@ export async function productExportAnalysis() : Promise<ProductStatistics<Produc
     });
 
     if (response.ok) return await response.json();
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 export async function cancelProduct(productId: number) : Promise<void> {
@@ -65,7 +65,7 @@ export async function cancelProduct(productId: number) : Promise<void> {
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 const factory = {

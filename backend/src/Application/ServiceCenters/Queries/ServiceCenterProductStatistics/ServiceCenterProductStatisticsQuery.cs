@@ -34,7 +34,8 @@ public class ServiceCenterProductStatisticsQueryHandler : IRequestHandler<Servic
         var years = warranties.Select(w => w.StartTime?.Year)
             .Union(warranties.Select(p => p.CompletedTime?.Year))
             .Where(y => y != null).OfType<int>()
-            .Distinct();
+            .Distinct()
+            .Order();
 
         var monthStatistics = new List<MonthProductStatistics<ServiceCenterProductStatisticsItem>>();
 

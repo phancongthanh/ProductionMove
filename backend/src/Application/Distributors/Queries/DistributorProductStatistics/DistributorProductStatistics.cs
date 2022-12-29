@@ -40,7 +40,8 @@ public class DistributorProductStatisticsQueryHandler : IRequestHandler<Distribu
         var years = distributions.Select(d => d.Time.Year)
             .Union(products.Select(p => p.SaleDate?.Year).Where(y => y != null).OfType<int>())
             .Union(warranties.Select(p => p.StartTime?.Year).Where(y => y != null).OfType<int>())
-            .Distinct();
+            .Distinct()
+            .Order();
 
         var monthStatistics = new List<MonthProductStatistics<DistributorProductStatisticsItem>>();
 

@@ -35,6 +35,7 @@ public class FactoryProductStatisticsQueryHandler : IRequestHandler<FactoryProdu
         var years = await distributions.Select(d => d.Time.Year)
             .Union(products.Select(p => p.DateOfManufacture.Year))
             .Distinct()
+            .Order()
             .ToListAsync(cancellationToken);
 
         var monthStatistics = new List<MonthProductStatistics<FactoryProductStatisticsItem>>();
