@@ -35,6 +35,12 @@ const Row: FC<propTypes> = (props) => {
 
   const [open, setOpen] = React.useState(false);
 
+
+  const [openSoldDialog, setOpenSoldDialog] = React.useState(false);
+  const [openWarrantyDialog, setWarrantyDialog] = React.useState(false);
+  const [openRTFDialog, setOpenRTFDialog] = React.useState(false);
+  const [openRTCDialog, setOpenRTCDialog] = React.useState(false);
+
   return (
     <>
       <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>

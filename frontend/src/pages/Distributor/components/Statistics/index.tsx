@@ -17,6 +17,8 @@ import { Line } from 'react-chartjs-2';
 import YearStatistics from "./components/StatusStatistics";
 import AllStatusStatistics from "./components/AllStatusStatistics";
 import ProductAnalysis from "../../../../data/models/ProductAnalysis";
+import AllSoldAnalysis from "./components/AllSoldAnalysis";
+import { Divider, Container, Typography, Stack, Box } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -56,7 +58,17 @@ const Statistics = () => {
         <div className="title">Thống kê</div>
       </div>
       <div>
-        {statusStatistics && <AllStatusStatistics statistics={statusStatistics}/>}
+        <Stack spacing={4}>
+        <Stack sx={{border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px'}} spacing={4}>
+            <Typography variant="h5">Thống kê trạng thái sản phẩm</Typography>
+            {statusStatistics && <AllStatusStatistics statistics={statusStatistics}/>}
+          </Stack>
+          <Divider sx={{margin:4}}/>
+          <Stack sx={{border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px'}} spacing={4}>
+          <Typography variant="h5">Phân tích sản phẩm bán được</Typography>
+          {soldAnalysis && <AllSoldAnalysis analysis={soldAnalysis}/>}
+          </Stack>
+        </Stack>
       </div>
     </div>
   );

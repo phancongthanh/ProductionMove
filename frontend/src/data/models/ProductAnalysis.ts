@@ -1,7 +1,7 @@
 export default interface ProductAnalysis {
-    MonthAnalysis: MonthAnalysis,
-    QuarterAnalyses: QuarterAnalysis,
-    YearAnalyses: YearAnalysis
+    monthAnalysis: MonthAnalysis[],
+    quarterAnalyses: QuarterAnalysis[],
+    yearAnalyses: YearAnalysis[]
 }
 
 export interface MonthAnalysis {
