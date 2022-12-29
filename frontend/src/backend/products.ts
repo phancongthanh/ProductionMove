@@ -19,7 +19,7 @@ export async function getProducts(pageNumber: number, pageSize: number) : Promis
         }
     });
     if (response.ok) return await response.json();
-    throw new Error(await response.json())
+    throw await response.json()
 }
 
 export async function addProduct(productLineId: string, fromId: number, toId: number) : Promise<void> {
@@ -37,7 +37,7 @@ export async function addProduct(productLineId: string, fromId: number, toId: nu
         }
     });
     if (response.ok) return;
-    throw new Error(await response.json())
+    throw await response.json()
 }
 
 export async function sellProduct(productId: number, customer: Customer) : Promise<void> {
@@ -53,7 +53,7 @@ export async function sellProduct(productId: number, customer: Customer) : Promi
         body: JSON.stringify(customer)
     });
     if (response.ok) return;
-    throw new Error(await response.json())
+    throw await response.json()
 }
 
 const products = {

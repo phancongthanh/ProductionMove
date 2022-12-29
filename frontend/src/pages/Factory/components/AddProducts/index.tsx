@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Box, Button, Container, Divider, Stack, TextField, Typography } from "@mui/material";
 import DefTextField from "../../../../components/DefTextField";
 import DefNumTextField from '../../../../components/DefNumTextField';
 import {useState, useEffect} from 'react';
+import useLoading from "../../../../hooks/useLoading";
+import backend from "../../../../backend";
 
 const AddProducts = () => {
 
     const [quantity, setQuantity] = useState(0)
-
+    const { setLoading } = useLoading();
   
     const formik = useFormik({
       initialValues: {
@@ -31,7 +31,16 @@ const AddProducts = () => {
           .required('Cần điền đến ID'),
       }),
       onSubmit: (values, { resetForm }) => {
-          alert(JSON.stringify(values))
+          setLoading(true);
+          backend.products.addProduct(values.productLineId, values.fromId, values.toId)
+          .then(() => {
+            setLoading(false);
+            alert("Thành công");
+            resetForm();
+          }).catch(() => {
+            setLoading(false);
+            alert("Id các sản phẩm mới có thể bị trùng với các sản phẩm cũ!");
+          })
       }
   })
   
@@ -41,17 +50,17 @@ const AddProducts = () => {
 
   const handleQuantityBlur = () => {
     if(!isNaN(formik.values.fromId)) {
-      formik.setFieldValue( 'toId' ,Number(formik.values.fromId) + quantity)
+      formik.setFieldValue( 'toId' ,Number(formik.values.fromId) + quantity - 1)
     }
   }
 
   useEffect(() => {
-    formik.setFieldValue( 'toId' ,Number(formik.values.fromId) + quantity)
+    formik.setFieldValue( 'toId' ,Number(formik.values.fromId) + quantity - 1)
   }, [formik.values.fromId])
 
   useEffect(() => {
     if(!isNaN(Number(formik.values.fromId)))
-    setQuantity(Number(formik.values.toId) - Number(formik.values.fromId))
+    setQuantity(Number(formik.values.toId) - Number(formik.values.fromId) + 1)
   }, [formik.values.toId])
 
   return (

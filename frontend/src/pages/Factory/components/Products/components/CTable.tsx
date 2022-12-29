@@ -9,12 +9,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, styled, TableFooter, TablePagination } from '@mui/material';
 import Row from './Row';
-import Product1, { Customer } from '../../../../../types/Product1';
-import { ProductStatus1 } from '../../../../../types/ProductStatus1';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
 import Product from '../../../../../data/entities/Product';
-import PaginatedList from '../../../../../data/models/PaginatedList';
 
 /*
 const customer: Customer = {
@@ -44,7 +41,6 @@ const CTable = () => {
     setLoading(true);
     backend.products.getProducts(pageNumber, pageSize)
     .then(ps => {
-      console.log(ps)
       setLoading(false);
       setTotal(ps.totalCount);
       setPage(pageNumber-1);
