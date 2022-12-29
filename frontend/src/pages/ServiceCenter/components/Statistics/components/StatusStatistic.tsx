@@ -4,6 +4,7 @@ import LineChart from '../../../../../components/LineChart'
 import { Box } from '@mui/material'
 import { ProductStatusColor } from '../../../../../data/enums/ProductStatusColor'
 import { getDarkerColor } from '../../../../../utils/GetDarkerColor'
+import warranty from '../../../../../actions/serviceCenter/warranty/index';
 
 
 type propTypes = {
@@ -12,30 +13,30 @@ type propTypes = {
     type: 'year' | 'month' | 'quarter'
 }
 
-const Statistics: FC<propTypes> = ({statistics, text, type}) => {
+const StatusStatistic: FC<propTypes> = ({statistics, text, type}) => {
     const labels = type === 'year' ? statistics.map((statistic) => String(statistic.year)):
                     type === 'month' ? statistics.map((statistic) => String(statistic.month + '/' + statistic.year)):
                     type === 'quarter' ? statistics.map((statistic) => String('Q'+(statistic.quarter+1)+ '/' + statistic.year)): null
     
     let datasets = [
     {
-        label: 'Imported',
-        data: statistics.map((statistic) => String(statistic.value.imported)),
-        borderColor: ProductStatusColor.JustImported,
-        backgroundColor: getDarkerColor(ProductStatusColor.JustImported),
+        label: 'Start',
+        data: statistics.map((statistic) => String(statistic.value.completed)),
+        borderColor: ProductStatusColor.Warranty,
+        backgroundColor: getDarkerColor(ProductStatusColor.Warranty),
     },
     {
-        label: 'Sold',
-        data: statistics.map((statistic) => String(statistic.value.sold)),
-        borderColor: ProductStatusColor.Sold,
-        backgroundColor: getDarkerColor(ProductStatusColor.Sold),
+      label: 'Success',
+      data: statistics.map((statistic) => String(statistic.value.successed)),
+      borderColor: ProductStatusColor.WaitingForCustomer,
+      backgroundColor: getDarkerColor(ProductStatusColor.WaitingForCustomer),
     },
     {
-        label: 'Warranty',
-        data: statistics.map((statistic) => String(statistic.value.warranty)),
-        borderColor: ProductStatusColor.WaitingForWarranty,
-        backgroundColor: getDarkerColor(ProductStatusColor.WaitingForWarranty),
-    },
+      label: 'Fail',
+      data: statistics.map((statistic) => String(statistic.value.failed)),
+      borderColor: ProductStatusColor.WaitingForFactory,
+      backgroundColor: getDarkerColor(ProductStatusColor.WaitingForFactory),
+},
     ]
     const data = {
       labels,
@@ -48,4 +49,4 @@ const Statistics: FC<propTypes> = ({statistics, text, type}) => {
   )
 }
 
-export default Statistics
+export default StatusStatistic
