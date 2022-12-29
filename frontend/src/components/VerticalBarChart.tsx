@@ -32,14 +32,14 @@ const VerticalBarChart = ({data, text, large}:any) => {
             text: text,
           },
         },
-        scales: {
-          x: {
-            stacked: true,
-          },
-          y: {
-            stacked: true,
-          },
-        },
+        // scales: {
+        //   x: {
+        //     stacked: true,
+        //   },
+        //   y: {
+        //     stacked: true,
+        //   },
+        // },
       };
     
   return (

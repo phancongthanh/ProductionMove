@@ -68,6 +68,7 @@ const CTable = (props: {rows: ProductLine[], setRows: (productLines: ProductLine
               <StyledTableCell>Id</StyledTableCell>
               <StyledTableCell align="right">Tên</StyledTableCell>
               <StyledTableCell align="right">Thời hạn bảo hành (ngày)</StyledTableCell>
+              <StyledTableCell align="right">Thu hồi</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

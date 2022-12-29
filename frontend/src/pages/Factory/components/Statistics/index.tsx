@@ -61,7 +61,7 @@ const Statistics = () => {
           <Divider sx={{margin:4}}/>
           <Stack sx={{border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px'}} spacing={4}>
           <Typography variant="h5">Phân tích sản phẩm bị hủy bỏ</Typography>
-          {canceledRateStatistics && <CanceledRateStatistics statistics={canceledRateStatistics} text={"Tỉ lệ sản phẩm bị hủy của từng đại lý phân phối(‰)"}/>}
+          {canceledRateStatistics && <CanceledRateStatistics statistics={canceledRateStatistics} text={"Tỉ lệ sản phẩm bị hủy của từng đại lý phân phối(%)"}/>}
           </Stack>
         </Stack>
       </div>

@@ -53,7 +53,7 @@ const CreateAccount = () => {
       
     email: Yup
         .string()
-        .email('Không phải Email')
+        .email('Không phải email')
         .max(255)
         .required('Cần điền email'),
     role: Yup

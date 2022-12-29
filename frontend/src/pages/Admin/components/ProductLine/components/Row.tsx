@@ -17,6 +17,8 @@ import Edit from './Edit';
 import { styled, TableFooter, TablePagination } from '@mui/material';
 import ProductLine from '../../../../../data/entities/ProductLine';
 import { FC } from 'react';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AlertDialog from './AlertDialog';
 
 type propTypes = {
   row: ProductLine,
@@ -41,13 +43,16 @@ const Row: FC<propTypes> = (props) => {
     }));
   
     const [open, setOpen] = React.useState(false);
+    const [openAlertDialog, setAlertDialog] = React.useState(false);
   
-    const handleDelete = () => {
-      setRows(rows.filter(item => item !== row))
+    const handleRecall = () => {
+      
     }
+
   
     return (
       <>
+        <AlertDialog open={openAlertDialog} setOpen={setAlertDialog} handleRecall={handleRecall}/>
         <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
           <TableCell>
             <IconButton
@@ -63,6 +68,11 @@ const Row: FC<propTypes> = (props) => {
           </TableCell>
           <TableCell align="right">{row.name}</TableCell>
           <TableCell align="right">{row.warrantyPeriod}</TableCell>
+          <TableCell align="right">
+            <IconButton  onClick={() => setAlertDialog(true)}>
+              <DeleteForeverIcon color='error' />
+            </IconButton>
+          </TableCell>
         </StyledTableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

@@ -12,13 +12,21 @@ type propTypes = {
     text: string
 }
 
+const dynamicColors = function() {
+  var r = Math.floor(Math.random() * 255);
+  var g = Math.floor(Math.random() * 255);
+  var b = Math.floor(Math.random() * 255);
+  return "rgb(" + r + "," + g + "," + b + ")";
+};
+
 const CanceledRateStatistics: FC<propTypes> = ({statistics, text}) => {
+    // const colors:[] = statistics.productLines.length
+
     const labels = statistics.distributors.map((d) => d.name)
     let datasets = statistics.productLines.map((productLine) => ({
       label: productLine.productLineId,
-      data: productLine.distributorRates.map((d) => d*10),
-      borderColor: ProductStatusColor.JustImported,
-      backgroundColor: getDarkerColor(ProductStatusColor.JustImported),
+      data: productLine.distributorRates.map((d) => d*100),
+      backgroundColor: dynamicColors,
     }))
     const data = {
       labels,
@@ -26,7 +34,7 @@ const CanceledRateStatistics: FC<propTypes> = ({statistics, text}) => {
     }
   return (
     <Box sx={{flex: 1}}>
-       <LineChart data={data} text={text} large/>
+       <VerticalBarChart data={data} text={text} large/>
     </Box>
   )
 }
