@@ -29,8 +29,8 @@ const BuildingView = () => {
     backend.buildings.getBuildings()
     .then(result => {
       result.factories.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
-      result.distributors.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
-      result.serviceCenters.forEach(f => bs.push({...f, type: RoleSchema.Factory}));
+      result.distributors.forEach(f => bs.push({...f, type: RoleSchema.Distributor}));
+      result.serviceCenters.forEach(f => bs.push({...f, type: RoleSchema.ServiceCenter}));
       setBuildings(bs);
       setLoading(false);
     }).catch(() => setLoading(false))

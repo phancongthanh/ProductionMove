@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   Box, Button, Divider, FormControl, InputLabel,
-  MenuItem, Select, Stack, Typography,
+  MenuItem, Select, Stack, TextField, Typography,
 } from "@mui/material";
 import DefTextField from "../../../../../components/DefTextField";
 import { phoneRegExp } from "../../../../../untils/Reg";
@@ -118,6 +118,11 @@ const Edit: FC<propTypes> = (props) => {
           </Stack>
           <Stack sx={{ padding: 4 }} alignItems="center" spacing={2} flex={1}>
             <Typography sx={{ fontSize: 18 }}>Công việc</Typography>
+            <TextField fullWidth label={'Vai trò'} name={'type'}
+                type={'type'} value={row.role} variant="outlined" disabled/>
+            <TextField fullWidth label={'Nơi làm việc'} name={'type'}
+                type={'type'} value={row.buildingId} variant="outlined" disabled/>
+            {/*
             <FormControl fullWidth>
               <InputLabel id="role" required>
                 Vai trò
@@ -154,6 +159,7 @@ const Edit: FC<propTypes> = (props) => {
                 <MenuItem value={"building 4"}>building 4</MenuItem>
               </Select>
             </FormControl>
+            */}
           </Stack>
         </Stack>
         <Stack spacing={2} sx={{ borderTop: 1, padding: 2 }} direction="row">

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import { Building } from './types';
 import DefTextField from '../../../../../components/DefTextField';
 import backend from '../../../../../backend';
@@ -52,7 +52,7 @@ const Edit: FC<propTypes> = (props) => {
             newRows[index].type = values.type
 
             setLoading(true);
-            backend.buildings.updateBuilding(values.type, newRows[index])
+            backend.buildings.updateBuilding(row.type, newRows[index])
             .then(() => {
                 setRows(newRows)
                 setLoading(false);
@@ -74,6 +74,10 @@ const Edit: FC<propTypes> = (props) => {
                 <Stack sx={{ padding: 4 }} alignItems='center' spacing={2} direction="row">
                     <DefTextField formik={formik} label={'Tên'} name={'name'} required />
                     <DefTextField formik={formik} label={'Địa chỉ'} name={'address'} required />
+                    <TextField sx={{width: '400px'}} fullWidth label={'Loại'} name={'type'}
+                        type={'type'} value={row.type} variant="outlined" disabled
+                    />
+                    {/*
                     <FormControl sx={{width: '400px'}}>
                         <InputLabel id="type" required>Loại</InputLabel>
                         <Select
@@ -89,6 +93,7 @@ const Edit: FC<propTypes> = (props) => {
                             <MenuItem value={"ServiceCenter"}>ServiceCenter</MenuItem>
                         </Select>
                     </FormControl>
+                    */}
                 </Stack>
              {/* <IconButton color='success' sx={{justifyContent: 'center', alignItems: 'center', width: '100%'}} onClick={() => addDesc()}><AddIcon/></IconButton> */}
             <Stack spacing={2} sx={{ borderTop: 1, padding: 2 }} direction="row">
