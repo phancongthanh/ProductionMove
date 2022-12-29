@@ -22,9 +22,8 @@ const Statistics = () => {
     setLoading(true)
     const getData = async () => {
       setStatusStatistics(await backend.factory.statusProductStatistics())
-      setCanceledRateStatistics(await backend.factory.productCanceledRateStatistics())
       setExportAnalysis(await backend.factory.productExportAnalysis())
-      // setSoldAnalysis(await backend.distributor.productSoldAnalysis())
+      setCanceledRateStatistics(await backend.factory.productCanceledRateStatistics())
     }
     
     setLoading(true)
@@ -32,12 +31,6 @@ const Statistics = () => {
     setLoading(false)
   }, [])
 
-  useEffect(() => {
-    const arr = CanceledRateStatistics?.distributors.map((statistic) => statistic.productLines.map((productLine) => productLine.productLineId))
-    const t = arr?.map(a=>a.length).indexOf(Math.max(...arr.map(a=>a.length)))
-    // if(arr) const arr1 = CanceledRateStatistics?.distributors.map((statistic) => statistic.productLines.map((productLine) => {if(arr[0] === productLine.productLineId) productLine.canceledCount}))
-    // console.log(arr1)
-  }, [CanceledRateStatistics])
 
   useEffect(() => {
     console.log(CanceledRateStatistics)

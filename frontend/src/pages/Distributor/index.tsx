@@ -2,7 +2,7 @@ import Layout from "../Layout";
 import { Route, Routes } from "react-router-dom";
 
 import DisSidebar from "./components/DisSidebar";
-import { Distribution, Products, Statistics, Warranty } from "./components";
+import { Distribution, Products, Statistics } from "./components";
 import useBuildings from "../../hooks/useBuildings";
 import useProductLines from "../../hooks/useProductlines";
 import { useEffect } from "react";
@@ -29,8 +29,6 @@ const Distributor = () => {
         <Route path="/*" element={<Statistics />} />
         <Route path="/distribution" element={<Distribution />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/warranty" element={<Warranty />} />
-        
       </Routes>
     </Layout>
   );

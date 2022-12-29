@@ -26,10 +26,6 @@ const DisSidebar = () => {
             {" "}
             Danh sách sản phẩm
           </MenuItem>
-          <MenuItem active={pathname === "/distributor/warranty"} routerLink={<Link to="warranty" />}>
-            {" "}
-            Gửi bảo trì
-          </MenuItem>
       </NavSidebar>
   );
 };

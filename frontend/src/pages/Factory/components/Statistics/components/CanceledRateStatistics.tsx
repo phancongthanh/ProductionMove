@@ -5,11 +5,9 @@ import { Box } from '@mui/material'
 import { ProductStatusColor } from '../../../../../data/enums/ProductStatusColor'
 import { getDarkerColor } from '../../../../../utils/GetDarkerColor'
 import VerticalBarChart from '../../../../../components/VerticalBarChart';
-import { DistributorProductCanceled } from '../../../../../data/models/ProductCanceledStatisticsData'
-
 
 type propTypes = {
-    statistics: DistributorProductCanceled[]
+    statistics: any[]
     text: string
 }
 
