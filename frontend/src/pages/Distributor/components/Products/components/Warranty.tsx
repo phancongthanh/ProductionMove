@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Button, Divider, MenuItem, Stack, TextField, Typography, Select } from '@mui/material';
+import { Button, Divider, MenuItem, Stack, TextField, Typography, Select, FormControl, InputLabel } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import DefTextField from '../../../../../components/DefTextField';
@@ -30,7 +30,6 @@ const Warranty: FC<propTypes> = (props) => {
     //   resetForm()
     // }
     const { buildings } = useBuildings();
-    const serviceCenters = buildings?.serviceCenters.map(s => <MenuItem value={s.id}>{s.name}</MenuItem>);
 
     const formik = useFormik({
         initialValues: {
@@ -82,14 +81,14 @@ const Warranty: FC<propTypes> = (props) => {
         </Stack>
 
         <Stack spacing={4} justifyContent="center" alignItems = "center" margin={2}>
-          <DialogContentText>Nhập nơi bảo hiểm</DialogContentText>
-          <Select labelId="ServiceCenterId" name='ServiceCenterId' value={formik.values.ServiceCenterId} label="Loại"
-            onChange={formik.handleChange} required>
-              <MenuItem value={"Factory"}>Factory</MenuItem>
-              <MenuItem value={"Distributor"}>Distributor</MenuItem>
-              <MenuItem value={"ServiceCenter"}>ServiceCenter</MenuItem>
+
+        <DialogContentText>Nhập nơi bảo hiểm</DialogContentText>
+        <FormControl sx={{width: '100%'}}>
+         <InputLabel id="ServiceCenterId" required>Nơi bảo hiểm</InputLabel>
+          <Select labelId="ServiceCenterId" name='ServiceCenterId' value={formik.values.ServiceCenterId} label="Nơi bảo hiểm" onChange={formik.handleChange} required>
+              {buildings?.serviceCenters.map((serviceCenter) => <MenuItem value={serviceCenter.name}>{serviceCenter.name}</MenuItem>)}
           </Select>
-          {<DefTextField formik={formik} label={"id nơi bảo hiểm"} name={"ServiceCenterId"} required />}
+        </FormControl>
         </Stack>
       </DialogContent>
       <DialogActions>
