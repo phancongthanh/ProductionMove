@@ -2,6 +2,7 @@
 
 public class ProductCanceledStatisticsData
 {
+    /*
     public class ProductLineProductCanceled
     {
         public string ProductLineId { get; }
@@ -33,6 +34,20 @@ public class ProductCanceledStatisticsData
             ProductLines = productLines;
         }
     }
+    */
+    public class ProductLineProductCanceled
+    {
+        public string ProductLineId { get; }
 
-    public IList<DistributorProductCanceled> Distributors { get; } = new List<DistributorProductCanceled>();
+        public IList<float> DistributorRates { get; set; } = new List<float>();
+
+        public ProductLineProductCanceled(string productLine)
+        {
+            ProductLineId = productLine;
+        }
+    }
+
+    public IList<DistributorModel> Distributors { get; set; } = new List<DistributorModel>();
+
+    public IList<ProductLineProductCanceled> ProductLines { get; set; } = new List<ProductLineProductCanceled>();
 }

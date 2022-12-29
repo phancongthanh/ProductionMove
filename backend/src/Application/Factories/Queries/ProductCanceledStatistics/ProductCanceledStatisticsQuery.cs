@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProductionMove.Application.Common.Interfaces;
+using ProductionMove.Application.Common.Models;
 using ProductionMove.Application.Common.Models.Statistics;
 using ProductionMove.Application.Common.Security;
 using ProductionMove.Domain.ValueObjects;
@@ -22,28 +24,42 @@ public class ProductCanceledStatisticsQuery : IRequest<ProductCanceledStatistics
 public class ProductCanceledStatisticsQueryHandler : IRequestHandler<ProductCanceledStatisticsQuery, ProductCanceledStatisticsData>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public ProductCanceledStatisticsQueryHandler(IApplicationDbContext context) => _context = context;
+    public ProductCanceledStatisticsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    {
+        _context = context;
+        _mapper = mapper;
+    }
 
     public async Task<ProductCanceledStatisticsData> Handle(ProductCanceledStatisticsQuery request, CancellationToken cancellationToken)
     {
-        var distributors = await _context.Distributors.AsNoTracking()
-            .Include(d => d.Products)
-            .Where(d => d.Products.Any())
-            .ToListAsync(cancellationToken);
+        var data = new ProductCanceledStatisticsData()
+        {
+            Distributors = await _context.Distributors.AsNoTracking()
+                .Select(d => _mapper.Map<DistributorModel>(d))
+                .OrderBy(d => d.Id)
+                .ToListAsync(cancellationToken)
+        };
+        var productLines = await _context.ProductLines.ToListAsync(cancellationToken);
 
-        var data = new ProductCanceledStatisticsData();
-
-        foreach (var distributor in distributors)
-            data.Distributors.Add(new DistributorProductCanceled(distributor.Id,
-                distributor.Products.GroupBy(
-                    p => p.ProductLineId,
-                    p => p,
-                    (productLineId, p)
-                        => new ProductLineProductCanceled(productLineId, p.Count(_p => _p.Status == Domain.Enums.ProductStatus.Canceled), p.Count())
-                )
-            ));
-
+        foreach (var productLine in productLines)
+        {
+            var productLineStatistics = new ProductLineProductCanceled(productLine.Id);
+            foreach (var distributor in data.Distributors)
+            {
+                var products = await _context.Products
+                    .Where(p => p.ProductLineId == productLine.Id)
+                    .Where(p => p.DistributionId == distributor.Id)
+                    .ToListAsync(cancellationToken);
+                if (products.Count > 0)
+                {
+                    var canceledCount = products.Count(p => p.Status == Domain.Enums.ProductStatus.Canceled);
+                    productLineStatistics.DistributorRates.Add(canceledCount / products.Count);
+                }
+                else productLineStatistics.DistributorRates.Add(0);
+            }
+        }
         return data;
     }
 }
