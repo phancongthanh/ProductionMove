@@ -10,7 +10,7 @@ type propTypes = {
 const AllCanceledRateStatistics: FC<propTypes> = ({statistics}) => {
   return (
     <Stack direction={'row'} flexWrap='wrap' display={'flex'}>
-        <CanceledRateStatistics statistics={statistics.distributors} text='Thống kê trạng thái sản phẩm theo năm'/>
+        {/* <CanceledRateStatistics statistics={statistics.distributors} text='Thống kê trạng thái sản phẩm theo năm'/> */}
     </Stack>
   )
 }
