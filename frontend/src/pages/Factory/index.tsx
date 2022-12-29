@@ -1,13 +1,28 @@
 import Layout from "../Layout";
 import { Route, Routes } from "react-router-dom";
-// import { Accounts, ProductLine, CreateAccount, Analytic, Building } from "./components";
 
 import FacSidebar from "./components/FacSidebar";
 import { AddProducts, Distribution, Products, Statistics } from "./components";
-import Product from '../../data/entities/Product';
 import backend from "../../backend";
+import useBuildings from "../../hooks/useBuildings";
+import useProductLines from "../../hooks/useProductlines";
+import { useEffect } from "react";
 
 const Factory = () => {
+  const { setBuildings } = useBuildings();
+  const { setProductLines } = useProductLines();
+  
+  const getData = async () => {
+    const buildings = await backend.buildings.getBuildings();
+    setBuildings(buildings);
+    const productLines = await backend.productLines.getProductLines();
+    setProductLines(productLines);
+  }
+
+  useEffect(() => {
+    getData().then(() => {}).catch(() => {});
+  }, [])
+
   return (
     <Layout Sidebar={<FacSidebar/>}>
       <Routes>
