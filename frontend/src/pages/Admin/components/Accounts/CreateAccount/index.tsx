@@ -24,7 +24,6 @@ const CreateAccount = () => {
   
   const formik = useFormik({
     initialValues: {
-      userId: '',
       userName: '',
       password: '',
       name: '',       
@@ -34,10 +33,6 @@ const CreateAccount = () => {
       buildingId: ''  
     },
     validationSchema: Yup.object({
-    userId: Yup
-        .string()
-        .max(255)
-        .required('Cần điền userId'),
     userName: Yup
         .string()
         .max(255)
@@ -73,9 +68,9 @@ const CreateAccount = () => {
     onSubmit: (values, { resetForm }) => {
       if (loading) return;
       setLoading(true);
-      backend.users.createUser(values, values.password)
-        .then(() => setLoading(false))
-        .catch(() => setLoading(false));
+      // backend.users.createUser(values, values.password)
+      //   .then(() => setLoading(false))
+      //   .catch(() => setLoading(false));
     }
   })
 
@@ -90,7 +85,6 @@ const CreateAccount = () => {
           <Typography variant="h4" sx={{flex: 1, margin: '20px'}}>Thông tin cơ bản</Typography>
           <Divider orientation="vertical" variant="middle" flexItem />
           <Stack sx={{flex: 2, padding: '20px'}} spacing={2} >
-            <DefTextField formik={formik} label={'UserId'} name={'userId'} required />
             <DefTextField formik={formik} label={'Username'} name={'userName'} required />
             <DefTextField formik={formik} label={'Password'} name={'password'} required />
             <DefTextField formik={formik} label={'Họ và tên'} name={'name'} required />

@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import CTable from "./components/CTable";
+import Filters from "./components/Filters";
 
 const Products = () => {
   return (
@@ -9,7 +10,7 @@ const Products = () => {
       </div>
       <Box sx={{ border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3}}>
         <div className='search'>Search</div>
-        <div className='filter'>Filter</div>
+        <Filters/>
         <div className='table'>
           <CTable />
         </div>

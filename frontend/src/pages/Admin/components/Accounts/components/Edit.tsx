@@ -47,9 +47,10 @@ const Edit: FC<propTypes> = (props) => {
         .max(255)
         .required("Cần điền email"),
       role: Yup.string().max(255).required("Cần điền vai trò"),
-      building: Yup.string().max(255).required("Cần điền chỗ làm việc"),
+      buildingId: Yup.string().max(255),
     }),
     onSubmit: (values, { resetForm }) => {
+      console.log(values)
       if (loading) return;
       const user = {
         userId: row.userId,
@@ -120,8 +121,8 @@ const Edit: FC<propTypes> = (props) => {
             <Typography sx={{ fontSize: 18 }}>Công việc</Typography>
             <TextField fullWidth label={'Vai trò'} name={'type'}
                 type={'type'} value={row.role} variant="outlined" disabled/>
-            <TextField fullWidth label={'Nơi làm việc'} name={'type'}
-                type={'type'} value={row.buildingId} variant="outlined" disabled/>
+            <TextField fullWidth label={'Nơi làm việc'} name={'building'}
+                type={'building'} value={row.buildingId} variant="outlined" disabled/>
             {/*
             <FormControl fullWidth>
               <InputLabel id="role" required>

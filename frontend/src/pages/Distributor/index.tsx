@@ -11,6 +11,7 @@ import backend from "../../backend";
 const Distributor = () => {
   const { setBuildings } = useBuildings();
   const { setProductLines } = useProductLines();
+  // const 
   
   const getData = async () => {
     const buildings = await backend.buildings.getBuildings();
