@@ -33,26 +33,22 @@ const Statistics = () => {
   const {loading, setLoading} = useLoading()
   const [statusStatistics, setStatusStatistics] = useState<ProductStatistics<DistributorProductStatisticsItem>|null>(null)
   const [soldAnalysis, setSoldAnalysis] = useState<ProductAnalysis|null> (null)
-
   useEffect(() => {
     setLoading(true)
     const getData = async () => {
       setStatusStatistics(await backend.distributor.statusProductStatistics())
       setSoldAnalysis(await backend.distributor.productSoldAnalysis())
+      
     }
-    
     setLoading(true)
     getData()
     setLoading(false)
   }, [])
 
   useEffect(() => {
-    console.log(soldAnalysis)
+
+    // console.log(soldAnalysis)
   }, [soldAnalysis])
-
-  
-
-
 
 
   return (

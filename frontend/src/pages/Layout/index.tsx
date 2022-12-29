@@ -5,9 +5,7 @@ import { SnackbarProvider } from 'notistack';
 
 import "./styles.scss";
 import LoadingContext from '../../context/LoadingContext';
-import useLoading from '../../hooks/useLoading';
 import { LinearProgress } from '@mui/material';
-import {useEffect} from 'react';
 
 type propTypes = {
   Sidebar: ReactNode
@@ -23,15 +21,15 @@ const Layout : FC<propTypes> = (props) => {
       <ProSidebarProvider>
         <SnackbarProvider maxSnack={3}>
         <LoadingContext.Provider value={{ loading, setLoading }}>
-        {Sidebar}
-        <main>
-          <Navbar />
-          {loading && <LinearProgress />}
-          <div className="homeContainer">
-            
-            {children}
-          </div>
-        </main>
+            {Sidebar}
+            <main>
+              <Navbar />
+              {loading && <LinearProgress />}
+              <div className="homeContainer">
+                
+                {children}
+              </div>
+            </main>
         </LoadingContext.Provider>
         </SnackbarProvider>
       </ProSidebarProvider>
