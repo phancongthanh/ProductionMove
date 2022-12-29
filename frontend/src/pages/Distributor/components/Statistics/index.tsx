@@ -14,8 +14,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import YearStatistics from "./components/Statistic";
-import AllStatistics from "./components/AllStatistics";
+import YearStatistics from "./components/StatusStatistics";
+import AllStatusStatistics from "./components/AllStatusStatistics";
 import ProductAnalysis from "../../../../data/models/ProductAnalysis";
 
 ChartJS.register(
@@ -46,8 +46,7 @@ const Statistics = () => {
   }, [])
 
   useEffect(() => {
-
-    // console.log(soldAnalysis)
+    console.log(soldAnalysis)
   }, [soldAnalysis])
 
 
@@ -57,7 +56,7 @@ const Statistics = () => {
         <div className="title">Thống kê</div>
       </div>
       <div>
-        {statusStatistics && <AllStatistics statistics={statusStatistics}/>}
+        {statusStatistics && <AllStatusStatistics statistics={statusStatistics}/>}
       </div>
     </div>
   );

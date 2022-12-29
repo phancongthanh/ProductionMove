@@ -12,7 +12,7 @@ type propTypes = {
     type: 'year' | 'month' | 'quarter'
 }
 
-const Statistics: FC<propTypes> = ({statistics, text, type}) => {
+const StatusStatistics: FC<propTypes> = ({statistics, text, type}) => {
     const labels = type === 'year' ? statistics.map((statistic) => String(statistic.year)):
                     type === 'month' ? statistics.map((statistic) => String('T' +(statistic.month+1) + '/' + statistic.year)):
                     type === 'quarter' ? statistics.map((statistic) => String('Q'+(statistic.quarter+1)+ '/' + statistic.year)): null
@@ -48,4 +48,4 @@ const Statistics: FC<propTypes> = ({statistics, text, type}) => {
   )
 }
 
-export default Statistics
+export default StatusStatistics

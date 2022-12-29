@@ -1,6 +1,6 @@
 import Layout from "../Layout";
 import { Route, Routes } from "react-router-dom";
-import { Accounts, ProductLine, CreateAccount, Statistics, Building } from "./components";
+import { Accounts, ProductLine, CreateAccount, Statistics, Building, Products } from "./components";
 
 import AdminSidebar from "./components/AdminSidebar";
 
@@ -12,6 +12,7 @@ const Admin = () => {
         <Route path="/createAccount" element={<CreateAccount />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/building" element={<Building />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/*" element={<Statistics />} />
       </Routes>
     </Layout>

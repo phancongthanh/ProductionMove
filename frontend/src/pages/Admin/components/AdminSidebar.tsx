@@ -20,6 +20,10 @@ const AdminSidebar = () => {
             {" "}
             Dòng sản phẩm
           </MenuItem>
+          <MenuItem active={pathname === "/admin/products"} routerLink={<Link to="products" />}>
+            {" "}
+            Danh sách sản phẩm
+          </MenuItem>
         </SubMenu>
         <MenuItem active={pathname === "/admin/Building"} routerLink={<Link to="Building" />}  icon={<BusinessIcon />}>
               {" "}
