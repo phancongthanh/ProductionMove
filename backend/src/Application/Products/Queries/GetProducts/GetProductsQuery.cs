@@ -50,7 +50,7 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Paginat
             case Schema.Role.Distributor:
                 products = _context.Products.AsNoTracking()
                     .Include(p => p.Warranties)
-                    .Where(p => p.FactoryId == request.BuildingId);
+                    .Where(p => p.DistributorId == request.BuildingId);
                 break;
             case Schema.Role.ServiceCenter:
                 var productIds = await _context.Warranties.AsNoTracking()

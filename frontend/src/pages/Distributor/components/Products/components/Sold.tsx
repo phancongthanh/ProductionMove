@@ -41,7 +41,6 @@ const Sold: FC<propTypes> = (props) => {
             phone: Yup.string().matches(phoneRegExp, "Không phải định dạng SĐT").max(255).required("Cần điền SĐT khác hàng"),
         }),
         onSubmit: (values, { resetForm }) => {
-          alert(JSON.stringify(values))
           var customer = {
             name: values.name,
             phone: values.phone
@@ -56,8 +55,8 @@ const Sold: FC<propTypes> = (props) => {
           }).catch(e => {
             setLoading(false);
             console.log(e);
-            reload();
             setOpenDialog(false)
+            reload();
           });
         },
       });
