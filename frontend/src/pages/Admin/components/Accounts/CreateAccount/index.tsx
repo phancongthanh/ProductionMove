@@ -71,10 +71,11 @@ const CreateAccount = () => {
         .notRequired()
     }),
     onSubmit: (values, { resetForm }) => {
-        setLoading(true);
-        backend.users.createUser(values, values.password)
-          .then(() => setLoading(false))
-          .catch(() => setLoading(false));
+      if (loading) return;
+      setLoading(true);
+      backend.users.createUser(values, values.password)
+        .then(() => setLoading(false))
+        .catch(() => setLoading(false));
     }
   })
 

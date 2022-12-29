@@ -28,7 +28,7 @@ type propTypes = {
 const Create: FC<propTypes> = (props) => {
     const {open, handleClose, rows, setRows} = props
 
-    const { setLoading } = useLoading();
+    const { loading, setLoading } = useLoading();
 
     // const onClose = ({ resetForm }) => {
     //   handleClose()
@@ -57,19 +57,20 @@ const Create: FC<propTypes> = (props) => {
             .typeError('Thời hạn bảo hành phải là số')
         }),
         onSubmit: (values, { resetForm }) => {
-            const productLine: ProductLine = {...values, describes:[]}
-            setLoading(true);
-            backend.productLines.createProductLine(productLine)
-            .then(() => {
-              setLoading(false);
-              handleClose();
-              setRows([...rows, productLine]);
-              resetForm();
-            })
-            .catch(() => {
-              setLoading(false)
-              alert("Id hoặc tên dòng sản phẩm đã tồn tại!");
-            });
+          if (loading) return;
+          const productLine: ProductLine = {...values, describes:[]}
+          setLoading(true);
+          backend.productLines.createProductLine(productLine)
+          .then(() => {
+            setLoading(false);
+            handleClose();
+            setRows([...rows, productLine]);
+            resetForm();
+          })
+          .catch(() => {
+            setLoading(false)
+            alert("Id hoặc tên dòng sản phẩm đã tồn tại!");
+          });
         }
     })
 
@@ -89,7 +90,7 @@ const Create: FC<propTypes> = (props) => {
         <Stack spacing={4} justifyContent="center" alignItems = "center" margin={2}>
           <DefTextField formik={formik} label={'Id'} name={'id'} required/>
           <DefTextField formik={formik} label={'Tên'} name={'name'} required/>
-          <DefNumTextField formik={formik} label={'Thời hạn bảo hành (năm)'} name={'warrantyPeriod'} required/>
+          <DefNumTextField formik={formik} label={'Thời hạn bảo hành (ngày)'} name={'warrantyPeriod'} required/>
         </Stack>
     </DialogContent>
     <DialogActions>

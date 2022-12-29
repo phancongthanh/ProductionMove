@@ -1,5 +1,4 @@
 import { createContext, useState, ReactNode, FC, useEffect } from "react";
-import backend from '../backend/index';
 import ProductLine from "../data/entities/ProductLine";
 
 const ProductLinesContext = createContext<{

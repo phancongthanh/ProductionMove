@@ -17,7 +17,7 @@ type propTypes = {
 const Edit: FC<propTypes> = (props) => {
 
     const {row, rows, setRows , setOpen} = props;
-    const { setLoading } = useLoading();
+    const { loading, setLoading } = useLoading();
 
     // const [newBuildingInfo, setBuildingInfo] = useState<BuildingInfo>({
     //     name: row.name,
@@ -45,6 +45,7 @@ const Edit: FC<propTypes> = (props) => {
             .string()
         }),
         onSubmit: (values, { resetForm }) => {
+            if (loading) return;
             const index = rows.indexOf(row);
             const newRows = [...rows]
             newRows[index].name = values.name

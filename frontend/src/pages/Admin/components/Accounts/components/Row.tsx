@@ -23,7 +23,7 @@ type propTypes = {
 const Row: FC<propTypes> = (props) => {
 
   const {row, rows, setRows } = props;
-  const { setLoading } = useLoading();
+  const { loading, setLoading } = useLoading();
   
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
       '&:hover': {
@@ -43,6 +43,7 @@ const Row: FC<propTypes> = (props) => {
         return;
       }
       else {
+        if (loading) return;
         setLoading(true);
         console.log(row.userId)
         backend.users.deleteUser(row.userId)

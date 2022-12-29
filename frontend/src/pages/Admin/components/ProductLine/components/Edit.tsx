@@ -21,7 +21,7 @@ type propTypes = {
 const Edit: FC<propTypes> = (props) => {
 
     const {row, rows, setRows , setOpen} = props;
-    const { setLoading } = useLoading();
+    const { loading, setLoading } = useLoading();
 
     const [newDescribes, setNewDescribes] = useState(row.describes)
 
@@ -43,6 +43,7 @@ const Edit: FC<propTypes> = (props) => {
 
     const onSubmit = (event: any) => {
         event.preventDefault();
+        if (loading) return;
         setLoading(true);
         backend.productLines.updateProductLine(row.id, newDescribes)
         .then(() => {

@@ -21,7 +21,7 @@ type propTypes = {
 const Edit: FC<propTypes> = (props) => {
   const { row, rows, setRows, setOpen } = props;
 
-  const { setLoading } = useLoading();
+  const { loading, setLoading } = useLoading();
 
   const formik = useFormik({
     initialValues: {
@@ -50,8 +50,8 @@ const Edit: FC<propTypes> = (props) => {
       building: Yup.string().max(255).required("Cần điền chỗ làm việc"),
     }),
     onSubmit: (values, { resetForm }) => {
-      // alert(JSON.stringify(values))
-      var user = {
+      if (loading) return;
+      const user = {
         userId: row.userId,
         userName: values.userName,
         name: values.name,

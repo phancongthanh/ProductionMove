@@ -1,28 +1,9 @@
 import jwtDecode from "jwt-decode";
 import LoginRequest from "../data/models/LoginRequest";
 import LoginResponse from "../data/models/LoginResponse";
-import User from "../data/models/User";
 
 import server from "./server";
-
 import storage from "../storage";
-
-export async function signUp(user: User) : Promise<boolean> {
-    const url = server.baseUrl + "/Account/SignUp";
-
-    const accessToken = await getAccessToken();
-    if (!accessToken) return false;
-
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + accessToken
-        },
-        body: JSON.stringify(user)
-    })
-    return response.ok;
-}
 
 export async function login(request: LoginRequest) : Promise<LoginResponse> {
     const url = server.baseUrl + "/Account/Login";
@@ -92,7 +73,6 @@ export async function logOut() : Promise<void> {
 }
 
 const accounts = {
-    signUp,
     login,
     logOut,
     refreshTokenRequest,

@@ -4,7 +4,6 @@ import LineChart from '../../../../../components/LineChart'
 import { Box } from '@mui/material'
 import { ProductStatusColor } from '../../../../../data/enums/ProductStatusColor'
 import { getDarkerColor } from '../../../../../utils/GetDarkerColor'
-import warranty from '../../../../../actions/serviceCenter/warranty/index';
 
 
 type propTypes = {

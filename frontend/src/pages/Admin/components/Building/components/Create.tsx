@@ -29,7 +29,7 @@ type propTypes = {
 
 const Create: FC<propTypes> = (props) => {
     const {open, handleClose, rows, setRows} = props;
-    const { setLoading } = useLoading();
+    const { loading, setLoading } = useLoading();
 
     // const onClose = ({ resetForm }) => {
     //   handleClose()
@@ -57,6 +57,7 @@ const Create: FC<propTypes> = (props) => {
             .string()
         }),
         onSubmit: (values, { resetForm }) => {
+            if (loading) return;
             setLoading(true);
             backend.buildings.createBuilding(values.type, values)
             .then(() => {
