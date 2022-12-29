@@ -6,27 +6,24 @@ import { ProductStatusColor } from '../../../../../data/enums/ProductStatusColor
 import { getDarkerColor } from '../../../../../utils/GetDarkerColor'
 import VerticalBarChart from '../../../../../components/VerticalBarChart';
 import ProductCanceledStatisticsData from '../../../../../data/models/ProductCanceledStatisticsData'
+import { Console } from 'console'
+import dynamicColors from '../../../../../utils/dynamicColors'
 
 type propTypes = {
     statistics: ProductCanceledStatisticsData
     text: string
 }
 
-const dynamicColors = function() {
-  var r = Math.floor(Math.random() * 255);
-  var g = Math.floor(Math.random() * 255);
-  var b = Math.floor(Math.random() * 255);
-  return "rgb(" + r + "," + g + "," + b + ")";
-};
+
 
 const CanceledRateStatistics: FC<propTypes> = ({statistics, text}) => {
-    // const colors:[] = statistics.productLines.length
+    const colors = statistics.productLines.map(() => dynamicColors())
 
     const labels = statistics.distributors.map((d) => d.name)
-    let datasets = statistics.productLines.map((productLine) => ({
+    const datasets = statistics.productLines.map((productLine, index) => ({
       label: productLine.productLineId,
       data: productLine.distributorRates.map((d) => d*100),
-      backgroundColor: dynamicColors,
+      backgroundColor: colors[index],
     }))
     const data = {
       labels,
