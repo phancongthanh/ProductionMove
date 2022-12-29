@@ -5,13 +5,12 @@ import DisSidebar from "./components/DisSidebar";
 import { Distribution, Products, Statistics } from "./components";
 import useBuildings from "../../hooks/useBuildings";
 import useProductLines from "../../hooks/useProductlines";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import backend from "../../backend";
 
 const Distributor = () => {
   const { setBuildings } = useBuildings();
   const { setProductLines } = useProductLines();
-  // const 
   
   const getData = async () => {
     const buildings = await backend.buildings.getBuildings();

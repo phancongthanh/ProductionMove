@@ -4,6 +4,8 @@ import LineChart from '../../../../../components/LineChart'
 import { Box } from '@mui/material'
 import { ProductStatusColor } from '../../../../../data/enums/ProductStatusColor'
 import { getDarkerColor } from '../../../../../utils/GetDarkerColor'
+import { toVN } from '../../../../../utils/ProductStatusExtention'
+import { ProductStatus } from '../../../../../data/enums/ProductStatus'
 
 
 type propTypes = {
@@ -19,19 +21,19 @@ const StatusStatistics: FC<propTypes> = ({statistics, text, type}) => {
     
     let datasets = [
     {
-        label: 'Imported',
+        label: toVN(ProductStatus.JustImported),
         data: statistics.map((statistic) => String(statistic.value.imported)),
         borderColor: ProductStatusColor.JustImported,
         backgroundColor: getDarkerColor(ProductStatusColor.JustImported),
     },
     {
-        label: 'Sold',
+        label: toVN(ProductStatus.Sold),
         data: statistics.map((statistic) => String(statistic.value.sold)),
         borderColor: ProductStatusColor.Sold,
         backgroundColor: getDarkerColor(ProductStatusColor.Sold),
     },
     {
-        label: 'Warranty',
+        label: toVN(ProductStatus.Warranty),
         data: statistics.map((statistic) => String(statistic.value.warranty)),
         borderColor: ProductStatusColor.WaitingForWarranty,
         backgroundColor: getDarkerColor(ProductStatusColor.WaitingForWarranty),

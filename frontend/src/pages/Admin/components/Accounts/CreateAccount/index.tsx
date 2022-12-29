@@ -68,9 +68,10 @@ const CreateAccount = () => {
     onSubmit: (values, { resetForm }) => {
       if (loading) return;
       setLoading(true);
-      // backend.users.createUser(values, values.password)
-      //   .then(() => setLoading(false))
-      //   .catch(() => setLoading(false));
+      const newValues = {...values, userId: ''}
+      backend.users.createUser(newValues, values.password)
+        .then(() => setLoading(false))
+        .catch(() => setLoading(false));
     }
   })
 

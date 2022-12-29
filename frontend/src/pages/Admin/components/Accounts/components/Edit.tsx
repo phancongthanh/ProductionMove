@@ -50,7 +50,6 @@ const Edit: FC<propTypes> = (props) => {
       buildingId: Yup.string().max(255),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log(values)
       if (loading) return;
       const user = {
         userId: row.userId,
