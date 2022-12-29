@@ -9,6 +9,7 @@ import AllStatusStatistics from "./components/AllStatusStatistics";
 import ProductAnalysis from "../../../../data/models/ProductAnalysis";
 import { Divider, Stack, Typography } from "@mui/material";
 import AllExportAnalysis from "./components/AllExportAnalysis";
+import AllCanceledRateStatistics from "./components/AllCanceledRateStatistics";
 
 
 
@@ -56,6 +57,11 @@ const Statistics = () => {
           <Stack sx={{border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px'}} spacing={4}>
           <Typography variant="h5">Phân tích sản phẩm được xuất</Typography>
           {exportAnalysis && <AllExportAnalysis analysis={exportAnalysis}/>}
+          </Stack>
+          <Divider sx={{margin:4}}/>
+          <Stack sx={{border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3, padding: '10px'}} spacing={4}>
+          <Typography variant="h5">Phân tích sản phẩm bị hủy bỏ</Typography>
+          {CanceledRateStatistics && <AllCanceledRateStatistics statistics={CanceledRateStatistics}/>}
           </Stack>
         </Stack>
       </div>
