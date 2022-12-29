@@ -33,7 +33,7 @@ const Warranty: FC<propTypes> = (props) => {
 
     const formik = useFormik({
         initialValues: {
-            ServiceCenterId:''
+            ServiceCenterId: ''
         },
         validationSchema: Yup.object({
             ServiceCenterId: Yup.string().max(255).required("Cần điền id nơi bảo hành"),
@@ -84,9 +84,9 @@ const Warranty: FC<propTypes> = (props) => {
 
         <DialogContentText>Nhập nơi bảo hiểm</DialogContentText>
         <FormControl sx={{width: '100%'}}>
-         <InputLabel id="ServiceCenterId" required>Nơi bảo hiểm</InputLabel>
+         <InputLabel id="ServiceCenterId" required>Nơi bảo hành</InputLabel>
           <Select labelId="ServiceCenterId" name='ServiceCenterId' value={formik.values.ServiceCenterId} label="Nơi bảo hiểm" onChange={formik.handleChange} required>
-              {buildings?.serviceCenters.map((serviceCenter) => <MenuItem value={serviceCenter.name}>{serviceCenter.name}</MenuItem>)}
+              {buildings?.serviceCenters.map((serviceCenter) => <MenuItem key={serviceCenter.id} value={serviceCenter.id}>{serviceCenter.name}</MenuItem>)}
           </Select>
         </FormControl>
         </Stack>

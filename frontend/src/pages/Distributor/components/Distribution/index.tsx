@@ -1,16 +1,20 @@
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { Box, Button, Container, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Divider, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
 import DefTextField from "../../../../components/DefTextField";
 import DefNumTextField from '../../../../components/DefNumTextField';
 import {useState, useEffect} from 'react';
 import useAuth from "../../../../hooks/useAuth";
 import useLoading from "../../../../hooks/useLoading";
 import backend from "../../../../backend";
+import useProductLines from "../../../../hooks/useProductlines";
+import useBuildings from "../../../../hooks/useBuildings";
 
 const Distribution = () => {
   const { auth } = useAuth();
   const { setLoading } = useLoading();
+  const { buildings } = useBuildings();
+  const { productLines } = useProductLines();
   const [quantity, setQuantity] = useState(1)
 
   const formik = useFormik({
@@ -78,8 +82,22 @@ const Distribution = () => {
         <Typography variant="h4" sx={{flex: 1, margin: '20px'}}>Thông tin</Typography>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Stack sx={{flex: 2, padding: '20px'}} spacing={2} >
-         <DefTextField formik={formik} label={'Id nơi sản xuất'} name={'factoryId'} required />
+          {/*
+          <DefTextField formik={formik} label={'Id nơi sản xuất'} name={'factoryId'} required />
           <DefTextField formik={formik} label={'Id dòng sản phẩm'} name={'productLineId'} required />
+          */}
+          <FormControl sx={{width: '100%'}}>
+            <InputLabel id="factoryId" required>Nơi sản xuất</InputLabel>
+            <Select labelId="factoryId" name='factoryId' value={formik.values.factoryId} label="Nơi sản xuất" onChange={formik.handleChange} required>
+                {buildings?.factories.map(f => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
+            </Select>
+          </FormControl>
+          <FormControl sx={{width: '100%'}}>
+            <InputLabel id="productLineId" required>Dòng sản phẩm</InputLabel>
+            <Select labelId="productLineId" name='productLineId' value={formik.values.productLineId} label="Dòng sản phẩm" onChange={formik.handleChange} required>
+                {productLines?.map(pl => <MenuItem key={pl.id} value={pl.id}>{pl.name}</MenuItem>)}
+            </Select>
+          </FormControl>
           <Divider variant="middle" flexItem />
           <Stack spacing={2} direction='row' alignItems={'center'}>
           <TextField
