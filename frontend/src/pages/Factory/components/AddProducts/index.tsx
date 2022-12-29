@@ -9,7 +9,7 @@ import backend from "../../../../backend";
 
 const AddProducts = () => {
 
-    const [quantity, setQuantity] = useState(0)
+    const [quantity, setQuantity] = useState(1)
     const { setLoading } = useLoading();
   
     const formik = useFormik({

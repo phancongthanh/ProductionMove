@@ -21,68 +21,68 @@ type propTypes = {
 
 const Row: FC<propTypes> = (props) => {
 
-    const {row, reload } = props;
-    const { setLoading } = useLoading();
-  
-    const StyledTableRow = styled(TableRow)(({ theme }) => ({
-      '&:hover': {
-        backgroundColor: theme.palette.action.hover,
-      },
-      // hide last border
-      '&:last-child td, &:last-child th': {
-        border: 0,
-      },
-    }));
-  
-    const [open, setOpen] = React.useState(false);
-  
-    const handleDelete = () => {
-      setLoading(true);
-      backend.factory.cancelProduct(row.id)
-      .then(() => {
-        setLoading(false);
-        reload();
-      }).catch(() => setLoading(false));
-    }
-  
-    return (
-      <>
-        <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-          <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell component="th" scope="row">
-            {row.id}
-          </TableCell>
-          <TableCell align="right">{row.productLineId}</TableCell>
-          <TableCell align="right">{Extentions.ProductStatus.toVN(row.status)}</TableCell>
-          <TableCell align="right">{row.dateOfManufacture.toLocaleString()}</TableCell>
-          <TableCell align="right">
-            {
-              row.status == ProductStatus.WaitingForFactory
-              ?
-                <IconButton  onClick={handleDelete}>
-                  <DeleteIcon color='error' />
-                </IconButton>
-              : ""
-            }
-          </TableCell>
-        </StyledTableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              {/* <Edit row={row} rows={rows} setRows={setRows} setOpen={setOpen}/> */}
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </>
-    );
+  const {row, reload } = props;
+  const { setLoading } = useLoading();
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:hover': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleDelete = () => {
+    setLoading(true);
+    backend.factory.cancelProduct(row.id)
+    .then(() => {
+      setLoading(false);
+      reload();
+    }).catch(() => setLoading(false));
   }
+
+  return (
+    <>
+      <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {row.id}
+        </TableCell>
+        <TableCell align="right">{row.productLineId}</TableCell>
+        <TableCell align="right">{Extentions.ProductStatus.toVN(row.status)}</TableCell>
+        <TableCell align="right">{row.dateOfManufacture.toLocaleString()}</TableCell>
+        <TableCell align="right">
+          {
+            row.status == ProductStatus.WaitingForFactory
+            ?
+              <IconButton  onClick={handleDelete}>
+                <DeleteIcon color='error' />
+              </IconButton>
+            : ""
+          }
+        </TableCell>
+      </StyledTableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            {/* <Edit row={row} rows={rows} setRows={setRows} setOpen={setOpen}/> */}
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  );
+}
 
 export default Row
