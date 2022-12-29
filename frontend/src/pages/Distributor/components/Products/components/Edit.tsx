@@ -1,37 +1,19 @@
-import React, { FC, useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { FC } from "react";
 import { useFormik } from "formik";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ClearIcon from "@mui/icons-material/Clear";
 import * as Yup from "yup";
-import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { Container } from "@mui/system";
+import { Box, Button, Divider, Stack, TextField, Typography, } from "@mui/material";
 import DefTextField from "../../../../../components/DefTextField";
 import { phoneRegExp } from "../../../../../untils/Reg";
-import Product1 from "../../../../../types/Product1";
+import Product from "../../../../../data/entities/Product";
 
 type propTypes = {
-  row: Product1;
-  rows: Product1[];
-  setRows: Function;
+  row: Product,
+  reload: () => void
   setOpen: Function;
 };
 
 const Edit: FC<propTypes> = (props) => {
-  const { row, rows, setRows, setOpen } = props;
+  const { row, reload, setOpen } = props;
   
 
   const formik = useFormik({
@@ -51,8 +33,9 @@ const Edit: FC<propTypes> = (props) => {
         phone: Yup.string().matches(phoneRegExp, "Không phải định dạng SĐT").max(255).required("Cần điền SĐT khác hàng"),
     }),
     onSubmit: (values, { resetForm }) => {
-      alert(JSON.stringify(values))
-
+      console.log(values)
+      alert("Tính năng không hỗ trợ!")
+      /*
       const index = rows.indexOf(row);
       const newRows = [...rows];
       newRows[index].customer = {
@@ -60,6 +43,8 @@ const Edit: FC<propTypes> = (props) => {
         phone: values.phone ? values.phone : '',
       }
       setRows(newRows);
+      */
+     reload();
     },
   });
 

@@ -1,12 +1,5 @@
 import { createContext, useState, ReactNode, FC, useEffect } from "react";
-import LoginResponse from "../data/models/LoginResponse";
-import { RoleSchema } from "../data/enums/RoleSchema";
-import storage from "../storage";
-import user from "../actions/user";
-import backend from "../backend";
 import BuildingsModel from "../data/models/BuildingsModel";
-
-
 
 const BuildingsContext = createContext<{
   buildings: BuildingsModel | null;

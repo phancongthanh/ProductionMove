@@ -1,33 +1,30 @@
-import React, { FC } from 'react'
-import Product1 from '../../../../../types/Product1';
+import { FC } from 'react'
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
-import CategoryIcon from '@mui/icons-material/Category';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import ProductLine from '../../../../../data/entities/ProductLine';
 import DefTextField from '../../../../../components/DefTextField';
-import DefNumTextField from '../../../../../components/DefNumTextField';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { phoneRegExp } from '../../../../../untils/Reg';
-import { ProductStatus1 } from '../../../../../types/ProductStatus1';
+import Product from '../../../../../data/entities/Product';
+import backend from '../../../../../backend';
+import useLoading from '../../../../../hooks/useLoading';
 
 type propTypes = {
     open: boolean,
     setOpenDialog: any,
-    rows: Product1[],
-    setRows: Function,
-    row: Product1,
+    row: Product,
+    reload: () => void
  }
 
 
 const Sold: FC<propTypes> = (props) => {
-    const {open, setOpenDialog, rows, setRows, row} = props
-
+    const {open, setOpenDialog, row, reload} = props
+    const { setLoading } = useLoading();
     // const onClose = ({ resetForm }) => {
     //   handleClose()
     //   resetForm()
@@ -45,17 +42,23 @@ const Sold: FC<propTypes> = (props) => {
         }),
         onSubmit: (values, { resetForm }) => {
           alert(JSON.stringify(values))
-    
-          const index = rows.indexOf(row);
-          const newRows = [...rows];
-          newRows[index].customer = {
-            name: values.name ? values.name : '',
-            phone: values.phone ? values.phone : '',
-          }
-          newRows[index].status = ProductStatus1.Sold
-          setRows(newRows);
-          resetForm();
-          setOpenDialog(false)
+          var customer = {
+            name: values.name,
+            phone: values.phone
+          };
+          setLoading(true);
+          backend.products.sellProduct(row.id, customer)
+          .then(() => {
+            setLoading(false);
+            reload();
+            resetForm();
+            setOpenDialog(false)
+          }).catch(e => {
+            setLoading(false);
+            console.log(e);
+            reload();
+            setOpenDialog(false)
+          });
         },
       });
 

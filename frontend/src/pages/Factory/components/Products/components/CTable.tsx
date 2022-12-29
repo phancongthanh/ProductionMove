@@ -78,16 +78,15 @@ const CTable = () => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const newRowsPerPage = parseInt(event.target.value, 10);
-    console.log(newRowsPerPage)
     setRowsPerPage(newRowsPerPage);
     setPage(0);
     loadPage(0, newRowsPerPage);
   };
-
+  /*
   const onSubmit = () => {
     alert(JSON.stringify(rows))
   }
-
+  */
   return (
     <>
     <TableContainer component={Paper}>
@@ -126,9 +125,13 @@ const CTable = () => {
         </TableFooter>
       </Table>
     </TableContainer>
-    <Box sx = {{margin: 2, display:'flex', justifyContent: 'flex-end'}}>
-      <Button variant="contained" onClick={onSubmit}>Cập nhập</Button>
-    </Box>
+    {
+      /*
+      <Box sx = {{margin: 2, display:'flex', justifyContent: 'flex-end'}}>
+        <Button variant="contained" onClick={onSubmit}>Cập nhập</Button>
+      </Box>
+      */
+    }
     </>
   );
 }

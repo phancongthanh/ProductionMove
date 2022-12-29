@@ -15,27 +15,34 @@ import DefNumTextField from '../../../../../components/DefNumTextField';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { phoneRegExp } from '../../../../../untils/Reg';
 import { ProductStatus1 } from '../../../../../types/ProductStatus1';
+import Product from '../../../../../data/entities/Product';
+import useLoading from '../../../../../hooks/useLoading';
+import backend from '../../../../../backend';
 
 type propTypes = {
     open: boolean,
     setOpenDialog: any,
-    rows: Product1[],
-    setRows: Function,
-    row: Product1,
+    row: Product,
+    reload: () => void
  }
 
 
 const ReturnToCustomer: FC<propTypes> = (props) => {
-    const {open, setOpenDialog, rows, setRows, row} = props
-
+    const {open, setOpenDialog, row, reload} = props
+  const { setLoading } = useLoading();
 
     const onSubmit = () => {
-      const index = rows.indexOf(row);
-      const newRows = [...rows];
-
-      newRows[index].status = ProductStatus1.Sold
-      setRows(newRows);
-      setOpenDialog(false)
+      setLoading(true);
+      backend.distributor.returnToCustomer(row.id)
+      .then(() => {
+        setLoading(false);
+        reload();
+        setOpenDialog(false)
+      }).catch(e => {
+        setLoading(false);
+        console.log(e)
+        setOpenDialog(false)
+      })
     }
 
   return (
