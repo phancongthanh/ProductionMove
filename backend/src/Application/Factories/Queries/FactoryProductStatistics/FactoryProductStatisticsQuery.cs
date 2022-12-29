@@ -32,11 +32,9 @@ public class FactoryProductStatisticsQueryHandler : IRequestHandler<FactoryProdu
         var products = _context.Products.AsNoTracking()
             .Where(p => p.FactoryId == request.BuildingId);
 
-        var years = await distributions.Select(d => d.Time.Year)
-            .Union(products.Select(p => p.DateOfManufacture.Year))
-            .Distinct()
-            .Order()
-            .ToListAsync(cancellationToken);
+        var years = await distributions.Select(d => d.Time.Year).Distinct().ToListAsync(cancellationToken);
+        years.AddRange(await products.Select(p => p.DateOfManufacture.Year).Distinct().ToListAsync(cancellationToken));
+        years = years.Distinct().Order().ToList();
 
         var monthStatistics = new List<MonthProductStatistics<FactoryProductStatisticsItem>>();
 

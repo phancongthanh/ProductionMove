@@ -1,43 +1,51 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Box, Button, Container, Divider, Stack, TextField, Typography } from "@mui/material";
 import DefTextField from "../../../../components/DefTextField";
 import DefNumTextField from '../../../../components/DefNumTextField';
 import {useState, useEffect} from 'react';
+import useAuth from "../../../../hooks/useAuth";
+import useLoading from "../../../../hooks/useLoading";
+import backend from "../../../../backend";
 
 const Distribution = () => {
+  const { auth } = useAuth();
+  const { setLoading } = useLoading();
+  const [quantity, setQuantity] = useState(1)
 
-    const [quantity, setQuantity] = useState(0)
-
-  
-    const formik = useFormik({
-      initialValues: {
-        factoryId: '',
-        productLineId: '',
-        fromId: NaN,
-        toId: NaN,
-      },
-      validationSchema: Yup.object({
-      factoryId: Yup
+  const formik = useFormik({
+    initialValues: {
+      factoryId: '',
+      productLineId: '',
+      fromId: NaN,
+      toId: NaN,
+    },
+    validationSchema: Yup.object({
+    factoryId: Yup
+      .string()
+      .max(255)
+      .required('Cần điền id nơi phân phối'),
+    productLineId: Yup
         .string()
         .max(255)
-        .required('Cần điền id nơi phân phối'),
-      productLineId: Yup
-          .string()
-          .max(255)
-          .required('Cần điền id dòng sản phẩm'),
-      fromId: Yup
-          .number()
-          .required('Cần điền từ ID'),
-      toId: Yup
-          .number()
-          .required('Cần điền đến ID'),
-      }),
-      onSubmit: (values, { resetForm }) => {
-          alert(JSON.stringify(values))
-      }
+        .required('Cần điền id dòng sản phẩm'),
+    fromId: Yup
+        .number()
+        .required('Cần điền từ ID'),
+    toId: Yup
+        .number()
+        .required('Cần điền đến ID'),
+    }),
+    onSubmit: (values, { resetForm }) => {
+      if (auth == null) return;
+      setLoading(true);
+      backend.distributions.addDistribution(values.factoryId, auth.user.buildingId, values.productLineId, values.fromId, values.toId)
+      .then(() => {
+        setLoading(false);
+        alert("Thành công");
+        resetForm();
+      }).catch(() => setLoading(false))
+    }
   })
   
   const handleQuantityChange = (value: string) => {
@@ -46,17 +54,17 @@ const Distribution = () => {
 
   const handleQuantityBlur = () => {
     if(!isNaN(formik.values.fromId)) {
-      formik.setFieldValue( 'toId' ,Number(formik.values.fromId) + quantity)
+      formik.setFieldValue( 'toId' ,Number(formik.values.fromId) + quantity - 1)
     }
   }
 
   useEffect(() => {
-    formik.setFieldValue( 'toId' ,Number(formik.values.fromId) + quantity)
+    formik.setFieldValue( 'toId' ,Number(formik.values.fromId) + quantity - 1)
   }, [formik.values.fromId])
 
   useEffect(() => {
     if(!isNaN(Number(formik.values.fromId)))
-    setQuantity(Number(formik.values.toId) - Number(formik.values.fromId))
+    setQuantity(Number(formik.values.toId) - Number(formik.values.fromId) + 1)
   }, [formik.values.toId])
 
   return (

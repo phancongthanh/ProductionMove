@@ -21,7 +21,7 @@ type propTypes = {
 const Edit: FC<propTypes> = (props) => {
 
     const {row, rows, setRows , setOpen} = props;
-    const { loading, setLoading } = useLoading();
+    const { setLoading } = useLoading();
 
     const [newDescribes, setNewDescribes] = useState(row.describes)
 

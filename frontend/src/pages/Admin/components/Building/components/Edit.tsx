@@ -1,14 +1,8 @@
-import React, { FC, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import { FC } from 'react'
 import { useFormik } from 'formik';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ClearIcon from '@mui/icons-material/Clear';
 import * as Yup from 'yup';
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { Container } from '@mui/system';
-import ProductLine, { ProductLineInfo } from '../../../../../data/entities/ProductLine';
-import { Building, BuildingInfo } from './types';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material';
+import { Building } from './types';
 import DefTextField from '../../../../../components/DefTextField';
 import backend from '../../../../../backend';
 import useLoading from '../../../../../hooks/useLoading';
@@ -23,7 +17,7 @@ type propTypes = {
 const Edit: FC<propTypes> = (props) => {
 
     const {row, rows, setRows , setOpen} = props;
-    const { loading, setLoading} = useLoading();
+    const { setLoading } = useLoading();
 
     // const [newBuildingInfo, setBuildingInfo] = useState<BuildingInfo>({
     //     name: row.name,

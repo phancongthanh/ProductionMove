@@ -1,25 +1,19 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Edit from './Edit';
 import { Button, styled, TableFooter, TablePagination } from '@mui/material';
 import Row from './Row';
-import Product1, { Customer } from '../../../../../types/Product1';
-import { ProductStatus1 } from '../../../../../types/ProductStatus1';
+import useLoading from '../../../../../hooks/useLoading';
+import backend from '../../../../../backend';
+import Product from '../../../../../data/entities/Product';
 
-
+/*
 const customer: Customer = {
   phone: '1',
   name: 'A'
@@ -32,16 +26,35 @@ let rows1: Product1[] = [
   {id: 4, status: ProductStatus1.JustProduced, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 4', factoryId: '4', distributionId: '4', customer},
   {id: 5, status: ProductStatus1.JustProduced, dateOfManufacture: new Date(), saleDate: new Date(), productLineId: 'line 5', factoryId: '5', distributionId: '5', customer},
 ]
-
+*/
 
 const CTable = () => {
-
-
-  const [rows, setRows] = React.useState(rows1);
+  const [total, setTotal] = React.useState(0);
+  const [rows, setRows] = React.useState<Product[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { setLoading } = useLoading();
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const loadPage = (pageNumber: number, pageSize: number) => {
+    pageNumber++;
+    if (pageNumber <= 0 || pageSize <= 0) return;
+    setLoading(true);
+    backend.products.getProducts(pageNumber, pageSize)
+    .then(ps => {
+      setLoading(false);
+      setTotal(ps.totalCount);
+      setPage(pageNumber-1);
+      setRowsPerPage(pageSize);
+      setRows(ps.items);
+    }).catch(() => setLoading(false));
+  }
+
+  React.useEffect(() => {
+    loadPage(0, rowsPerPage);
+  }, [])
+
+  //const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - total) : 0;
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -58,13 +71,17 @@ const CTable = () => {
     newPage: number,
   ) => {
     setPage(newPage);
+    loadPage(newPage, rowsPerPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    console.log(newRowsPerPage)
+    setRowsPerPage(newRowsPerPage);
     setPage(0);
+    loadPage(0, newRowsPerPage);
   };
 
   const onSubmit = () => {
@@ -82,16 +99,20 @@ const CTable = () => {
             <StyledTableCell align="right">Dòng</StyledTableCell>
             <StyledTableCell align="right">Trạng thái</StyledTableCell>
             <StyledTableCell align="right">Ngày sản xuất</StyledTableCell>
-            <StyledTableCell align="right">Xóa</StyledTableCell>
+            <StyledTableCell align="right">Hủy sản phẩm</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-        {(rowsPerPage > 0
+        {
+          /*
+          (rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows)
-          .map((row) => (
-            <Row key={row.id} row={row} setRows={setRows} rows={rows} />
-          ))}
+          */
+          rows.map((row) => (
+            <Row key={row.id} row={row} reload={() => loadPage(page, rowsPerPage)} />
+          ))
+        }
           {emptyRows > 0 && (
             <TableRow style={{ height: 74 * emptyRows }}>
               <TableCell colSpan={6} />
@@ -100,7 +121,7 @@ const CTable = () => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TablePagination count={rows.length} rowsPerPage={rowsPerPage} rowsPerPageOptions={[5, 10, 25]} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage}/>
+            <TablePagination count={total} rowsPerPage={rowsPerPage} rowsPerPageOptions={[5, 10, 25]} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage}/>
           </TableRow>
         </TableFooter>
       </Table>

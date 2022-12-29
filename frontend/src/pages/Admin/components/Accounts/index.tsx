@@ -17,7 +17,7 @@ let rows1 : User[] = [
 
 const Accounts = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const { loading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
 
   useEffect(() => {
     setLoading(true);

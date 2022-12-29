@@ -5,7 +5,6 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Edit from './Edit';
 import { styled } from '@mui/material';
 import { FC } from 'react';
