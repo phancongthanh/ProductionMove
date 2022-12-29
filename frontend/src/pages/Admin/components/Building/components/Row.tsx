@@ -35,10 +35,6 @@ const Row: FC<propTypes> = (props) => {
   
     const [open, setOpen] = React.useState(false);
   
-    const handleDelete = () => {
-      setRows(rows.filter(item => item !== row))
-    }
-  
     return (
       <>
         <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -57,11 +53,6 @@ const Row: FC<propTypes> = (props) => {
           <TableCell align="right">{row.name}</TableCell>
           <TableCell align="right">{row.address}</TableCell>
           <TableCell align="right">{row.type}</TableCell>
-          <TableCell align="right">
-            <IconButton  onClick={handleDelete}>
-              <DeleteIcon color='error' />
-            </IconButton>
-          </TableCell>
         </StyledTableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

@@ -65,7 +65,6 @@ const CTable = (props: {rows: Building[], setRows: (buildings: Building[]) => vo
             <StyledTableCell align="right">Tên</StyledTableCell>
             <StyledTableCell align="right">Địa chỉ</StyledTableCell>
             <StyledTableCell align="right">Loại</StyledTableCell>
-            <StyledTableCell align="right">Xóa</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

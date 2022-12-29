@@ -90,9 +90,6 @@ const CTable = (props: {rows: ProductLine[], setRows: (productLines: ProductLine
           </TableFooter>
         </Table>
       </TableContainer>
-      <Box sx = {{margin: 2, display:'flex', justifyContent: 'flex-end'}}>
-        <Button variant="contained" onClick={onSubmit}>Cập nhập</Button>
-      </Box>
     </>
   );
 }
