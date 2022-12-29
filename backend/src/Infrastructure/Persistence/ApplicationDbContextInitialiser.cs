@@ -480,7 +480,7 @@ public class ApplicationDbContextInitialiser
 
     protected async Task TrySeedSoldProductAsync()
     {
-        const float RoIP = 0.05f; // Tỉ lệ sản phẩm ế
+        const float RoIP = 0.1f; // Tỉ lệ sản phẩm ế
         const int PST = 30; // Thời gian trung bình bán 1 sản phẩm
 
         if (_context.Products.Any(p => p.Status == ProductStatus.JustImported) && !_context.Products.Any(p => p.Status == ProductStatus.Sold))
@@ -521,8 +521,8 @@ public class ApplicationDbContextInitialiser
 
     protected async Task TrySeedWarrantyAsync()
     {
-        const float PWR = 0.1f; // product warranty rate: tỷ lệ bảo hành sản phẩm
-        const float FPWR = 0.1f; // tỷ lệ bảo hành thất bại
+        const float PWR = 0.3f; // product warranty rate: tỷ lệ bảo hành sản phẩm
+        const float FPWR = 0.2f; // tỷ lệ bảo hành thất bại
         const int WaittingTime = 10; // thời gian đợi bảo hành trung bình
         const int WarrantyTime = 5; // thời gian bảo hành trung bình
 
