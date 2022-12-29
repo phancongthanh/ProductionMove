@@ -36,10 +36,11 @@ public class ProductCanceledStatisticsQueryHandler : IRequestHandler<ProductCanc
     {
         var data = new ProductCanceledStatisticsData()
         {
-            Distributors = await _context.Distributors.AsNoTracking()
-                .Select(d => _mapper.Map<DistributorModel>(d))
+            Distributors = (await _context.Distributors.AsNoTracking()
                 .OrderBy(d => d.Id)
-                .ToListAsync(cancellationToken)
+                .ToListAsync(cancellationToken))
+                .Select(d => _mapper.Map<DistributorModel>(d))
+                .ToList()
         };
         var productLines = await _context.ProductLines.ToListAsync(cancellationToken);
 
@@ -49,16 +50,19 @@ public class ProductCanceledStatisticsQueryHandler : IRequestHandler<ProductCanc
             foreach (var distributor in data.Distributors)
             {
                 var products = await _context.Products
+                    .Where(p => p.FactoryId == request.BuildingId)
                     .Where(p => p.ProductLineId == productLine.Id)
-                    .Where(p => p.DistributionId == distributor.Id)
+                    .Where(p => p.DistributorId == distributor.Id)
+                    .Select(p => p.Status)
                     .ToListAsync(cancellationToken);
                 if (products.Count > 0)
                 {
-                    var canceledCount = products.Count(p => p.Status == Domain.Enums.ProductStatus.Canceled);
-                    productLineStatistics.DistributorRates.Add(canceledCount / products.Count);
+                    var canceledCount = products.Count(p => p == Domain.Enums.ProductStatus.Canceled);
+                    productLineStatistics.DistributorRates.Add(1.0f * canceledCount / products.Count);
                 }
                 else productLineStatistics.DistributorRates.Add(0);
             }
+            data.ProductLines.Add(productLineStatistics);
         }
         return data;
     }
