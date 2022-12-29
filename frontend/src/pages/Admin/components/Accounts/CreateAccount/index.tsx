@@ -6,10 +6,23 @@ import { phoneRegExp } from '../../../../../untils/Reg';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
 import { RoleSchema } from '../../../../../data/enums/RoleSchema';
+import useBuildings from '../../../../../hooks/useBuildings';
 
 const CreateAccount = () => {
 
   const { setLoading } = useLoading();
+  const { buildings } = useBuildings();
+
+  const getBuildings = () => {
+    // if(!formik.values.role) return null
+    return formik.values.role === RoleSchema.Factory 
+          ? 'factories'
+          : formik.values.role === RoleSchema.Distributor 
+          ? 'distributors'
+          : formik.values.role === RoleSchema.ServiceCenter
+          ? 'serviceCenters'
+          : 'serviceCenters'
+  }
   
   const formik = useFormik({
     initialValues: {
@@ -20,7 +33,7 @@ const CreateAccount = () => {
       phone: '',
       email: '',
       role: RoleSchema.Administrator,   
-      buildingId: ''  
+      building: ''  
     },
     validationSchema: Yup.object({
     userId: Yup
@@ -54,16 +67,16 @@ const CreateAccount = () => {
         .string()
         .max(255)
         .required('Cần điền vai trò'),
-    buildingId: Yup
+    building: Yup
         .string()
         .max(255)
         .notRequired()
     }),
     onSubmit: (values, { resetForm }) => {
         setLoading(true);
-        backend.users.createUser(values, values.password)
-        .then(() => setLoading(false))
-        .catch(() => setLoading(false));
+        // backend.users.createUser(values, values.password)
+        // .then(() => setLoading(false))
+        // .catch(() => setLoading(false));
     }
 })
 
@@ -100,10 +113,9 @@ const CreateAccount = () => {
             onChange={formik.handleChange}
             required
           >
-            <MenuItem value={RoleSchema.Administrator}>Administrator</MenuItem>
-            <MenuItem value={RoleSchema.Factory}>Factory</MenuItem>
-            <MenuItem value={RoleSchema.Distributor}>Distributor</MenuItem>
-            <MenuItem value={RoleSchema.ServiceCenter}>ServiceCenter</MenuItem>
+            <MenuItem value={RoleSchema.Factory}>{RoleSchema.Factory}</MenuItem>
+            <MenuItem value={RoleSchema.Distributor}>{RoleSchema.Distributor}</MenuItem>
+            <MenuItem value={RoleSchema.ServiceCenter}>{RoleSchema.ServiceCenter}</MenuItem>
           </Select>
           </FormControl>
           <FormControl>
@@ -111,16 +123,13 @@ const CreateAccount = () => {
           <Select
             labelId="building"
             name='building'
-            value={formik.values.buildingId}
+            value={formik.values.building}
             label="Nơi làm việc"
             onChange={formik.handleChange}
             disabled={formik.values.role ? false : true}
             required
           >
-            <MenuItem value={"building 1"}>building 1</MenuItem>
-            <MenuItem value={"building 2"}>building 2</MenuItem>
-            <MenuItem value={"building 3"}>building 3</MenuItem>
-            <MenuItem value={"building 4"}>building 4</MenuItem>
+            {buildings?.[getBuildings()].map((serviceCenter) => <MenuItem value={serviceCenter.name}>{serviceCenter.name}</MenuItem>)}
           </Select>
           </FormControl>
         </Stack>
@@ -133,6 +142,7 @@ const CreateAccount = () => {
       </form>
   </div>
   )
+
 }
 
 export default CreateAccount
