@@ -1,7 +1,16 @@
+import { DistributorModel } from "./BuildingsModel";
+
 export default interface ProductCanceledStatisticsData {
-    distributors: Array<DistributorProductCanceled>
+    distributors: Array<DistributorModel>,
+    productLines: Array<ProductLineProductCanceled>
 }
 
+export interface ProductLineProductCanceled {
+    productLineId: string,
+    distributorRates: Array<number>
+}
+
+/*
 export interface DistributorProductCanceled {
     distributorId: string,
     productLines: Array<ProductLineProductCanceled>
@@ -13,3 +22,4 @@ export interface ProductLineProductCanceled {
     totalCount: number,
     canceledRate: number
 }
+*/
