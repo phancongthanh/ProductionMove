@@ -70,7 +70,10 @@ const CreateAccount = () => {
       setLoading(true);
       const newValues = {...values, userId: ''}
       backend.users.createUser(newValues, values.password)
-        .then(() => setLoading(false))
+        .then(() => {
+          setLoading(false);
+          resetForm();
+        })
         .catch(() => setLoading(false));
     }
   })

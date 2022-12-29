@@ -32,7 +32,7 @@ public class UsersController : ApiControllerBase
 
     [HttpPost]
     [Authorize(Policy = Schema.Role.Administrator)]
-    public async Task<ActionResult<int>> Post([FromBody] (User User, string Password) account)
+    public async Task<ActionResult<int>> Post([FromBody] Account account)
     {
         switch (account.User.Role)
         {
@@ -59,10 +59,10 @@ public class UsersController : ApiControllerBase
 
     [HttpPatch]
     [Authorize(Policy = Schema.Role.Administrator)]
-    public async Task<ActionResult> Patch([FromQuery] string userId, [FromBody] string password)
+    public async Task<ActionResult> Patch([FromBody] AccountModel account)
     {
-        if (userId == null) return BadRequest();
-        var result = await _identityService.UpdateUserAsync(userId, password);
+        if (account.UserId == null) return BadRequest();
+        var result = await _identityService.UpdateUserAsync(account.UserId, account.Password);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 

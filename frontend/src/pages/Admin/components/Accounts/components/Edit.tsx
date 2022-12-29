@@ -57,8 +57,8 @@ const Edit: FC<propTypes> = (props) => {
         name: values.name,
         phone: values.phone,
         email: values.email,
-        role: values.role,
-        buildingId: values.buildingId
+        role: row.role,
+        buildingId: row.buildingId
       }
       setLoading(true);
       backend.users.changeUser(user)
@@ -120,8 +120,8 @@ const Edit: FC<propTypes> = (props) => {
             <Typography sx={{ fontSize: 18 }}>Công việc</Typography>
             <TextField fullWidth label={'Vai trò'} name={'type'}
                 type={'type'} value={row.role} variant="outlined" disabled/>
-            <TextField fullWidth label={'Nơi làm việc'} name={'building'}
-                type={'building'} value={row.buildingId} variant="outlined" disabled/>
+            <TextField fullWidth label={'Nơi làm việc'} name={'buildingId'}
+                type={'buildingId'} value={row.buildingId} variant="outlined" disabled/>
             {/*
             <FormControl fullWidth>
               <InputLabel id="role" required>

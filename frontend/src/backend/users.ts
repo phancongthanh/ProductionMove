@@ -30,7 +30,7 @@ export async function getUsers() : Promise<User[]> {
     throw await response.json();
 }
 
-export async function createUser(user: User, password: string) : Promise<void> {
+export async function createUser(user: User, password: string) : Promise<number> {
     const url = server.baseUrl + "/Users";
 
     const accessToken = await accounts.getAccessToken();
@@ -43,12 +43,12 @@ export async function createUser(user: User, password: string) : Promise<void> {
         body: JSON.stringify({user, password})
     });
 
-    if (response.ok) return;
+    if (response.ok) return await response.json();
     throw await response.json();
 }
 
 export async function changePassword(userId: string, password: string) : Promise<void> {
-    const url = server.baseUrl + "/Users?userId=" + userId;
+    const url = server.baseUrl + "/Users";
 
     const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
@@ -57,7 +57,7 @@ export async function changePassword(userId: string, password: string) : Promise
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + accessToken
         },
-        body: password
+        body: JSON.stringify({userId, password})
     });
 
     if (response.ok) return;
