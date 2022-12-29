@@ -66,7 +66,7 @@ public class FactoryController : ApiControllerBase
         catch (Exception) { return BadRequest(); }
     }
 
-    [HttpPost("[action]")]
+    [HttpPatch("[action]")]
     public async Task<ActionResult> CancelProduct([FromQuery] int productId)
     {
         var factoryId = _currentUser.BuildingId;

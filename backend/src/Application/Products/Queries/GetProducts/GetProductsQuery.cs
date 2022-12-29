@@ -40,7 +40,7 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Paginat
         switch (request.Role)
         {
             case Schema.Role.Administrator:
-                products = _context.Products.AsNoTracking();
+                products = _context.Products.AsNoTracking().Include(p => p.Warranties);
                 break;
             case Schema.Role.Factory:
                 products = _context.Factories.AsNoTracking()

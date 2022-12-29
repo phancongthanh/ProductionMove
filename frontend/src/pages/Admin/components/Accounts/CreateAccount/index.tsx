@@ -9,7 +9,7 @@ import { RoleSchema } from '../../../../../data/enums/RoleSchema';
 
 const CreateAccount = () => {
 
-  const { loading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
   
   const formik = useFormik({
     initialValues: {

@@ -1,4 +1,5 @@
-﻿using ProductionMove.Application.Common.Interfaces;
+﻿using System.Text.Json.Serialization;
+using ProductionMove.Application.Common.Interfaces;
 using ProductionMove.Infrastructure.Persistence;
 using ProductionMove.WebAPI.Services;
 
@@ -16,7 +17,8 @@ public static class ConfigureServices
         services.AddHealthChecks()
             .AddDbContextCheck<ApplicationDbContext>();
 
-        services.AddControllers();
+        services.AddControllers()
+            .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
         return services;
     }

@@ -29,7 +29,7 @@ type propTypes = {
 
 const Create: FC<propTypes> = (props) => {
     const {open, handleClose, rows, setRows} = props;
-    const { loading, setLoading } = useLoading();
+    const { setLoading } = useLoading();
 
     // const onClose = ({ resetForm }) => {
     //   handleClose()

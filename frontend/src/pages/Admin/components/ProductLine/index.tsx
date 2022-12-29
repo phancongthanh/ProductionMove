@@ -22,7 +22,7 @@ let serverProductLines: ProductLine[] = [
 
 const ProductLineView = () => {
   const [productLines, setProductLines] = useState<ProductLine[]>([]);
-  const { loading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
 
   useEffect(() => {
     setLoading(true);

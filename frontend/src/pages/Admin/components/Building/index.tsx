@@ -21,7 +21,7 @@ let rows1 : Building[] = [
 
 const BuildingView = () => {
   const [buildings, setBuildings] = useState<Building[]>([]);
-  const { loading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
 
   useEffect(() => {
     var bs: Building[] = [];

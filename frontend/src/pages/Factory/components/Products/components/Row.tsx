@@ -1,34 +1,28 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
+import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Edit from './Edit';
-import { styled, TableFooter, TablePagination } from '@mui/material';
+import { styled } from '@mui/material';
 import { FC } from 'react';
-import Product1 from '../../../../../types/Product1';
+import Product from '../../../../../data/entities/Product';
+import Extentions from '../../../../../utils/Extentions';
+import { ProductStatus } from '../../../../../data/enums/ProductStatus';
+import backend from '../../../../../backend';
+import useLoading from '../../../../../hooks/useLoading';
 
 type propTypes = {
-  row: Product1,
-  rows: Product1[],
-  setRows: Function,
+  row: Product,
+  reload: () => void
 }
-
 
 const Row: FC<propTypes> = (props) => {
 
-    const {row, rows, setRows } = props;
-  
+    const {row, reload } = props;
+    const { setLoading } = useLoading();
   
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
       '&:hover': {
@@ -43,7 +37,12 @@ const Row: FC<propTypes> = (props) => {
     const [open, setOpen] = React.useState(false);
   
     const handleDelete = () => {
-      setRows(rows.filter(item => item !== row))
+      setLoading(true);
+      backend.factory.cancelProduct(row.id)
+      .then(() => {
+        setLoading(false);
+        reload();
+      }).catch(() => setLoading(false));
     }
   
     return (
@@ -62,12 +61,17 @@ const Row: FC<propTypes> = (props) => {
             {row.id}
           </TableCell>
           <TableCell align="right">{row.productLineId}</TableCell>
-          <TableCell align="right">{row.status}</TableCell>
+          <TableCell align="right">{Extentions.ProductStatus.toVN(row.status)}</TableCell>
           <TableCell align="right">{row.dateOfManufacture.toLocaleString()}</TableCell>
           <TableCell align="right">
-            <IconButton  onClick={handleDelete}>
-              <DeleteIcon color='error' />
-            </IconButton>
+            {
+              row.status == ProductStatus.WaitingForFactory
+              ?
+                <IconButton  onClick={handleDelete}>
+                  <DeleteIcon color='error' />
+                </IconButton>
+              : ""
+            }
           </TableCell>
         </StyledTableRow>
         <TableRow>

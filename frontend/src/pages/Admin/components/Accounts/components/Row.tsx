@@ -23,7 +23,7 @@ type propTypes = {
 const Row: FC<propTypes> = (props) => {
 
   const {row, rows, setRows } = props;
-  const { loading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
   
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
       '&:hover': {
