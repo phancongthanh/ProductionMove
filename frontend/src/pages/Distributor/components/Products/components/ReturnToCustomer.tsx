@@ -1,49 +1,39 @@
-import React, { FC } from 'react'
-import Product1 from '../../../../../types/Product1';
+import { FC } from 'react'
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, Divider, Stack, TextField, Typography } from '@mui/material';
-import CategoryIcon from '@mui/icons-material/Category';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import ProductLine from '../../../../../data/entities/ProductLine';
-import DefTextField from '../../../../../components/DefTextField';
-import DefNumTextField from '../../../../../components/DefNumTextField';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
-import { phoneRegExp } from '../../../../../untils/Reg';
-import { ProductStatus1 } from '../../../../../types/ProductStatus1';
 import Product from '../../../../../data/entities/Product';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
 
 type propTypes = {
-    open: boolean,
-    setOpenDialog: any,
-    row: Product,
-    reload: () => void
- }
-
+  open: boolean,
+  setOpenDialog: any,
+  row: Product,
+  reload: () => void
+}
 
 const ReturnToCustomer: FC<propTypes> = (props) => {
-    const {open, setOpenDialog, row, reload} = props
+  const {open, setOpenDialog, row, reload} = props
   const { setLoading } = useLoading();
 
-    const onSubmit = () => {
-      setLoading(true);
-      backend.distributor.returnToCustomer(row.id)
-      .then(() => {
-        setLoading(false);
-        reload();
-        setOpenDialog(false)
-      }).catch(e => {
-        setLoading(false);
-        console.log(e)
-        setOpenDialog(false)
-      })
-    }
+  const onSubmit = () => {
+    setLoading(true);
+    backend.distributor.returnToCustomer(row.id)
+    .then(() => {
+      setLoading(false);
+      reload();
+      setOpenDialog(false)
+    }).catch(e => {
+      setLoading(false);
+      console.log(e)
+      setOpenDialog(false)
+    })
+  }
 
   return (
     <Dialog open={open} fullWidth>

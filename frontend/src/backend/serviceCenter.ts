@@ -15,7 +15,7 @@ export async function statusProductStatistics() : Promise<ProductStatistics<Serv
     });
 
     if (response.ok) return await response.json();
-    throw new Error(await response.json());   
+    throw await response.json();   
 }
 
 const serviceCenter = {

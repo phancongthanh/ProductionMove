@@ -14,7 +14,7 @@ export async function recallProduct(productLineId: string) : Promise<void> {
     });
 
     if (response.ok) return;
-    throw new Error(await response.json());
+    throw await response.json();
 }
 
 const administrator = {

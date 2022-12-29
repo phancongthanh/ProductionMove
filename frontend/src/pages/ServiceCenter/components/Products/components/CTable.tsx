@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -9,9 +8,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled, TableFooter, TablePagination } from '@mui/material';
 import Row from './Row';
-import Product1, { Customer } from '../../../../../types/Product1';
-import { ProductStatus1 } from '../../../../../types/ProductStatus1';
-import { useSnackbar } from 'notistack';
 import Product from '../../../../../data/entities/Product';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';

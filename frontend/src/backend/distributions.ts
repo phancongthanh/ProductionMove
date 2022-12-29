@@ -9,7 +9,7 @@ export async function addDistribution(factoryId: string, distributorId: string, 
         + "&fromId=" + fromId
         + "&toId=" + toId;
     
-    const accessToken = accounts.getAccessToken();
+    const accessToken = await accounts.getAccessToken();
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -18,7 +18,7 @@ export async function addDistribution(factoryId: string, distributorId: string, 
         }
     });
     if (response.ok) return;
-    throw new Error(await response.json());  
+    throw await response.json();
 }
 
 const distributions = {
