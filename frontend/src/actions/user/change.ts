@@ -5,8 +5,8 @@ async function user(user: User) {
     await backend.users.changeUser(user)
 }
 
-async function password(password: string) {
-    await backend.users.changePassword(password)
+async function password(userId: string, password: string) {
+    await backend.users.changePassword(userId, password)
 }
 
 const change = {
