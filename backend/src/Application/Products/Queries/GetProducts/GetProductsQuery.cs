@@ -103,7 +103,10 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Paginat
             if (request.Filter.Statuses.Any())
                 products = products.Where(p => request.Filter.Statuses.Contains(p.Status));
         if (request.Filter.ProductId != null)
-            products = products.Where(p => p.Id == request.Filter.ProductId);
+        {
+            string productId = ((int)request.Filter.ProductId).ToString();
+            products = products.Where(p => p.Id.ToString().StartsWith(productId));
+        }
         return await products.OrderByDescending(p => p.Id).PaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }

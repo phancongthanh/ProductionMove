@@ -13,6 +13,7 @@ import Extentions from '../../../../../utils/Extentions';
 import { ProductStatus } from '../../../../../data/enums/ProductStatus';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import backend from '../../../../../backend';
+import { useSnackbar } from 'notistack';
 
 type propTypes = {
   row: Product,
@@ -22,6 +23,7 @@ type propTypes = {
 const Row: FC<propTypes> = (props) => {
   const {row, reload } = props;
   const { loading, setLoading } = useLoading();
+  const { enqueueSnackbar } = useSnackbar();
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:hover': {
@@ -41,9 +43,11 @@ const Row: FC<propTypes> = (props) => {
     backend.warranties.startWarranty(row.id)
     .then(() => {
       setLoading(false);
+      enqueueSnackbar('Bắt đầu bảo hành sản phẩm!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       reload();
     }).catch(e => {
       setLoading(false);
+      enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       reload();
       console.log(e)
     })
@@ -54,9 +58,13 @@ const Row: FC<propTypes> = (props) => {
     backend.warranties.completeWarranty(row.id, isSuccessed)
     .then(() => {
       setLoading(false);
+      enqueueSnackbar(
+        isSuccessed ? 'Đã ghi nhận bảo hành thành công!' : "Đã ghi nhận bảo hành thất bại!",
+        {variant: isSuccessed ? 'success' : 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       reload();
     }).catch(e => {
       setLoading(false);
+      enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       reload();
       console.log(e)
     })

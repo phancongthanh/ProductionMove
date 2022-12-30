@@ -9,6 +9,7 @@ import backend from "../../../../backend";
 import useAuth from "../../../../hooks/useAuth";
 import useBuildings from "../../../../hooks/useBuildings";
 import useProductLines from "../../../../hooks/useProductlines";
+import { useSnackbar } from "notistack";
 
 const Distribution = () => {
   const { auth } = useAuth();
@@ -16,6 +17,7 @@ const Distribution = () => {
   const { buildings } = useBuildings();
   const { productLines } = useProductLines();
   const [quantity, setQuantity] = useState(1);
+  const { enqueueSnackbar } = useSnackbar();
   
   const formik = useFormik({
     initialValues: {
@@ -48,9 +50,12 @@ const Distribution = () => {
       backend.distributions.addDistribution(auth?.user.buildingId, values.distributorId, values.productLineId, values.fromId, values.toId)
       .then(() => {
         setLoading(false);
-        alert("Thành công");
+        enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
         resetForm();
-      }).catch(() => setLoading(false))
+      }).catch(() => {
+        setLoading(false);
+        enqueueSnackbar('Không có sản phẩm nào để xuất!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+      })
     }
   })
   

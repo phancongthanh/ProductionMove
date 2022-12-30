@@ -21,6 +21,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AlertDialog from './AlertDialog';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
+import { useSnackbar } from 'notistack';
 
 type propTypes = {
   row: ProductLine,
@@ -33,6 +34,7 @@ const Row: FC<propTypes> = (props) => {
 
     const {row, rows, setRows } = props;
     const { loading, setLoading } = useLoading();
+    const { enqueueSnackbar } = useSnackbar();
   
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
       '&:hover': {
@@ -53,10 +55,14 @@ const Row: FC<propTypes> = (props) => {
       backend.administrator.recallProduct(row.id)
       .then(() => {
           setLoading(false);
+          enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
           setOpen(false);
           setAlertDialog(false)
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setLoading(false);
+        enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+      });
     }
 
   

@@ -6,6 +6,7 @@ import { Building } from './types';
 import DefTextField from '../../../../../components/DefTextField';
 import backend from '../../../../../backend';
 import useLoading from '../../../../../hooks/useLoading';
+import { useSnackbar } from 'notistack';
 
 type propTypes = {
     row: Building,
@@ -18,6 +19,7 @@ const Edit: FC<propTypes> = (props) => {
 
     const {row, rows, setRows , setOpen} = props;
     const { loading, setLoading } = useLoading();
+    const { enqueueSnackbar } = useSnackbar();
 
     // const [newBuildingInfo, setBuildingInfo] = useState<BuildingInfo>({
     //     name: row.name,
@@ -55,13 +57,14 @@ const Edit: FC<propTypes> = (props) => {
             setLoading(true);
             backend.buildings.updateBuilding(row.type, newRows[index])
             .then(() => {
-                setRows(newRows)
                 setLoading(false);
+                enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+                setRows(newRows);
             })
             .catch(e => {
                 setLoading(false);
-                if (e == 400)
-                    alert("Tên cơ sở bị trùng!")
+                if (e == 400) enqueueSnackbar('Tên cơ sở bị trùng!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+                else enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
             });
         }
     })

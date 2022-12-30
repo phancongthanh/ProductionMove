@@ -15,6 +15,7 @@ import DefTextField from '../../../../../components/DefTextField';
 import DefNumTextField from '../../../../../components/DefNumTextField';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
+import { useSnackbar } from 'notistack';
 
 type propTypes = {
     open: boolean,
@@ -29,6 +30,7 @@ const Create: FC<propTypes> = (props) => {
     const {open, handleClose, rows, setRows} = props
 
     const { loading, setLoading } = useLoading();
+    const { enqueueSnackbar } = useSnackbar();
 
     // const onClose = ({ resetForm }) => {
     //   handleClose()
@@ -63,13 +65,14 @@ const Create: FC<propTypes> = (props) => {
           backend.productLines.createProductLine(productLine)
           .then(() => {
             setLoading(false);
+            enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
             handleClose();
             setRows([...rows, productLine]);
             resetForm();
           })
           .catch(() => {
-            setLoading(false)
-            alert("Id hoặc tên dòng sản phẩm đã tồn tại!");
+            setLoading(false);
+            enqueueSnackbar('Id hoặc tên dòng sản phẩm đã tồn tại!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
           });
         }
     })

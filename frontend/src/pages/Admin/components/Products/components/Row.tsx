@@ -10,9 +10,7 @@ import { styled } from '@mui/material';
 import { FC } from 'react';
 import Product from '../../../../../data/entities/Product';
 import useLoading from '../../../../../hooks/useLoading';
-import { ProductStatus } from '../../../../../data/enums/ProductStatus';
 import Extentions from '../../../../../utils/Extentions';
-import backend from '../../../../../backend';
 
 type propTypes = {
   row: Product,

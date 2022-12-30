@@ -13,6 +13,7 @@ import { phoneRegExp } from '../../../../../untils/Reg';
 import Product from '../../../../../data/entities/Product';
 import backend from '../../../../../backend';
 import useLoading from '../../../../../hooks/useLoading';
+import { useSnackbar } from 'notistack';
 
 type propTypes = {
     open: boolean,
@@ -25,6 +26,7 @@ type propTypes = {
 const Sold: FC<propTypes> = (props) => {
     const {open, setOpenDialog, row, reload} = props
     const { setLoading } = useLoading();
+    const { enqueueSnackbar } = useSnackbar();
     // const onClose = ({ resetForm }) => {
     //   handleClose()
     //   resetForm()
@@ -49,11 +51,13 @@ const Sold: FC<propTypes> = (props) => {
           backend.products.sellProduct(row.id, customer)
           .then(() => {
             setLoading(false);
+            enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
             reload();
             resetForm();
             setOpenDialog(false)
           }).catch(e => {
             setLoading(false);
+            enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
             console.log(e);
             setOpenDialog(false)
             reload();

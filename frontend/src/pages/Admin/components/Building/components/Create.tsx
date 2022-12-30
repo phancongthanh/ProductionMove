@@ -16,6 +16,7 @@ import DefNumTextField from '../../../../../components/DefNumTextField';
 import { Building } from './types';
 import backend from '../../../../../backend';
 import useLoading from '../../../../../hooks/useLoading';
+import { useSnackbar } from 'notistack';
 
 
 type propTypes = {
@@ -30,6 +31,7 @@ type propTypes = {
 const Create: FC<propTypes> = (props) => {
     const {open, handleClose, rows, setRows} = props;
     const { loading, setLoading } = useLoading();
+    const { enqueueSnackbar } = useSnackbar();
 
     // const onClose = ({ resetForm }) => {
     //   handleClose()
@@ -62,13 +64,14 @@ const Create: FC<propTypes> = (props) => {
             backend.buildings.createBuilding(values.type, values)
             .then(() => {
                 setLoading(false);
+                enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
                 setRows([values, ...rows]);
                 handleClose();
                 resetForm();
             }).catch(e => {
                 setLoading(false);
-                if (e == 400)
-                    alert("Id hoặc tên cơ sở bị trùng!")
+                if (e == 400) enqueueSnackbar('Id hoặc tên cơ sở bị trùng!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+                else enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
             })
         }
     })
