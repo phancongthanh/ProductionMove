@@ -48,6 +48,7 @@ const Row: FC<propTypes> = (props) => {
     const [openAlertDialog, setAlertDialog] = React.useState(false);
   
     const handleRecall = () => {
+      setAlertDialog(false)
       if (loading) return;
       setLoading(true);
       backend.administrator.recallProduct(row.id)

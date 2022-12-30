@@ -57,12 +57,12 @@ const Filters: FC<propTypes> = (props) => {
 
   const searchChange = (e: any) => {
     const value =  e.currentTarget.value
-    setSearch(value)
+    if(!isNaN(value)) setSearch(value)
   }
   const onSubmit = () => {
     if(!search) return
     const newFilter = {...filters}
-    newFilter.productId = search
+    newFilter.productId = Number(search)
     setFilters(newFilter)
   }
 
@@ -80,7 +80,7 @@ const Filters: FC<propTypes> = (props) => {
     </ButtonGroup>
       <TextField onChange={searchChange}
       sx={{maxWidth:'600px'}}
-      placeholder="Tìm kiếm theo Id sản phẩm"
+      placeholder="Tìm kiếm từ id sản phẩm"
       InputProps={{
           startAdornment: ( 
               <InputAdornment position="start">
