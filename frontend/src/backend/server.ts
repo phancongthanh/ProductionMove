@@ -1,5 +1,5 @@
 const server = {
-    baseUrl: "http://localhost:5000/api"
+    baseUrl: "/api"
 }
 
 export default server;
