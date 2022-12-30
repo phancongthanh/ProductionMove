@@ -31,7 +31,7 @@ const CreateAccount = () => {
       name: '',       
       phone: '',
       email: '',
-      role: RoleSchema.Administrator,   
+      role: RoleSchema.Factory,   
       buildingId: ''  
     },
     validationSchema: Yup.object({
@@ -109,7 +109,6 @@ const CreateAccount = () => {
             <FormControl>
               <InputLabel id="role" required>Vai trò</InputLabel>
               <Select labelId="role" name='role' value={formik.values.role} label="Vai trò" onChange={formik.handleChange} required>
-                <MenuItem value={RoleSchema.Administrator}>{RoleSchema.Administrator}</MenuItem>
                 <MenuItem value={RoleSchema.Factory}>{RoleSchema.Factory}</MenuItem>
                 <MenuItem value={RoleSchema.Distributor}>{RoleSchema.Distributor}</MenuItem>
                 <MenuItem value={RoleSchema.ServiceCenter}>{RoleSchema.ServiceCenter}</MenuItem>
