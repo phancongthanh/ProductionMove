@@ -107,7 +107,7 @@ const Row: FC<propTypes> = (props) => {
         <TableCell component="th" scope="row">{row.id}</TableCell>
         <TableCell align="right">{row.productLineId}</TableCell>
         <TableCell align="right">{Extentions.ProductStatus.toVN(row.status)}</TableCell>
-        <TableCell align="right">{row.dateOfManufacture.toLocaleString()}</TableCell>
+        <TableCell align="right">{new Date(row.dateOfManufacture).toLocaleString()}</TableCell>
         <TableCell align="right">
           {
             row.status === ProductStatus.WaitingForWarranty
