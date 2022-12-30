@@ -55,8 +55,7 @@ const Edit: FC<propTypes> = (props) => {
             const newRows = [...rows]
             newRows[index].describes = newDescribes
             setRows(newRows)
-            // alert("Đã cập nhật thành công!")
-            enqueueSnackbar('Đã cập nhật thành công!',{variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+            enqueueSnackbar('Đã cập nhật thành công!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
         })
         .catch(() => setLoading(false));
     }

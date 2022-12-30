@@ -9,13 +9,15 @@ import useLoading from "../../../../hooks/useLoading";
 import backend from "../../../../backend";
 import useProductLines from "../../../../hooks/useProductlines";
 import useBuildings from "../../../../hooks/useBuildings";
+import { useSnackbar } from "notistack";
 
 const Distribution = () => {
   const { auth } = useAuth();
   const { setLoading } = useLoading();
   const { buildings } = useBuildings();
   const { productLines } = useProductLines();
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(1);
+  const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
     initialValues: {
@@ -48,7 +50,7 @@ const Distribution = () => {
       backend.distributions.addDistribution(values.factoryId, auth.user.buildingId, values.productLineId, values.fromId, values.toId)
       .then(() => {
         setLoading(false);
-        alert("Thành công");
+        enqueueSnackbar('Đã cập nhật thành công!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
         resetForm();
       }).catch(() => setLoading(false))
     }

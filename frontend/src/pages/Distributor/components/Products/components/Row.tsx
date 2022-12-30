@@ -21,6 +21,7 @@ import useLoading from '../../../../../hooks/useLoading';
 import { ProductStatus } from '../../../../../data/enums/ProductStatus';
 import Extentions from '../../../../../utils/Extentions';
 import backend from '../../../../../backend';
+import { useSnackbar } from 'notistack';
 
 type propTypes = {
   row: Product,
@@ -30,6 +31,7 @@ type propTypes = {
 const Row: FC<propTypes> = (props) => {
   const {row, reload } = props;
   const { setLoading } = useLoading();
+  const { enqueueSnackbar } = useSnackbar();
   
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:hover': {
@@ -57,9 +59,11 @@ const Row: FC<propTypes> = (props) => {
     backend.distributor.returnToFactory(row.id)
     .then(() => {
       setLoading(false);
+      enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       reload();
     }).catch(e => {
       setLoading(false);
+      enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       console.log(e)
     })
   }

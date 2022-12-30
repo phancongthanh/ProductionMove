@@ -1,17 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
 import "./styles.scss";
 import { FaBars } from "react-icons/fa";
 import { useProSidebar } from "react-pro-sidebar";
-import { alpha, Avatar, Divider, InputBase, ListItemIcon, Menu, MenuItem, styled, Tooltip } from "@mui/material";
+import { Avatar, Divider, ListItemIcon, Menu, MenuItem, styled, Tooltip } from "@mui/material";
 import { IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import { Logout, PersonAdd, Settings } from "@mui/icons-material";
+import { Logout, Settings } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import useAuth from '../hooks/useAuth';
 import logOut from "../actions/user/logOut";
-
-
 
 const Navbar = () => {
 
@@ -29,6 +25,7 @@ const Navbar = () => {
   const { toggleSidebar } = useProSidebar();
 
   const logout = () => {
+    console.log("logout");
     setAuth(null)
     navigate('/login', {replace : true})
     logOut()

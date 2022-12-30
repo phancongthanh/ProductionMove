@@ -9,6 +9,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import Product from '../../../../../data/entities/Product';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
+import { useSnackbar } from 'notistack';
 
 type propTypes = {
   open: boolean,
@@ -20,16 +21,19 @@ type propTypes = {
 const ReturnToCustomer: FC<propTypes> = (props) => {
   const {open, setOpenDialog, row, reload} = props
   const { setLoading } = useLoading();
+  const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit = () => {
     setLoading(true);
     backend.distributor.returnToCustomer(row.id)
     .then(() => {
       setLoading(false);
+      enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       reload();
       setOpenDialog(false)
     }).catch(e => {
       setLoading(false);
+      enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       console.log(e)
       setOpenDialog(false)
     })
