@@ -14,7 +14,8 @@ type propTypes = {
 const Filters: FC<propTypes> = (props) => {
   const {filters, setFilters} = props;
   const { productLines } = useProductLines();
-  const allStatuses: ProductStatus[] = Object.values(ProductStatus).filter(value => typeof value === 'number')
+  const allStatuses: ProductStatus[] = [ProductStatus.JustProduced, ProductStatus.JustImported, ProductStatus.Sold, ProductStatus.WaitingForWarranty, ProductStatus.Warranty
+   , ProductStatus.WaitingForCustomer, ProductStatus.WaitingForFactory, ProductStatus.Canceled, ProductStatus.Recall, ProductStatus.WarrantyExpired, ProductStatus.Inventory]
 
   const onProductLinesClick = (e : any) => {
     const value =  e.currentTarget.value
