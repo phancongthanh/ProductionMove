@@ -52,6 +52,7 @@ const Edit: FC<propTypes> = (props) => {
             const newRows = [...rows]
             newRows[index].describes = newDescribes
             setRows(newRows)
+            alert("Đã cập nhật thành công!")
         })
         .catch(() => setLoading(false));
     }
