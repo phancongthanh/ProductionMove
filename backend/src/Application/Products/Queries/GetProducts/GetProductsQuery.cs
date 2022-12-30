@@ -91,7 +91,14 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Paginat
         }
         if (request.Filter.ProductLineIds != null)
             if (request.Filter.ProductLineIds.Any())
+            {
+                var productLineIds = await _context.ProductLines.AsNoTracking()
+                    .Where(pl => request.Filter.ProductLineIds.Contains(pl.Name))
+                    .Select(pl => pl.Id)
+                    .ToListAsync(cancellationToken);
+                request.Filter.ProductLineIds.AddRange(productLineIds);
                 products = products.Where(p => request.Filter.ProductLineIds.Contains(p.ProductLineId));
+            }
         if (request.Filter.Statuses != null)
             if (request.Filter.Statuses.Any())
                 products = products.Where(p => request.Filter.Statuses.Contains(p.Status));
