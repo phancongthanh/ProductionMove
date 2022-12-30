@@ -5,12 +5,22 @@ using ProductionMove.Application.Common.Mappings;
 using ProductionMove.Application.Common.Models;
 using ProductionMove.Application.Common.Security;
 using ProductionMove.Domain.Entities;
+using ProductionMove.Domain.Enums;
 using ProductionMove.Domain.ValueObjects;
 
 namespace ProductionMove.Application.Products.Queries.GetProducts;
 
 public class GetProductsQuery : IRequest<PaginatedList<Product>>, ICurrentBuilding
 {
+    public class ProductFilter
+    {
+        public int? ProductId { get; set; }
+
+        public List<ProductStatus>? Statuses { get; set; }
+
+        public List<string>? ProductLineIds { get; set; }
+    }
+
     public string Role { get; }
 
     public string? BuildingId { get; }
@@ -19,12 +29,24 @@ public class GetProductsQuery : IRequest<PaginatedList<Product>>, ICurrentBuildi
     
     public int PageSize { get; }
 
+    public ProductFilter Filter { get; }
+
     public GetProductsQuery(string role, string? buildingId, int pageNumber, int pageSize)
     {
         Role = role;
         BuildingId = buildingId;
         PageNumber = pageNumber;
         PageSize = pageSize;
+        Filter = new ProductFilter();
+    }
+
+    public GetProductsQuery(string role, string? buildingId, int pageNumber, int pageSize, ProductFilter filter)
+    {
+        Role = role;
+        BuildingId = buildingId;
+        PageNumber = pageNumber;
+        PageSize = pageSize;
+        Filter = filter;
     }
 }
 
@@ -67,6 +89,12 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Paginat
                 return PaginatedList<Product>
                     .Create(Enumerable.Empty<Product>(), request.PageNumber, request.PageSize);
         }
+        if (request.Filter.ProductLineIds != null)
+            products = products.Where(p => request.Filter.ProductLineIds.Contains(p.ProductLineId));
+        if (request.Filter.Statuses != null)
+            products = products.Where(p => request.Filter.Statuses.Contains(p.Status));
+        if (request.Filter.ProductId != null)
+            products = products.Where(p => p.Id == request.Filter.ProductId);
         return await products.OrderByDescending(p => p.Id).PaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }

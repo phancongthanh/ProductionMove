@@ -8,7 +8,9 @@ using ProductionMove.Application.Products.Commands.AddProduct;
 using ProductionMove.Application.Products.Commands.SellProduct;
 using ProductionMove.Application.Products.Queries.GetProducts;
 using ProductionMove.Domain.Entities;
+using ProductionMove.Domain.Enums;
 using ProductionMove.Domain.ValueObjects;
+using static ProductionMove.Application.Products.Queries.GetProducts.GetProductsQuery;
 
 namespace ProductionMove.WebAPI.Controllers;
 
@@ -19,6 +21,26 @@ public class ProductsController : ApiControllerBase
     public ProductsController(ICurrentUserService currentUser)
     {
         _currentUser = currentUser;
+    }
+
+    [HttpPost("[action]")]
+    public async Task<ActionResult<PaginatedList<Product>>> Filter([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20, [FromBody] ProductFilter? filter = null)
+    {
+        var buildingId = _currentUser.BuildingId;
+        var buildingType = User?.FindFirstValue(Schema.RoleType);
+        buildingType ??= Schema.Role.Administrator;
+        var query = filter != null
+            ? new GetProductsQuery(buildingType, buildingId, pageNumber, pageSize, filter)
+            : new GetProductsQuery(buildingType, buildingId, pageNumber, pageSize);
+        try
+        {
+            var products = await Mediator.Send(query);
+            return Ok(products);
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
     [HttpGet]

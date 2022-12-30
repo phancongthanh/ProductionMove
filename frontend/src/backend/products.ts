@@ -2,9 +2,28 @@ import Product, { Customer } from "../data/entities/Product";
 import { Filter } from "../data/models/Filter";
 import PaginatedList from "../data/models/PaginatedList";
 import accounts from "./account";
-import server from "./server"
+import server from "./server";
 
-export async function getProducts(pageNumber: number, pageSize: number, filter: Filter|undefined) : Promise<PaginatedList<Product>> {
+export async function getProductsWithFilter(pageNumber: number, pageSize: number, filter: Filter) : Promise<PaginatedList<Product>> {
+    const url = server.baseUrl + "/Products/Filter"
+        + "?pageNumber=" + pageNumber
+        + "&pageSize=" + pageSize;
+
+    const accessToken = await accounts.getAccessToken();
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: accessToken ? {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + accessToken
+        } : {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) return await response.json();
+    throw await response.json()
+}
+
+export async function getProducts(pageNumber: number, pageSize: number) : Promise<PaginatedList<Product>> {
     const url = server.baseUrl + "/Products"
         + "?pageNumber=" + pageNumber
         + "&pageSize=" + pageSize;
