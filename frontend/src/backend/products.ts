@@ -1,9 +1,10 @@
 import Product, { Customer } from "../data/entities/Product";
+import { Filter } from "../data/models/Filter";
 import PaginatedList from "../data/models/PaginatedList";
 import accounts from "./account";
 import server from "./server"
 
-export async function getProducts(pageNumber: number, pageSize: number) : Promise<PaginatedList<Product>> {
+export async function getProducts(pageNumber: number, pageSize: number, filter: Filter|undefined) : Promise<PaginatedList<Product>> {
     const url = server.baseUrl + "/Products"
         + "?pageNumber=" + pageNumber
         + "&pageSize=" + pageSize;
