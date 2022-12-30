@@ -57,10 +57,15 @@ const Filters: FC<propTypes> = (props) => {
 
   const searchChange = (e: any) => {
     const value =  e.currentTarget.value
-    if(!isNaN(value)) setSearch(value)
+    if(!isNaN(Number(value))) setSearch(value)
   }
   const onSubmit = () => {
-    if(!search) return
+    if(!search) {
+      const newFilter = {...filters}
+      newFilter.productId = null
+      setFilters(newFilter)
+      return
+    }
     const newFilter = {...filters}
     newFilter.productId = Number(search)
     setFilters(newFilter)
@@ -79,6 +84,7 @@ const Filters: FC<propTypes> = (props) => {
       : <Button onClick={onStatusClick} key={status} value={status} variant='outlined'>{toVN(status)}</Button>)}
     </ButtonGroup>
       <TextField onChange={searchChange}
+      value={search}
       sx={{maxWidth:'600px'}}
       placeholder="Tìm kiếm từ id sản phẩm"
       InputProps={{
