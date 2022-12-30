@@ -1,7 +1,7 @@
 import { ProductStatus } from "../enums/ProductStatus";
 
 export interface Filter {
-    search: string,
-    productLineIds: Array<string>,
-    statuses: Array<ProductStatus>
+    productId: number|null|undefined,
+    productLineIds: Array<string>|null|undefined,
+    statuses: Array<ProductStatus>|null|undefined
 }
