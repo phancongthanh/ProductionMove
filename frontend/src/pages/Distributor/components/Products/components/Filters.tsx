@@ -1,10 +1,10 @@
 import { Button, ButtonGroup, InputAdornment, Stack, TextField } from '@mui/material';
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import useProductLines from '../../../../../hooks/useProductlines';
 import { toVN } from '../../../../../utils/ProductStatusExtention';
 import { ProductStatus } from '../../../../../data/enums/ProductStatus';
 import { Filter } from '../../../../../data/models/Filter';
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from '@mui/icons-material/Search';;
 
 type propTypes = {
   filters: Filter,
@@ -53,10 +53,16 @@ const Filters: FC<propTypes> = (props) => {
     return filters.statuses.includes(status) ? true : false;
   }
 
+  const [search, setSearch] = useState(null)
+
   const searchChange = (e: any) => {
     const value =  e.currentTarget.value
+    setSearch(value)
+  }
+  const onSubmit = () => {
+    if(!search) return
     const newFilter = {...filters}
-    newFilter.productId = value
+    newFilter.productId = search
     setFilters(newFilter)
   }
 
@@ -72,13 +78,18 @@ const Filters: FC<propTypes> = (props) => {
       ? <Button onClick={onStatusClick} key={status} value={status} variant='contained'>{toVN(status)}</Button> 
       : <Button onClick={onStatusClick} key={status} value={status} variant='outlined'>{toVN(status)}</Button>)}
     </ButtonGroup>
-      <TextField onChange={searchChange} 
+      <TextField onChange={searchChange}
       InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
+          startAdornment: ( 
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
           ),
+          endAdornment: (
+            <InputAdornment position='end'>
+                <Button onClick={onSubmit}>Tìm kiếm</Button>
+              </InputAdornment>
+          )
         }}/>
     </Stack>
   )
