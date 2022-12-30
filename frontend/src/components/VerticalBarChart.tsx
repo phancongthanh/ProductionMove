@@ -22,7 +22,7 @@ ChartJS.register(
 
 const VerticalBarChart = ({data, text, large}:any) => {
     const options = {
-        responsive: false,
+        responsive: large? true: false,
         plugins: {
           // legend: {
           //   position: 'top' as const,
@@ -44,7 +44,7 @@ const VerticalBarChart = ({data, text, large}:any) => {
     
   return (
     <>
-   {large ? <Bar options={options} data={data} width={"1500vh"} height={"300vh"}/> : <Bar options={options} data={data} width={"500vh"} height={"300vh"}/>}
+   {large ? <Bar options={options} data={data}/> : <Bar options={options} data={data} width={"500vh"} height={"300vh"}/>}
    </>
   )
 }
