@@ -19,6 +19,8 @@ import ProductLine from '../../../../../data/entities/ProductLine';
 import { FC } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AlertDialog from './AlertDialog';
+import useLoading from '../../../../../hooks/useLoading';
+import backend from '../../../../../backend';
 
 type propTypes = {
   row: ProductLine,
@@ -30,7 +32,7 @@ type propTypes = {
 const Row: FC<propTypes> = (props) => {
 
     const {row, rows, setRows } = props;
-  
+    const { loading, setLoading } = useLoading();
   
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
       '&:hover': {
@@ -46,7 +48,14 @@ const Row: FC<propTypes> = (props) => {
     const [openAlertDialog, setAlertDialog] = React.useState(false);
   
     const handleRecall = () => {
-      
+      if (loading) return;
+      setLoading(true);
+      backend.administrator.recallProduct(row.id)
+      .then(() => {
+          setLoading(false);
+          alert("Thu hồi dòng sản phẩm thành công!");
+      })
+      .catch(() => setLoading(false));
     }
 
   
