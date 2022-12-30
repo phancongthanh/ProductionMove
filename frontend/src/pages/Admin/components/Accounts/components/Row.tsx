@@ -41,7 +41,7 @@ const Row: FC<propTypes> = (props) => {
 
   const handleDelete = () => {
     if (!rows.some(u => u.role == RoleSchema.Administrator && u.userId != row.userId)) {
-      alert("Không thể xóa hết admin");
+      enqueueSnackbar('Không thể xóa hết admin!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
       return;
     }
     else {
