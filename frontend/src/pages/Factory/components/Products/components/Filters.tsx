@@ -1,10 +1,12 @@
 import { Button, ButtonGroup, InputAdornment, Stack, TextField, Typography } from '@mui/material';
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import useProductLines from '../../../../../hooks/useProductlines';
 import { toVN } from '../../../../../utils/ProductStatusExtention';
 import { ProductStatus } from '../../../../../data/enums/ProductStatus';
 import SearchIcon from '@mui/icons-material/Search';
 import Filter from '../../../../../data/models/Filter';
+import backend from '../../../../../backend/index';
+import { ProductLine } from '../../../../Admin/components';
 
 type propTypes = {
   filters: Filter,
@@ -14,7 +16,9 @@ type propTypes = {
 const Filters: FC<propTypes> = (props) => {
   const {filters, setFilters} = props;
   const { productLines } = useProductLines();
-  const allStatuses = [ProductStatus.JustImported, ProductStatus.Sold, ProductStatus.WaitingForCustomer]
+  const allStatuses = [ProductStatus.JustProduced, ProductStatus.WaitingForFactory, ProductStatus.Canceled]
+
+
 
   const onProductLinesClick = (e : any) => {
     const value =  e.currentTarget.value

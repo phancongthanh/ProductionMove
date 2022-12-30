@@ -42,8 +42,6 @@ const BuildingView = () => {
         <div className='title'>Cơ sở</div>
       </div>
       <Box sx={{ border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3}}>
-        <div className='search'>Search</div>
-        <div className='filter'>Filter</div>
         <div className='table'>
           <CTable rows={buildings} setRows={setBuildings}/>
         </div>      

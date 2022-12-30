@@ -11,6 +11,7 @@ import Row from './Row';
 import Product from '../../../../../data/entities/Product';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
+import Filter from '../../../../../data/models/Filter';
 
 /*
 const customer: Customer = {
@@ -27,7 +28,7 @@ let rows1: Product1[] = [
 ]
 */
 
-const CTable = () => {
+const CTable = (props: {filters: Filter}) => {
   const [total, setTotal] = React.useState(0);
   const [rows, setRows] = React.useState<Product[]>([]);
   const [page, setPage] = React.useState(0);
@@ -38,7 +39,7 @@ const CTable = () => {
     pageNumber++;
     if (pageNumber <= 0 || pageSize <= 0) return;
     setLoading(true);
-    backend.products.getProducts(pageNumber, pageSize)
+    backend.products.getProductsWithFilter(pageNumber, pageSize, props.filters)
     .then(ps => {
       setLoading(false);
       setTotal(ps.totalCount);
@@ -50,7 +51,7 @@ const CTable = () => {
 
   React.useEffect(() => {
     loadPage(0, rowsPerPage);
-  }, [])
+  }, [props.filters])
 
   //const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - total) : 0;
