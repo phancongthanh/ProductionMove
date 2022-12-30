@@ -32,8 +32,8 @@ const VerticalBarChart = ({data, text, large}:any) => {
             text: text,
           },
         },
-        // scales: {
-        //   x: {
+        // scales: {~
+        //   x: {P
         //     stacked: true,
         //   },
         //   y: {
@@ -44,7 +44,7 @@ const VerticalBarChart = ({data, text, large}:any) => {
     
   return (
     <>
-   {large ? <Bar options={options} data={data}/> : <Bar options={options} data={data} width={"500vh"} height={"300vh"}/>}
+   {large ? <Bar options={options} data={data} height={"80vh"}/> : <Bar options={options} data={data} width={"500vh"} height={"300vh"}/>}
    </>
   )
 }
