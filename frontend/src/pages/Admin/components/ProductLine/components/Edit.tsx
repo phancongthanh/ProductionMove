@@ -10,6 +10,7 @@ import { Container } from '@mui/system';
 import ProductLine, { ProductLineInfo } from '../../../../../data/entities/ProductLine';
 import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
+import { useSnackbar } from 'notistack';
 
 type propTypes = {
     row: ProductLine,
@@ -41,6 +42,8 @@ const Edit: FC<propTypes> = (props) => {
         setNewDescribes(Describes)
     }
 
+    const { enqueueSnackbar } = useSnackbar();
+
     const onSubmit = (event: any) => {
         event.preventDefault();
         if (loading) return;
@@ -52,7 +55,8 @@ const Edit: FC<propTypes> = (props) => {
             const newRows = [...rows]
             newRows[index].describes = newDescribes
             setRows(newRows)
-            alert("Đã cập nhật thành công!")
+            // alert("Đã cập nhật thành công!")
+            enqueueSnackbar('Đã cập nhật thành công!',{variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
         })
         .catch(() => setLoading(false));
     }

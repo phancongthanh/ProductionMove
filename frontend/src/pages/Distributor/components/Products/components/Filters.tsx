@@ -1,10 +1,10 @@
-import { Button, ButtonGroup, InputAdornment, Stack, TextField } from '@mui/material';
+import { Button, ButtonGroup, InputAdornment, Stack, TextField, Typography } from '@mui/material';
 import React, { FC, useState } from 'react'
 import useProductLines from '../../../../../hooks/useProductlines';
 import { toVN } from '../../../../../utils/ProductStatusExtention';
 import { ProductStatus } from '../../../../../data/enums/ProductStatus';
-import { Filter } from '../../../../../data/models/Filter';
-import SearchIcon from '@mui/icons-material/Search';;
+import SearchIcon from '@mui/icons-material/Search';
+import Filter from '../../../../../data/models/Filter';
 
 type propTypes = {
   filters: Filter,
@@ -22,7 +22,7 @@ const Filters: FC<propTypes> = (props) => {
     const value =  e.currentTarget.value
       if(filters.productLineIds.includes(value)) {
         let newFilter = {...filters}
-        newFilter.productLineIds = filters.productLineIds.filter(productLineId => productLineId !== value)
+        newFilter.productLineIds = filters.productLineIds.filter(productLine => productLine !== value)
         setFilters(newFilter)
         return;
       }
@@ -67,7 +67,7 @@ const Filters: FC<propTypes> = (props) => {
   }
 
   return (
-    <Stack>
+    <Stack spacing={1} padding={2}>
     <ButtonGroup variant="outlined" aria-label="outlined button group">
       {productLines && productLines.map((productLine) => checkProductLinesClick(productLine.name) 
       ? <Button onClick={onProductLinesClick} key={productLine.id} value={productLine.name} variant='contained'>{productLine.name}</Button> 
@@ -79,6 +79,8 @@ const Filters: FC<propTypes> = (props) => {
       : <Button onClick={onStatusClick} key={status} value={status} variant='outlined'>{toVN(status)}</Button>)}
     </ButtonGroup>
       <TextField onChange={searchChange}
+      sx={{maxWidth:'600px'}}
+      placeholder="Tìm kiếm theo Id sản phẩm"
       InputProps={{
           startAdornment: ( 
               <InputAdornment position="start">
