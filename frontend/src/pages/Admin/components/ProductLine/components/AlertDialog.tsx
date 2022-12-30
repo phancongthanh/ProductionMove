@@ -17,28 +17,26 @@ export default function AlertDialog({open, setOpen, handleRecall}: any) {
   };
 
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          Chắc chắn thu hồi không?
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          Thu hồi toàn bộ sản phẩm thuộc dòng sản phẩm này
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} variant="outlined">Hủy</Button>
-          <Button onClick={handleClose} autoFocus color='error' variant="contained">
-            Thu hồi 
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        Chắc chắn thu hồi không?
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+        Thu hồi toàn bộ sản phẩm thuộc dòng sản phẩm này
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} variant="outlined">Hủy</Button>
+        <Button onClick={handleRecall} autoFocus color='error' variant="contained">
+          Thu hồi 
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

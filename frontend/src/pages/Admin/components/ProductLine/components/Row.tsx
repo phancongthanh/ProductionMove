@@ -53,7 +53,7 @@ const Row: FC<propTypes> = (props) => {
       backend.administrator.recallProduct(row.id)
       .then(() => {
           setLoading(false);
-          alert("Thu hồi dòng sản phẩm thành công!");
+          setOpen(false);
       })
       .catch(() => setLoading(false));
     }
