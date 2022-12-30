@@ -80,7 +80,7 @@ const Warranty: FC<propTypes> = (props) => {
             <TextField fullWidth label={'Id nơi sản xuất'} name={'factoryId'}
               type={'factoryId'} value={row.factoryId} variant="outlined" disabled />
             <TextField fullWidth label={'Thời gian sản xuất'} name={'dateOfManufacture'} type={'dateOfManufacture'}
-              value={row.dateOfManufacture.toLocaleString()} variant="outlined" disabled />
+              value={new Date(row.dateOfManufacture).toLocaleString()} variant="outlined" disabled />
           </Stack>
         </Stack>
 

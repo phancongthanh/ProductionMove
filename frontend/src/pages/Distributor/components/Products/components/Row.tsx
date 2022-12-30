@@ -115,7 +115,7 @@ const Row: FC<propTypes> = (props) => {
         <TableCell align="right">{Extentions.ProductStatus.toVN(row.status)}</TableCell>
         <TableCell align="right">{row.customer?.name}</TableCell>
         <TableCell align="right">{row.customer?.phone}</TableCell>
-        <TableCell align="right">{row.saleDate?.toLocaleString()}</TableCell>
+        <TableCell align="right">{row.saleDate ? new Date(row.saleDate).toLocaleString() : null}</TableCell>
         <TableCell align="right">{icon}</TableCell>
       </StyledTableRow>
       <TableRow>

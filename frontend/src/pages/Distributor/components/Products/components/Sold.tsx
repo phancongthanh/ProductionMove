@@ -121,7 +121,7 @@ const Sold: FC<propTypes> = (props) => {
                 label={'Thời gian sản xuất'}
                 name={'dateOfManufacture'}
                 type={'dateOfManufacture'}
-                value={row.dateOfManufacture.toLocaleString()}
+                value={new Date(row.dateOfManufacture).toLocaleString()}
                 variant="outlined"
                 disabled
             />

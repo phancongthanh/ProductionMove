@@ -113,7 +113,7 @@ const Edit: FC<propTypes> = (props) => {
                 label={'Thời gian sản xuất'}
                 name={'dateOfManufacture'}
                 type={'dateOfManufacture'}
-                value={row.dateOfManufacture}
+                value={new Date(row.dateOfManufacture).toLocaleString()}
                 variant="outlined"
                 disabled
             />
