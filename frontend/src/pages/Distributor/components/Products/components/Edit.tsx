@@ -17,8 +17,8 @@ const Edit: FC<propTypes> = (props) => {
   const { row, reload, setOpen } = props;
 
   row.warranties.sort((a, b) => {
-    if (a.startTime == null) return -1;
-    if (b.startTime == null) return 1;
+    if (!a.startTime) return -1;
+    if (!b.startTime) return 1;
     return a.startTime.getTime() - b.startTime.getTime()
   });
 
