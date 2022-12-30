@@ -10,6 +10,7 @@ import { phoneRegExp } from "../../../../../untils/Reg";
 import User from "../../../../../data/models/User";
 import useLoading from "../../../../../hooks/useLoading";
 import backend from "../../../../../backend";
+import { useSnackbar } from "notistack";
 
 type propTypes = {
   row: User;
@@ -22,6 +23,7 @@ const Edit: FC<propTypes> = (props) => {
   const { row, rows, setRows, setOpen } = props;
 
   const { loading, setLoading } = useLoading();
+  const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
     initialValues: {
@@ -64,11 +66,19 @@ const Edit: FC<propTypes> = (props) => {
       backend.users.changeUser(user)
       .then(() => {
         setLoading(false);
+        enqueueSnackbar('Đã cập nhật tài khoản!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
         setRows([...rows.filter(r => r.userId != user.userId), user]);
-      }).catch(() => setLoading(false));
+      })
+      .catch(() => {
+        setLoading(false);
+        enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+      });
       if (values.password) {
         backend.users.changePassword(user.userId, values.password)
-        .then(() => alert("Đổi mật khẩu thành công!"))
+        .then(() => enqueueSnackbar('Đã cập nhật mật khẩu!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}}))
+        .catch(() => {
+          enqueueSnackbar('Đổi mật khẩu thất bại!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+        });
       }
     },
   });

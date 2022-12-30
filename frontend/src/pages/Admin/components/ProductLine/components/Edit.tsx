@@ -55,9 +55,12 @@ const Edit: FC<propTypes> = (props) => {
             const newRows = [...rows]
             newRows[index].describes = newDescribes
             setRows(newRows)
-            enqueueSnackbar('Đã cập nhật thành công!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+            enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
         })
-        .catch(() => setLoading(false));
+        .catch(() => {
+            setLoading(false);
+            enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+        });
     }
 
     const addDesc = () => {

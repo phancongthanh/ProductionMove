@@ -1,12 +1,7 @@
-import React, { FC, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { useFormik } from 'formik';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { FC, useState } from 'react'
 import ClearIcon from '@mui/icons-material/Clear';
-import * as Yup from 'yup';
 import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Container } from '@mui/system';
 import ProductLine, { ProductLineInfo } from '../../../../../data/entities/ProductLine';
 
 type propTypes = {

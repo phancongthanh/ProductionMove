@@ -50,9 +50,12 @@ const Distribution = () => {
       backend.distributions.addDistribution(values.factoryId, auth.user.buildingId, values.productLineId, values.fromId, values.toId)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('Đã cập nhật thành công!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+        enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
         resetForm();
-      }).catch(() => setLoading(false))
+      }).catch(() => {
+        setLoading(false);
+        enqueueSnackbar('Không có sản phẩm nào để nhập!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+      })
     }
   })
   

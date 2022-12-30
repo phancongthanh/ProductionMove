@@ -7,11 +7,13 @@ import useLoading from '../../../../../hooks/useLoading';
 import backend from '../../../../../backend';
 import { RoleSchema } from '../../../../../data/enums/RoleSchema';
 import useBuildings from '../../../../../hooks/useBuildings';
+import { useSnackbar } from 'notistack';
 
 const CreateAccount = () => {
 
   const { loading, setLoading } = useLoading();
   const { buildings } = useBuildings();
+  const { enqueueSnackbar } = useSnackbar();
 
   const getBuildings = () => {
     switch(formik.values.role) {
@@ -72,9 +74,13 @@ const CreateAccount = () => {
       backend.users.createUser(newValues, values.password)
         .then(() => {
           setLoading(false);
+          enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
           resetForm();
         })
-        .catch(() => setLoading(false));
+        .catch(() => {
+          setLoading(false);
+          enqueueSnackbar('Có lỗi xảy ra!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
+        });
     }
   })
 

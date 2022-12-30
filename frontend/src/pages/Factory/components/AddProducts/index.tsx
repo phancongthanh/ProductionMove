@@ -7,11 +7,13 @@ import {useState, useEffect} from 'react';
 import useLoading from "../../../../hooks/useLoading";
 import backend from "../../../../backend";
 import useProductLines from "../../../../hooks/useProductlines";
+import { useSnackbar } from "notistack";
 
 const AddProducts = () => {
   const [quantity, setQuantity] = useState(1)
   const { setLoading } = useLoading();
   const { productLines } = useProductLines();
+  const { enqueueSnackbar } = useSnackbar();
   
     const formik = useFormik({
       initialValues: {
@@ -38,11 +40,11 @@ const AddProducts = () => {
           backend.products.addProduct(values.productLineId, values.fromId, values.toId)
           .then(() => {
             setLoading(false);
-            alert("Thành công");
+            enqueueSnackbar('Đã cập nhật!', {variant: 'success', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
             resetForm();
           }).catch(() => {
             setLoading(false);
-            alert("Id các sản phẩm mới có thể bị trùng với các sản phẩm cũ!");
+            enqueueSnackbar('Id các sản phẩm mới có thể bị trùng với các sản phẩm cũ!', {variant: 'error', anchorOrigin: { horizontal: 'right' , vertical: 'top'}});
           })
       }
   })
