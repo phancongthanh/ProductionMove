@@ -8,6 +8,8 @@ import {
 import { Link, useLocation  } from "react-router-dom";
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import NavSidebar from "../../../components/NavSidebar";
+import ListIcon from '@mui/icons-material/List';
+import DriveEtaIcon from '@mui/icons-material/DriveEta';
 
 const DisSidebar = () => {
     let pathname = useLocation().pathname;
@@ -18,11 +20,11 @@ const DisSidebar = () => {
           {" "}
           Thống kê
         </MenuItem>
-          <MenuItem active={pathname === "/distributor/distribution"} routerLink={<Link to="distribution" />}>
+          <MenuItem active={pathname === "/distributor/distribution"} routerLink={<Link to="distribution" />} icon={<DriveEtaIcon />}>
             {" "}
             Nhập sản phẩm
           </MenuItem>
-          <MenuItem active={pathname === "/distributor/products"} routerLink={<Link to="products" />}>
+          <MenuItem active={pathname === "/distributor/products"} routerLink={<Link to="products" />} icon={<ListIcon />}>
             {" "}
             Danh sách sản phẩm
           </MenuItem>

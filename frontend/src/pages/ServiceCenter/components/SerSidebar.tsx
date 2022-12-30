@@ -15,6 +15,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import NavSidebar from "../../../components/NavSidebar";
+import ListIcon from '@mui/icons-material/List';
 
 const SerSidebar = () => {
     let pathname = useLocation().pathname;
@@ -25,7 +26,7 @@ const SerSidebar = () => {
           {" "}
           Thống kê
         </MenuItem>
-          <MenuItem active={pathname === "/factory/products"} routerLink={<Link to="products" />}>
+          <MenuItem active={pathname === "/factory/products"} routerLink={<Link to="products" />} icon={<ListIcon />}>
             {" "}
             Danh sách sản phẩm
           </MenuItem>
