@@ -1,5 +1,5 @@
 import Product, { Customer } from "../data/entities/Product";
-import { Filter } from "../data/models/Filter";
+import Filter from "../data/models/Filter";
 import PaginatedList from "../data/models/PaginatedList";
 import accounts from "./account";
 import server from "./server";
@@ -17,7 +17,8 @@ export async function getProductsWithFilter(pageNumber: number, pageSize: number
             'Authorization': "Bearer " + accessToken
         } : {
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify(filter)
     });
     if (response.ok) return await response.json();
     throw await response.json()
@@ -78,6 +79,7 @@ export async function sellProduct(productId: number, customer: Customer) : Promi
 
 const products = {
     getProducts,
+    getProductsWithFilter,
     addProduct,
     sellProduct
 }

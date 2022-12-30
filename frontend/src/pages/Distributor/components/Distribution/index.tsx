@@ -76,7 +76,7 @@ const Distribution = () => {
   return (
     <div className="mainContent">
       <div className="header">
-        <div className="title">Xuất sản phẩm</div>
+        <div className="title">Nhập sản phẩm</div>
       </div>
       <Container sx={{minWidth: '70%'}}>
       <form onSubmit={formik.handleSubmit}>

@@ -89,9 +89,9 @@ const Distribution = () => {
           <DefTextField formik={formik} label={'Id dòng sản phẩm'} name={'productLineId'} required />
           */}
           <FormControl sx={{width: '100%'}}>
-            <InputLabel id="distributorId" required>Nơi sản xuất</InputLabel>
+            <InputLabel id="distributorId" required>Nơi phân phối</InputLabel>
             <Select labelId="distributorId" name='distributorId' value={formik.values.distributorId} label="Nơi phân phối" onChange={formik.handleChange} required>
-                {buildings?.factories.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
+                {buildings?.distributors.map(d => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
             </Select>
           </FormControl>
           <FormControl sx={{width: '100%'}}>

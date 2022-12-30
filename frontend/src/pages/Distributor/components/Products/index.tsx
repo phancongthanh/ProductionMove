@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import CTable from "./components/CTable";
 import Filters from "./components/Filters";
 import { useState } from "react";
-import { Filter } from "../../../../data/models/Filter";
+import Filter from "../../../../data/models/Filter";
 
 
 const Products = () => {
@@ -20,7 +20,7 @@ const Products = () => {
       <Box sx={{ border: '1px solid lightgrey', borderRadius: 2 , boxShadow: 3}}>
         <Filters filters={filters} setFilters={setFilters}/>
         <div className='table'>
-          <CTable />
+          <CTable filters={filters}/>
         </div>
       </Box>
     </div>

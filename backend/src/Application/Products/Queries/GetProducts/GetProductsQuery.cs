@@ -90,9 +90,11 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Paginat
                     .Create(Enumerable.Empty<Product>(), request.PageNumber, request.PageSize);
         }
         if (request.Filter.ProductLineIds != null)
-            products = products.Where(p => request.Filter.ProductLineIds.Contains(p.ProductLineId));
+            if (request.Filter.ProductLineIds.Any())
+                products = products.Where(p => request.Filter.ProductLineIds.Contains(p.ProductLineId));
         if (request.Filter.Statuses != null)
-            products = products.Where(p => request.Filter.Statuses.Contains(p.Status));
+            if (request.Filter.Statuses.Any())
+                products = products.Where(p => request.Filter.Statuses.Contains(p.Status));
         if (request.Filter.ProductId != null)
             products = products.Where(p => p.Id == request.Filter.ProductId);
         return await products.OrderByDescending(p => p.Id).PaginatedListAsync(request.PageNumber, request.PageSize);
