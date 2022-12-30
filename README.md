@@ -1,5 +1,9 @@
 # ProductionMove
 BTL Web INT3306 20 2022-2023
+## Thành viên nhóm
+- 20020216: Phan Công Thành
+- 20020474: Nguyễn Việt Thắng
+- 20020380: Lê Hữu Dũng
 ## Công nghệ sử dụng
 - ReactJS 18
 - ASP.Net Core 7
@@ -11,7 +15,7 @@ BTL Web INT3306 20 2022-2023
 3. Cấu hình môi trường
 - Thư mục sau build: /build
 - Cấu hình lại các tham số trong file: build/appsettings.Development.json (build/appsettings.Production.json với trường hợp ở môi trường Production)
-- "UseInMemoryDatabase": false Cấu hình sử dụng MySQL Database (Để true nếu muốn chạy database trên RAM trong trường hợp MySQL có vấn đề)
+- "UseInMemoryDatabase": false Cấu hình sử dụng MySQL Database (Để true nếu muốn chạy database trên Memory trong trường hợp MySQL có vấn đề)
 - “DbContextMySQL”: “...” Kết nối tới MySQL database
 - "SecurityKey": “...” Mã bảo mật để sinh token ở backend
-5. Chạy ứng dụng: Trên windows chạy file run.development.windows.bat (WebAPI.exe/WebAPI.dll trong thư mục build với trường hợp ở môi trường Production)
+4. Chạy ứng dụng: Trên windows chạy file run.development.windows.bat (WebAPI.exe/WebAPI.dll trong thư mục build với trường hợp ở môi trường Production)
